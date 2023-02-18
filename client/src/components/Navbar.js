@@ -7,7 +7,9 @@ const AppNavbar = (props) => {
   return (
     <>
      <nav className="navbar">
-        <ul className="navbar-nav"> {props.children}</ul>
+      <div className="nav-wrapper">
+        <ul className="right hide-on-med-and-down navbar-nav sidenav-trigger"> {props.children}</ul>
+      </div>
      </nav>
     </>
   );

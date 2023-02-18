@@ -9,7 +9,7 @@
 }
 
 body {
-  background: url(./assets/ranch-bg.jpg) no-repeat center center fixed;
+  background: url(./assets/woodbg.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -84,7 +84,7 @@ a {
   margin: 0.5rem;
 }
 
-.icon-button {
+.nav-icon {
   background-color: #484a4d;
   border-radius: 50%;
   padding: 2px;
@@ -94,7 +94,7 @@ a {
   transition: all 0.3s ease-in;
 }
 
-.icon-button:hover {
+.nav-icon:hover {
   filter: opacity(0.5);
   border: 1px white solid;
   background-color: var(--text-color);
@@ -130,7 +130,7 @@ a {
 }
 
 
-.icon-button svg {
+.nav-icon svg {
   fill: var(--text-color);
   display: flex;
   align-items: center;
@@ -139,7 +139,7 @@ a {
   width: 3rem;
 }
 
-.icon-button svg:hover {
+.nav-icon svg:hover {
   fill: #484a4d
 }
 
@@ -156,3 +156,23 @@ a {
 
 
 /* Browse Component Stylings */
+
+/* Home Page Stylings */
+
+.home-head-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Cardo', serif;
+}
+
+.home-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 3.0rem;
+  background: -webkit-linear-gradient(#eeeeee18, #33333385);
+  border: #474a4d solid 2px;
+  border-radius: 85%;
+  padding: 1vh;
+}

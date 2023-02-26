@@ -1,10 +1,11 @@
 
 import React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ReactComponent as HomeIcon} from './assets/homeicon.svg';
 import { ReactComponent as RecordsIcon } from "./assets/recordsicon.svg";
 import { ReactComponent as ContactIcon} from "./assets/contacticon.svg";
-import Navbar from "./components/Navbar";
+import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import Records from "./components/Records";
 import Contact from "./components/Contact";
@@ -14,11 +15,11 @@ function App() {
   return (
     <Router>
     <>
-      <Navbar>
+      <Navigation>
         <NavItem icon={<HomeIcon />} to="/" text="Home"/>
         <NavItem icon={<RecordsIcon />} to="/records" text="Records"/>
         <NavItem icon={<ContactIcon />} to="/contact" text="Contact"/>
-      </Navbar>
+      </Navigation>
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/records" component={Records} />

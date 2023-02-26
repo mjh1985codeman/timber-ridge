@@ -5,7 +5,9 @@ const Home = () => {
     <>
     <div className="home-head-container">
         <h1 className="home-title">Timber Ridge Hunting Ranch</h1>
-        <h2 className="home-sub-title">Welcomes You</h2>
+        <blockquote class="blockquote">
+    <p className="home-quote">"Where success is just part of the experience."</p>
+    </blockquote>  
     </div>
     </>
   );

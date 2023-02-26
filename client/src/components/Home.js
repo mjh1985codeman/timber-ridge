@@ -1,4 +1,6 @@
 import React from "react";
+import {Container} from "react-bootstrap";
+import Packages from "../components/Packages"
 
 const Home = () => {
   return (
@@ -9,6 +11,9 @@ const Home = () => {
     <p className="home-quote">"Where success is just part of the experience."</p>
     </blockquote>  
     </div>
+    <Container>
+      <Packages/>
+    </Container>
     </>
   );
 };

@@ -9,7 +9,7 @@
 }
 
 body {
-  background: url(./assets/woodbg.jpg) no-repeat center center fixed;
+  background: url(./assets/big-stone-bg.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -62,10 +62,10 @@ body {
   flex-direction: row;
   align-items: center;
   font-size: 3.0rem;
-  background: -webkit-linear-gradient(#eeeeee18, #33333385);
+  background: -webkit-linear-gradient(hsla(40, 97%, 64%, 0.863), hsla(0, 4%, 86%, 0.522));
   border: #474a4d solid 2px;
-  border-radius: 85%;
-  padding: 1vh;
+  border-radius: 50%;
+  padding: 25px;
 }
 
 .home-quote {
@@ -73,4 +73,25 @@ body {
   font-size: 2.5vh;
   font-weight: bolder;
   font-style: italic;
+  color: var(--text-color);
+  background-color: hsla(210, 3%, 15%, 0.74);
+}
+
+
+.pkg-tab {
+  border: var(--text-color) solid 1.5px;
+  border-radius: 25% 75% 23% 77% / 56% 38% 62% 44%;
+  background-color: hsla(210, 4%, 29%, 0.747);
+  display: flex;
+  justify-content: center;
+}
+
+.pkg-tab:hover {
+  background-color: -webkit-linear-gradient(hsla(40, 97%, 64%, 0.863), hsla(0, 4%, 86%, 0.522));
+}
+
+.pkg-tab-pill {
+  color: var(--text-color);
+  font-family: 'Cardo', sans-serif;
+  margin: 0.5rem;
 }

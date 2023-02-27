@@ -8,7 +8,7 @@ const Navigation = (props) => {
 
   return (
     <>
-     <Navbar className="navigation" collapseOnSelect expand="lg">
+     <Navbar className="navigation" collapseOnSelect expand="lg" variant="dark">
       <Container>
      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
      <Navbar.Collapse id="responsive-navbar-nav">

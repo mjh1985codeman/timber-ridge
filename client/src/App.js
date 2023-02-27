@@ -2,26 +2,26 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ReactComponent as HomeIcon} from './assets/homeicon.svg';
-import { ReactComponent as RecordsIcon } from "./assets/recordsicon.svg";
-import { ReactComponent as ContactIcon} from "./assets/contacticon.svg";
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import Records from "./components/Records";
 import Contact from "./components/Contact";
 import NavItem from "./components/NavItem";
+import Packages from "./components/Packages";
 
 function App() {
   return (
     <Router>
     <>
       <Navigation>
-        <NavItem icon={<HomeIcon />} to="/" text="Home"/>
-        <NavItem icon={<RecordsIcon />} to="/records" text="Records"/>
-        <NavItem icon={<ContactIcon />} to="/contact" text="Contact"/>
+        <NavItem to="/" text="Home"/>
+        <NavItem to="/packages" text="Packages"/>
+        <NavItem to="/records" text="Records"/>
+        <NavItem to="/contact" text="Contact"/>
       </Navigation>
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/packages"component={Packages} />
         <Route exact path="/records" component={Records} />
         <Route exact path="/contact"component={Contact} />
         <Route

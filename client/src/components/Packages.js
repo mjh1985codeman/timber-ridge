@@ -4,11 +4,13 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
 import hogpic from '../assets/hogpkgpic.jpg';
-import rampic from '../assets/rampillimg.jpg';
+import rampic from '../assets/rampilpic.png';
 
 export default function Packages() {
   return (
+    <Container>
     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
     <Row>
       <Col sm={3}>
@@ -71,5 +73,6 @@ export default function Packages() {
       </Col>
     </Row>
   </Tab.Container>
+    </Container>
   )
 }

@@ -1,13 +1,24 @@
-const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
+const connectDB = require('./config/db');
+const { ApolloServer } = require('@apollo/server');
+const { startStandaloneServer } = require('@apollo/server/standalone');
+require('dotenv').config();
 const { typeDefs, resolvers } = require("./schemas");
 
+const PORT = process.env.PORT || 5000;
 
-const app = express();
-app.use('/graphql', graphqlHTTP({
-  schema: typeDefs,
-  rootValue: resolvers,
-  graphiql: true,
-}));
-app.listen(4000);
-console.log('Running a GraphQL API server at http://localhost:4000/graphql');
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
+//connecting to Database: 
+connectDB();
+
+const buildServer  = async () => {
+    const {url} = await startStandaloneServer(server, {
+    listen: {port: PORT},
+  });
+  console.log(`Server Listening at => ${url}`);
+};
+
+buildServer();

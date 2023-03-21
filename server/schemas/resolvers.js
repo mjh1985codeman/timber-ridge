@@ -1,64 +1,57 @@
-const lodash = require("lodash");
-// The root provides a resolver function for each API endpoint
-// resolves the requests from the server.  
-const mockReservations = [
-{
-    _id: "jpiohjphioe",
-    dateBooked: "5-5-2023",
-    beginDate: "6-5-2023",
-    endDate: "7-5-2023",
-    downPaymentPaid: true,
-    downPaymentAmount: 200.00,
-    totalPrice: 400.00,
-    balance: 200.00,
-    paidInFull: false,
-    available: false,
-    reservedProperty: {
-        _id: "eeeeerrrrttt",
-        name: "The Lake House",
-        booked: true,
-        reserveCost: 400.00,
-        addressSt: "123 Main St.",
-        city: "Nashville",
-        state: "TN",
-        zip: "37090"
+const {GraphQLScalarType} = require('graphql');
+const PropertyMongooseSchema = require('../models/Property');
+
+const books = [
+    {
+      title: 'The Awakening',
+      author: 'Kate Chopin',
     },
-},
-{
-    _id: "rerererererer",
-    dateBooked: "4-5-2023",
-    beginDate: "5-5-2023",
-    endDate: "9-5-2023",
-    downPaymentPaid: true,
-    downPaymentAmount: 100.00,
-    totalPrice: 1000.00,
-    balance: 900.00,
-    paidInFull: false,
-    available: false,
-    reservedProperty: {
-        _id: "wwwwwwiiiiiii",
-        name: "The Jump House",
-        booked: true,
-        reserveCost: 1000.00,
-        addressSt: "400 Main St.",
-        city: "Nashville",
-        state: "TN",
-        zip: "37090"
+    {
+      title: 'City of Glass',
+      author: 'Paul Auster',
     },
-},
-]
+  ];
+
+  const dateScalar = new GraphQLScalarType({
+    name: 'Date',
+    description: 'Date custom scalar type',
+    serialize(value) {
+      if (value instanceof Date) {
+        return value.getTime(); // Convert outgoing Date to integer for JSON
+      }
+      throw Error('GraphQL Date Scalar serializer expected a `Date` object');
+    },
+    parseValue(value) {
+      if (typeof value === 'number') {
+        return new Date(value); // Convert incoming integer to Date
+      }
+      throw new Error('GraphQL Date Scalar parser expected a `number`');
+    },
+    parseLiteral(ast) {
+      if (ast.kind === Kind.INT) {
+        // Convert hard-coded AST string to integer and then to Date
+        return new Date(parseInt(ast.value, 10));
+      }
+      // Invalid hard-coded value (not an integer)
+      return null;
+    },
+  });
 
 const resolvers = {
-    getReservations: () => {
-        return mockReservations;
+    Date: dateScalar,
+    //Query's
+    Query: {
+        getBooks: () => books,
     },
-    getReservation: ({_id}) => {
-      const id = _id;
-      //if using database you would select from the DB by id.
-      const reservation = lodash.find(mockReservations, {_id: id});
-      return reservation;
-    } 
-}
+
+    //Mutations
+    Mutation: {
+        addProperty: async (parent, args) => {
+            const property = await PropertyMongooseSchema.create(args);
+            return property;
+        }
+    }
+};
 
 
-  module.exports = resolvers
+  module.exports = resolvers;

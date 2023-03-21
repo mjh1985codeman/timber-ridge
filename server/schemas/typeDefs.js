@@ -1,47 +1,55 @@
-const { buildSchema } = require('graphql');
-
 //defines the data models, query arrangements and mutations.  
-const typeDefs = buildSchema(`
-  type Reservation {
-      _id: String
-      dateBooked: String
-      beginDate: String
-      endDate: String
-      downPaymentPaid: Boolean
-      downPaymentAmount: Int
-      totalPrice: Int
-      balance: Int
-      paidInFull: Boolean
-      available: Boolean
-      reservedProperty: Property
-  }
+const typeDefs = `#graphql
+scalar Date
 
-  type Property {
-    _id: String
-    name: String
-    booked: Boolean
-    reserveCost: Int
-    addressSt: String
-    city: String
-    state: String
-    zip: String
-  }
+type Book {
+  title: String
+  author: String
+}
 
-  type Customer {
-    _id: String
-    firstName: String
-    lastName: String
-    phone: String
-    email: String
-    password: String
-    reservations: [Reservation]
-  }
+type Reservation {
+  id: ID
+  dateBooked: Date
+  beginDate: Date
+  endDate: Date
+  downPaymentPaid: Boolean
+  totalPrice: Int
+  balance: Int
+  paidInFull: Boolean
+  propertyId: ID
+  customerId: ID
+}
 
-  type Query {
-    getReservations: [Reservation],
-    getReservation(_id: String): Reservation
-  }
-`);
+type Property {
+  id: ID
+  name: String
+  reserved: Boolean
+  reserveCost: Int
+  addressSt: String
+  city: String
+  state: String
+  zip: String
+  readyToReserve: Boolean
+  available: Boolean
+}
+
+type Customer {
+  firstName: String
+  lastName: String
+  phone: String
+  email: String
+  reservations: [Reservation]
+}
+
+type Query {
+  getBooks: [Book]
+}
+
+type Mutation {
+  addProperty(name: String, reserved: Boolean, reserveCost: Int, addressSt: String, city: String, state: String, zip: String, readyToReserve: Boolean, Available: Boolean): Property
+}
+
+`;
 
 
 module.exports = typeDefs;

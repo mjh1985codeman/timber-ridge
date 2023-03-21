@@ -1,16 +1,6 @@
 const {GraphQLScalarType} = require('graphql');
 const PropertyMongooseSchema = require('../models/Property');
-
-const books = [
-    {
-      title: 'The Awakening',
-      author: 'Kate Chopin',
-    },
-    {
-      title: 'City of Glass',
-      author: 'Paul Auster',
-    },
-  ];
+const CustomerMongooseSchema = require('../models/Customer');
 
   const dateScalar = new GraphQLScalarType({
     name: 'Date',
@@ -41,14 +31,27 @@ const resolvers = {
     Date: dateScalar,
     //Query's
     Query: {
-        getBooks: () => books,
+        getProperties: async () => {
+            const properties = await PropertyMongooseSchema.find();
+            return properties;
+        },
+
+        getProperty: async (parent, args, context, info) => {
+            const property = await PropertyMongooseSchema.findById(args._id);
+            return property; 
+        }
     },
 
     //Mutations
     Mutation: {
-        addProperty: async (parent, args) => {
+        addProperty: async (args) => {
             const property = await PropertyMongooseSchema.create(args);
             return property;
+        },
+
+        addCustomer: async (args) => {
+            const customer = await CustomerMongooseSchema.create(args);
+            return customer;
         }
     }
 };

@@ -2,13 +2,8 @@
 const typeDefs = `#graphql
 scalar Date
 
-type Book {
-  title: String
-  author: String
-}
-
 type Reservation {
-  id: ID
+  _id: ID!
   dateBooked: Date
   beginDate: Date
   endDate: Date
@@ -21,7 +16,7 @@ type Reservation {
 }
 
 type Property {
-  id: ID
+  _id: ID!
   name: String
   reserved: Boolean
   reserveCost: Int
@@ -42,13 +37,14 @@ type Customer {
 }
 
 type Query {
-  getBooks: [Book]
+  getProperties: [Property]
+  getProperty(_id: ID!): Property
 }
 
 type Mutation {
   addProperty(name: String, reserved: Boolean, reserveCost: Int, addressSt: String, city: String, state: String, zip: String, readyToReserve: Boolean, Available: Boolean): Property
+  addCustomer(firstName: String, lastName: String, phone: String, email: String): Customer
 }
-
 `;
 
 

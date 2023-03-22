@@ -10,8 +10,8 @@ type Reservation {
   totalPrice: Int
   balance: Int
   paidInFull: Boolean
-  propertyId: ID
-  customerId: ID
+  property: Property
+  customer: Customer
 }
 
 type Property {
@@ -45,9 +45,9 @@ type Query {
 }
 
 type Mutation {
-  addProperty(name: String, reserved: Boolean, reserveCost: Int, addressSt: String, city: String, state: String, zip: String, readyToReserve: Boolean, Available: Boolean): Property
+  addProperty(name: String, reserved: Boolean, reserveCost: Int, addressSt: String, city: String, state: String, zip: String, readyToReserve: Boolean, available: Boolean): Property
   addCustomer(firstName: String, lastName: String, phone: String, email: String): Customer
-  addReservation(beginDate: Date, endDate: Date, downPaymentPaid: Boolean, totalPrice: Int, balance: Int, paidInFfull: Boolean, propertyId: ID, customerId: ID): Reservation
+  addReservation(beginDate: Date, endDate: Date, downPaymentPaid: Boolean, totalPrice: Int, balance: Int, paidInFfull: Boolean, property: ID, customer: ID): Reservation
 }
 `;
 

@@ -42,17 +42,24 @@ const resolvers = {
             return property; 
         },
 
-        getReservations: async () => {
-            const reservations = await ReservationMongooseSchema.find();
+        getReservations: async (parent, args) => {
+            const reservations = await ReservationMongooseSchema.find().populate(
+              {path: 'property', model: 'Property'})
+              .populate(
+              {path: 'customer', model: 'Customer'});
             return reservations;
         },
         getReservation: async (parent, args) => {
-            const reservation = await ReservationMongooseSchema.findById(args._id);
+            const reservation = await ReservationMongooseSchema.findById(args._id).populate(
+              {path: 'property', model: 'Property'})
+              .populate(
+              {path: 'customer', model: 'Customer'});
             return reservation;
         },
 
         getCustomer: async (parent, args) => {
             const customer = await CustomerMongooseSchema.findById(args._id);
+            //need to populate the reservation data here for the customer 
             return customer
         }
     },
@@ -73,11 +80,11 @@ const resolvers = {
         addReservation: async (parent, args) => {
         
             const reservation = await ReservationMongooseSchema.create({...args,
-              propertyId: args.propertyId,
-              customerId: args.customerId,
+              property: args.property,
+              customer: args.customer,
             });
             await CustomerMongooseSchema.findByIdAndUpdate(
-              { _id: args.customerId},
+              { _id: args.customer},
               { $push: {reservations: reservation._id}},
               {new: true}
             );

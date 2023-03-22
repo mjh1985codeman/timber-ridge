@@ -23,11 +23,11 @@ const ReservationMongooseSchema = new mongoose.Schema({
     paidInFull: {
         type: Boolean
     },
-    propertyId: {
+    property: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Property'
     },
-    customerId: {
+    customer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer'
     }

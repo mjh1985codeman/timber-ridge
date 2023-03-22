@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const ReservationMongooseSchema = new mongoose.Schema({
     dateBooked: {
-        type: mongoose.Schema.Types.Date
+        type: mongoose.Schema.Types.Date,
+        default: Date.now
     },
     beginDate: {
         type: mongoose.Schema.Types.Date

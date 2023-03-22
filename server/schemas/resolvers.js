@@ -1,6 +1,7 @@
 const {GraphQLScalarType} = require('graphql');
 const PropertyMongooseSchema = require('../models/Property');
 const CustomerMongooseSchema = require('../models/Customer');
+const ReservationMongooseSchema = require('../models/Reservation');
 
   const dateScalar = new GraphQLScalarType({
     name: 'Date',
@@ -35,23 +36,52 @@ const resolvers = {
             const properties = await PropertyMongooseSchema.find();
             return properties;
         },
-
-        getProperty: async (parent, args, context, info) => {
+        //parent has to be there even though we aren't using it. 
+        getProperty: async (parent, args) => {
             const property = await PropertyMongooseSchema.findById(args._id);
             return property; 
+        },
+
+        getReservations: async () => {
+            const reservations = await ReservationMongooseSchema.find();
+            return reservations;
+        },
+        getReservation: async (parent, args) => {
+            const reservation = await ReservationMongooseSchema.findById(args._id);
+            return reservation;
+        },
+
+        getCustomer: async (parent, args) => {
+            const customer = await CustomerMongooseSchema.findById(args._id);
+            return customer
         }
     },
 
     //Mutations
     Mutation: {
-        addProperty: async (args) => {
+        addProperty: async (parent, args, context) => {
             const property = await PropertyMongooseSchema.create(args);
             return property;
         },
 
-        addCustomer: async (args) => {
+        addCustomer: async (parent, args, context) => {
             const customer = await CustomerMongooseSchema.create(args);
             return customer;
+        },
+        //Again because this mution is utilizing Mongo's 'ObjectId' property we need the 'parent' argument here
+        //even though it's not being used.  
+        addReservation: async (parent, args) => {
+        
+            const reservation = await ReservationMongooseSchema.create({...args,
+              propertyId: args.propertyId,
+              customerId: args.customerId,
+            });
+            await CustomerMongooseSchema.findByIdAndUpdate(
+              { _id: args.customerId},
+              { $push: {reservations: reservation._id}},
+              {new: true}
+            );
+            return reservation;
         }
     }
 };

@@ -4,7 +4,6 @@ scalar Date
 
 type Reservation {
   _id: ID!
-  dateBooked: Date
   beginDate: Date
   endDate: Date
   downPaymentPaid: Boolean
@@ -29,6 +28,7 @@ type Property {
 }
 
 type Customer {
+  _id: ID!
   firstName: String
   lastName: String
   phone: String
@@ -39,11 +39,15 @@ type Customer {
 type Query {
   getProperties: [Property]
   getProperty(_id: ID!): Property
+  getCustomer(_id: ID!): Customer
+  getReservation(_id: ID!): Reservation
+  getReservations: [Reservation]
 }
 
 type Mutation {
   addProperty(name: String, reserved: Boolean, reserveCost: Int, addressSt: String, city: String, state: String, zip: String, readyToReserve: Boolean, Available: Boolean): Property
   addCustomer(firstName: String, lastName: String, phone: String, email: String): Customer
+  addReservation(beginDate: Date, endDate: Date, downPaymentPaid: Boolean, totalPrice: Int, balance: Int, paidInFfull: Boolean, propertyId: ID, customerId: ID): Reservation
 }
 `;
 

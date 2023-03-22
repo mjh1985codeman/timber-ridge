@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const ReservationSchema = require('./Reservation')
 
 //mongoose schema (database => mongoose (mapper) => graphQLAPI)
 const CustomerMongooseSchema = new mongoose.Schema({
@@ -15,10 +14,10 @@ const CustomerMongooseSchema = new mongoose.Schema({
     email: {
         type: String,
     },
-    reservations: {
-        type: mongoose.Schema.Types.Array,
+    reservations: [{
+        type: mongoose.Types.ObjectId,
         ref: 'Reservation'
-    }
+    }]
 });
 
 module.exports = mongoose.model('Customer', CustomerMongooseSchema);

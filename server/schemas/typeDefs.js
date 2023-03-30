@@ -1,11 +1,10 @@
 //defines the data models, query arrangements and mutations.  
 const typeDefs = `#graphql
-scalar Date
 
 type Reservation {
   _id: ID!
-  beginDate: Date
-  endDate: Date
+  beginDate: String
+  endDate: String
   downPaymentPaid: Boolean
   totalPrice: Int
   balance: Int
@@ -47,7 +46,8 @@ type Query {
 type Mutation {
   addProperty(name: String, reserved: Boolean, reserveCost: Int, addressSt: String, city: String, state: String, zip: String, readyToReserve: Boolean, available: Boolean): Property
   addCustomer(firstName: String, lastName: String, phone: String, email: String): Customer
-  addReservation(beginDate: Date, endDate: Date, downPaymentPaid: Boolean, totalPrice: Int, balance: Int, paidInFfull: Boolean, property: ID, customer: ID): Reservation
+  addReservation(beginDate: String, endDate: String, downPaymentPaid: Boolean, totalPrice: Int, balance: Int, paidInFull: Boolean, property: ID, customer: ID): Reservation
+  deleteReservation(_id: ID!):Reservation
 }
 `;
 

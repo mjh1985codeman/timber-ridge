@@ -3,30 +3,39 @@ const mongoose = require('mongoose');
 const PropertyMongooseSchema = new mongoose.Schema({
     name: {
         type: String,
+        unique: true
     },
     reserved: {
-        type: Boolean
+        type: Boolean,
+        required: true
     },
     reserveCost: {
-        type: Number
+        type: Number,
+        required: true
     },
     addressSt: {
-        type: String
+        type: String,
+        required: true
     },
     city: {
-        type: String
+        type: String,
+        required: true,
     },
     state: {
-        type: String
+        type: String,
+        required: true
     },
     zip: {
-        type: String
+        type: String,
+        required: true
     },
     readyToReserve: {
-        type: Boolean
+        type: Boolean,
+        required: true
     },
     available: {
-        type: Boolean
+        type: Boolean,
+        required: true
     }
 });
 

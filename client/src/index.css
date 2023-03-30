@@ -148,3 +148,49 @@ body {
   font-family: 'Cardo', sans-serif;
   margin: 0.5rem;
 }
+
+.formstyle {
+  display: flex;
+  justify-content: center;
+}
+
+.formcontent {
+  border: #dadce1 solid 2px;
+  background-color: hsla(210, 3%, 15%, 0.822);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5vh;
+  padding: 1vh;
+  color: var(--text-color);
+}
+
+.formcontent h2 {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.formlabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.formcontent button {
+  margin: 2vh;
+}
+
+.calinput {
+  display: flex;
+  justify-content: center;
+  padding: 1vh;
+  font-family: 'Cardo', sans-serif;
+  border-radius: 5px;
+}
+
+.calinput:hover {
+  border: hsla(40, 97%, 64%, 0.863) solid 2px;
+}

@@ -2,34 +2,43 @@ const mongoose = require('mongoose');
 
 const ReservationMongooseSchema = new mongoose.Schema({
     dateBooked: {
-        type: mongoose.Schema.Types.Date,
-        default: Date.now
+        type: mongoose.Schema.Types.String,
+        default: Date.now,
+        required: true
     },
     beginDate: {
-        type: mongoose.Schema.Types.Date
+        type: mongoose.Schema.Types.String,
+        required: true
     },
     endDate: {
-        type: mongoose.Schema.Types.Date
+        type: mongoose.Schema.Types.String,
+        required: true
     },
     downPaymentPaid: {
-        type: Boolean
+        type: Boolean,
+        required: true
     },
     totalPrice: {
-        type: Number
+        type: Number,
+        required: true
     },
     balance: {
-        type: Number
+        type: Number,
+        required: true
     },
     paidInFull: {
-        type: Boolean
+        type: Boolean,
+        required: true
     },
     property: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Property'
+        ref: 'Property',
+        required: true
     },
     customer: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Customer'
+        ref: 'Customer',
+        required: true
     }
 });
 

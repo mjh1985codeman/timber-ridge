@@ -8,6 +8,8 @@ import Records from "./components/Records";
 import Contact from "./components/Contact";
 import NavItem from "./components/NavItem";
 import Packages from "./components/Packages";
+import Reservations from "./components/Reservations";
+import Proplist from "./components/Proplist";
 
 function App() {
   return (
@@ -18,12 +20,15 @@ function App() {
         <NavItem to="/packages" text="Packages"/>
         <NavItem to="/records" text="Records"/>
         <NavItem to="/contact" text="Contact"/>
+        <NavItem to="/reservations" text="Reservations" />
       </Navigation>
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/packages"component={Packages} />
         <Route exact path="/records" component={Records} />
         <Route exact path="/contact"component={Contact} />
+        <Route exact path="/reservations"component={Reservations} />
+        <Route exact path="/reservations/propselect" component={Proplist} />
         <Route
           render={() => (
             <h1 className="display-2">

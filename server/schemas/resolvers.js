@@ -1,41 +1,17 @@
-const {GraphQLScalarType} = require('graphql');
+const {GraphQLScalarType, GraphQLError} = require('graphql');
 const PropertyMongooseSchema = require('../models/Property');
 const CustomerMongooseSchema = require('../models/Customer');
 const ReservationMongooseSchema = require('../models/Reservation');
-
-  const dateScalar = new GraphQLScalarType({
-    name: 'Date',
-    description: 'Date custom scalar type',
-    serialize(value) {
-      if (value instanceof Date) {
-        return value.getTime(); // Convert outgoing Date to integer for JSON
-      }
-      throw Error('GraphQL Date Scalar serializer expected a `Date` object');
-    },
-    parseValue(value) {
-      if (typeof value === 'number') {
-        return new Date(value); // Convert incoming integer to Date
-      }
-      throw new Error('GraphQL Date Scalar parser expected a `number`');
-    },
-    parseLiteral(ast) {
-      if (ast.kind === Kind.INT) {
-        // Convert hard-coded AST string to integer and then to Date
-        return new Date(parseInt(ast.value, 10));
-      }
-      // Invalid hard-coded value (not an integer)
-      return null;
-    },
-  });
+const Reservation = require('../models/Reservation');
 
 const resolvers = {
-    Date: dateScalar,
     //Query's
     Query: {
         getProperties: async () => {
             const properties = await PropertyMongooseSchema.find();
             return properties;
         },
+
         //parent has to be there even though we aren't using it. 
         getProperty: async (parent, args) => {
             const property = await PropertyMongooseSchema.findById(args._id);
@@ -49,20 +25,22 @@ const resolvers = {
               {path: 'customer', model: 'Customer'});
             return reservations;
         },
+
         getReservation: async (parent, args) => {
             const reservation = await ReservationMongooseSchema.findById(args._id).populate(
               {path: 'property', model: 'Property'})
               .populate(
               {path: 'customer', model: 'Customer'});
-            return reservation;
+              return reservation;
         },
 
         getCustomer: async (parent, args) => {
-            const customer = await CustomerMongooseSchema.findById(args._id);
-            //need to populate the reservation data here for the customer 
-            return customer
-        }
+            const customer = await CustomerMongooseSchema.findById(args._id).populate(
+              //THIS IS HOW YOU POPULATE THINGS FOR MODELS THAT HAVE MUTIPLE MODEL REFERENCES.
+              {path: 'reservations', model: 'Reservation', populate: {path: 'property' , model: 'Property'}});
+            return customer; 
     },
+  },
 
     //Mutations
     Mutation: {
@@ -75,10 +53,9 @@ const resolvers = {
             const customer = await CustomerMongooseSchema.create(args);
             return customer;
         },
-        //Again because this mution is utilizing Mongo's 'ObjectId' property we need the 'parent' argument here
+        //Again because this mutation is utilizing Mongo's 'ObjectId' property we need the 'parent' argument here
         //even though it's not being used.  
         addReservation: async (parent, args) => {
-        
             const reservation = await ReservationMongooseSchema.create({...args,
               property: args.property,
               customer: args.customer,
@@ -89,6 +66,31 @@ const resolvers = {
               {new: true}
             );
             return reservation;
+        },
+
+        deleteReservation: async (parent, args) => {
+          //Grab the customer id associated with the deleted reservation so you can use it to remove
+          //the reseravation id from the Customer's reservation array prior to deleting the reservation itself from the table. 
+          const resData = await Reservation.findById(args._id);
+          if(!resData) {
+            throw new GraphQLError("Invalid Reservation Delete Request.");
+          }
+          const customerId = resData.customer;
+          //delete the reservation from the Reservations table.
+          await ReservationMongooseSchema.deleteOne({...args,
+          _id: args._id,
+          }).then( async res => {
+            if(res.deletedCount > 0) {
+            //logic here to remove the reservation from the customer's 'reservations' array.
+            await CustomerMongooseSchema.findByIdAndUpdate(
+            {_id: customerId},
+            {$pull: {reservations: args._id}}
+            );
+            } else {
+              throw new GraphQLError('Something Went Wrong');
+            }
+          });
+          return resData;
         }
     }
 };

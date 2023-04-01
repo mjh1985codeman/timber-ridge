@@ -1,24 +1,88 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useHistory } from "react-router-dom";
 import { Container } from 'react-bootstrap';
+import { useQuery } from '@apollo/client';
+const {GET_CUSTOMER, GET_PROPERTIES} = require('../controllers/queries');
 
 export default function Reservations() {
+
+
+    const [resBd, setResBd] = useState("");
+    const [resEd, setResEd] = useState("");
+    const [resFn, setResFn] = useState("");
+    const [resLn, setResLn] = useState("");
+
     const history = useHistory();
+    function handleInputChange(e) {
+        e.preventDefault();
+        
+        const {name, value} = e.target;
+
+        if(name === 'beginDate') {
+            return setResBd(value);
+        } else if (name === 'endDate') {
+            return setResEd(value);
+        } else if (name === 'fn') {
+            return setResFn(value);
+        } else if (name === 'ln') {
+            return setResLn(value)
+        };
+    }
+
+    const propData = useQuery(GET_PROPERTIES);
+    if(propData.data) {
+      const propArray = propData.data.getProperties;
+      propArray.forEach(property => {
+        const propertyInfo = {
+          name: property.name,
+          address: property.addressSt + " " + property.city + ", " + property.state + " " + property.zip,
+          available: property.available,
+          readyToReserve: property.readyToReserve,
+          reserveCost: property.reserveCost,
+          reserved: property.reserved,
+          id: property._id
+        };
+        console.log(propertyInfo);
+      })
+    } else {
+      return <div>Loading. . .</div>
+    };
+
     function handleSubmit(e) {
         // Prevent the browser from reloading the page
         e.preventDefault();
-        const beginDate = e.currentTarget[0].value;
-        const endDate = e.currentTarget[1].value;
         const resObj = {
-            beginDate: beginDate,
-            endDate: endDate,
-        }
-        console.log(resObj);
-        history.push("/reservations/propselect")
+            beginDate: resBd,
+            endDate: resEd,
+            firstName: resFn,
+            lastName: resLn
+        };
+        //including the resObj since it's a state associated value I can pass it to my
+        //ProplistComponent
+        history.push("/reservations/propselect", resObj);
       };
+
+    //   function GetCustomer(id) {
+    //     const { loading, error, data } = useQuery(GET_CUSTOMER, {
+    //         variables: {
+    //             "id": id,
+    //           }
+    //     });
+    //     console.log('error', error);
+    //     console.log('loading', loading);     
+    //     if (loading) return null;
+    //     if (error) return `Error! ${error}`;
+
+    //     console.log('data', data);
+    //   }
+
+    //   GetCustomer("6420e414c5b6c8d3054a552f");
+
+
     
+
       return (
         <>
         <Container>
@@ -26,12 +90,20 @@ export default function Reservations() {
         <Form.Group className='formcontent'>
           <Form.Label className='formlabel'>
             <h2>Check In</h2>
-            <input className='calinput'type="date" name="beginDate" key="beginDate"/>
+            <input className='calinput'type="date" name="beginDate" value={resBd} onChange={handleInputChange}/>
           </Form.Label>
           <Form.Label className='formlabel'>
             <h2>Check Out</h2>
-            <input className='calinput' type="date" name="endDate" key="endDate"/>
+            <input className='calinput' type="date" name="endDate" value={resEd} onChange={handleInputChange}/>
           </Form.Label>
+            <Form.Label>
+                <h3>First Name</h3>
+                <input className='calinput' name="fn" value={resFn} onChange={handleInputChange}/>
+            </Form.Label>
+            <Form.Label>
+                <h3>Last Name</h3>
+                <input className='calinput' name="ln" value={resLn} onChange={handleInputChange}/>
+            </Form.Label>
           <Button type="submit">Submit form</Button>
         </Form.Group>
         </Form> 

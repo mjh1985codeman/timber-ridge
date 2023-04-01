@@ -1,6 +1,7 @@
 //defines the data models, query arrangements and mutations.  
-const typeDefs = `#graphql
+const { gql } = require('apollo-server-express');
 
+const typeDefs = gql`
 type Reservation {
   _id: ID!
   beginDate: String

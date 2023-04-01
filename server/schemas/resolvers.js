@@ -1,8 +1,9 @@
-const {GraphQLScalarType, GraphQLError} = require('graphql');
+const {GraphQLError} = require('graphql');
 const PropertyMongooseSchema = require('../models/Property');
 const CustomerMongooseSchema = require('../models/Customer');
 const ReservationMongooseSchema = require('../models/Reservation');
 const Reservation = require('../models/Reservation');
+
 
 const resolvers = {
     //Query's

@@ -4,11 +4,9 @@ import Form from 'react-bootstrap/Form';
 import { useHistory } from "react-router-dom";
 import { Container } from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
-const {GET_CUSTOMER, GET_PROPERTIES} = require('../controllers/queries');
+const {GET_RESERVATIONS, GET_PROPERTIES, GET_CUSTOMER_BY_ID} = require('../controllers/queries');
 
 export default function Reservations() {
-
-
     const [resBd, setResBd] = useState("");
     const [resEd, setResEd] = useState("");
     const [resFn, setResFn] = useState("");
@@ -31,25 +29,6 @@ export default function Reservations() {
         };
     }
 
-    const propData = useQuery(GET_PROPERTIES);
-    if(propData.data) {
-      const propArray = propData.data.getProperties;
-      propArray.forEach(property => {
-        const propertyInfo = {
-          name: property.name,
-          address: property.addressSt + " " + property.city + ", " + property.state + " " + property.zip,
-          available: property.available,
-          readyToReserve: property.readyToReserve,
-          reserveCost: property.reserveCost,
-          reserved: property.reserved,
-          id: property._id
-        };
-        console.log(propertyInfo);
-      })
-    } else {
-      return <div>Loading. . .</div>
-    };
-
     function handleSubmit(e) {
         // Prevent the browser from reloading the page
         e.preventDefault();
@@ -64,23 +43,57 @@ export default function Reservations() {
         history.push("/reservations/propselect", resObj);
       };
 
-    //   function GetCustomer(id) {
-    //     const { loading, error, data } = useQuery(GET_CUSTOMER, {
-    //         variables: {
-    //             "id": id,
-    //           }
-    //     });
-    //     console.log('error', error);
-    //     console.log('loading', loading);     
-    //     if (loading) return null;
-    //     if (error) return `Error! ${error}`;
+    function GetCustomer({id}) {
+      const {loading, error, data} = useQuery(GET_CUSTOMER_BY_ID, {
+        variables: {id},
+      });
+      
+      if(loading) return null;
+      if (error) return `Error!!! ${error}`;
+      
+      console.log("data" , data);
+    };
+    
+    GetCustomer({id: '6420e414c5b6c8d3054a552f'});
 
-    //     console.log('data', data);
-    //   }
+    function GetProperties() {
+      const propData = useQuery(GET_PROPERTIES);
+      if(propData.data) {
+        const propArray = propData.data.getProperties;
+        propArray.forEach(property => {
+          const propertyInfo = {
+            name: property.name,
+            address: property.addressSt + " " + property.city + ", " + property.state + " " + property.zip,
+            available: property.available,
+            readyToReserve: property.readyToReserve,
+            reserveCost: property.reserveCost,
+            reserved: property.reserved,
+            id: property._id
+          };
+          console.log(propertyInfo);
+        })
+      } else {
+        return <div>Loading. . .</div>
+      };
+    };
 
-    //   GetCustomer("6420e414c5b6c8d3054a552f");
-
-
+    function GetReservations() {
+      const { loading, error, data } = useQuery(GET_RESERVATIONS);
+      if (loading) return 'Loading...';
+      if (error) return `Error! ${error.message}`;
+      if(data) {
+        const resArray = data.getReservations;
+        resArray.forEach(res => {
+          console.log(res);
+        })
+      } else {
+        return 'loading. . .' + loading;
+      }
+    }
+    
+    
+    GetReservations();
+    GetProperties();
     
 
       return (

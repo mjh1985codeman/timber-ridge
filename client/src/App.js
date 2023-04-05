@@ -8,8 +8,9 @@ import Records from "./components/Records";
 import Contact from "./components/Contact";
 import NavItem from "./components/NavItem";
 import Packages from "./components/Packages";
+import Properties from "./components/Properties";
 import Reservations from "./components/Reservations";
-import Proplist from "./components/Proplist";
+import Propselect from "./components/Propselect";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <NavItem to="/packages" text="Packages"/>
         <NavItem to="/records" text="Records"/>
         <NavItem to="/contact" text="Contact"/>
+        <NavItem to="/properties" text="Properties"/>
         <NavItem to="/reservations" text="Reservations" />
       </Navigation>
       <Switch>
@@ -28,7 +30,8 @@ function App() {
         <Route exact path="/records" component={Records} />
         <Route exact path="/contact"component={Contact} />
         <Route exact path="/reservations"component={Reservations} />
-        <Route exact path="/reservations/propselect" component={Proplist} />
+        <Route exact path="/properties"component={Properties} />
+        <Route exact path="/reservations/propselect" component={Propselect} />
         <Route
           render={() => (
             <h1 className="display-2">

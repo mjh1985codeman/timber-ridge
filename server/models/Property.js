@@ -36,6 +36,9 @@ const PropertyMongooseSchema = new mongoose.Schema({
     available: {
         type: Boolean,
         required: true
+    },
+    pictures: {
+        type: mongoose.Schema.Types.Array,
     }
 });
 

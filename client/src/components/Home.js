@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <Container className="home-head-container">
         <h1 className="home-title">Timber Ridge Hunting Ranch</h1>
-        <blockquote class="blockquote">
+        <blockquote className="blockquote">
     <p className="home-quote">"Where success is just part of the experience."</p>
     </blockquote>
     <Card className="bg-dark text-white">

@@ -25,6 +25,7 @@ type Property {
   zip: String
   readyToReserve: Boolean
   available: Boolean
+  pictures: [String]
 }
 
 type Customer {

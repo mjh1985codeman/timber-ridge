@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useHistory } from "react-router-dom";
 import { Container } from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
 const {GET_RESERVATIONS, GET_CUSTOMER_BY_ID} = require('../controllers/queries');
@@ -12,7 +11,6 @@ export default function Reservations() {
     const [resFn, setResFn] = useState("");
     const [resLn, setResLn] = useState("");
 
-    const history = useHistory();
     function handleInputChange(e) {
         e.preventDefault();
         
@@ -38,9 +36,7 @@ export default function Reservations() {
             firstName: resFn,
             lastName: resLn
         };
-        //including the resObj since it's a state associated value I can pass it to my
-        //ProplistComponent
-        history.push("/reservations/propselect", resObj);
+        console.log('resObj: ' , resObj);
       };
 
     function GetCustomer({id}) {

@@ -1,7 +1,6 @@
-import React from "react";
 
 export const convertToBase64 = (file) => {
-   return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
@@ -10,5 +9,5 @@ export const convertToBase64 = (file) => {
       fileReader.onerror = (error) => {
         reject(error)
       }
-   })
+  })
 }

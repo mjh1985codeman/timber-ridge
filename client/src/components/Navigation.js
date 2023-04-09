@@ -15,7 +15,7 @@ const Navigation = (props) => {
      <Navbar.Brand href="/">
             <img
               src={logo}
-              className="d-inline-block align-top"
+              className="d-inline-block align-top logoimg"
               alt="React Bootstrap logo"
             />
           </Navbar.Brand>

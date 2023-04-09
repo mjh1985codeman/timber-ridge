@@ -50,12 +50,16 @@ body {
   background: rgb(255, 255, 255);
 }
 
+.hide {
+  display: none;
+}
+
 .navigation {
   background-color: hsla(0, 0%, 0%, 0.726);
 }
 
 .navigation img {
-  max-height: 20vh;
+  max-height: 15vh;
 }
 
 .nav-item {
@@ -201,11 +205,43 @@ body {
   background-color: hsla(210, 3%, 39%, 0.781);
   justify-content: center;
   flex-direction: column;
-  max-width: fit-content;
+  align-items: center;
   font-family: 'Cardo', sans-serif;
   font-size: 20px;
   padding: 7px;
   color: var(--text-color);
   border: hsla(210, 3%, 15%, 0.74) solid 1px;
   border-radius: 15px;
+}
+
+.propertyCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid white 0.2vh;
+  border-radius: 15px;
+  margin: 1vh;
+  padding: 3px;
+}
+
+.propertyCard h2 {
+  color: hsla(40, 97%, 64%, 0.863);
+}
+
+
+/* Add Property Stylings.  */
+
+.radioInputDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.radioInputDiv input {
+  margin: 2px;
+}
+
+.radioInputDiv label {
+  margin-right: 15px;
 }

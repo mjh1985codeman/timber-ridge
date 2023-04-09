@@ -1,7 +1,7 @@
 
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import Records from "./components/Records";
@@ -10,7 +10,7 @@ import NavItem from "./components/NavItem";
 import Packages from "./components/Packages";
 import Properties from "./components/Properties";
 import Reservations from "./components/Reservations";
-import Propselect from "./components/Propselect";
+import AddProperty from "./components/AddProperty";
 
 function App() {
   return (
@@ -24,14 +24,14 @@ function App() {
         <NavItem to="/properties" text="Properties"/>
         <NavItem to="/reservations" text="Reservations" />
       </Navigation>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/packages"component={Packages} />
-        <Route exact path="/records" component={Records} />
-        <Route exact path="/contact"component={Contact} />
-        <Route exact path="/reservations"component={Reservations} />
-        <Route exact path="/properties"component={Properties} />
-        <Route exact path="/reservations/propselect" component={Propselect} />
+      <Routes>
+        <Route exact path="/" element={<Home/>} />
+        <Route exact path="/packages"element={<Packages/>} />
+        <Route exact path="/records" element={<Records/>} />
+        <Route exact path="/contact"element={<Contact/>} />
+        <Route exact path="/reservations"element={<Reservations/>} />
+        <Route exact path="/properties"element={<Properties/>} />
+        <Route exact path="/properties/addproperty" element={<AddProperty/>} />
         <Route
           render={() => (
             <h1 className="display-2">
@@ -41,7 +41,7 @@ function App() {
             </h1>
           )}
         />
-      </Switch>
+      </Routes>
     </>
   </Router>
   );

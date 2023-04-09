@@ -7,7 +7,8 @@ const PropertyMongooseSchema = new mongoose.Schema({
     },
     reserved: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     },
     reserveCost: {
         type: Number,
@@ -31,11 +32,13 @@ const PropertyMongooseSchema = new mongoose.Schema({
     },
     readyToReserve: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     },
     available: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     },
     pictures: {
         type: mongoose.Schema.Types.Array,

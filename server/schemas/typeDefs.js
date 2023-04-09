@@ -46,7 +46,7 @@ type Query {
 }
 
 type Mutation {
-  addProperty(name: String, reserved: Boolean, reserveCost: Int, addressSt: String, city: String, state: String, zip: String, readyToReserve: Boolean, available: Boolean): Property
+  addProperty(name: String, reserved: Boolean, reserveCost: Int, addressSt: String, city: String, state: String, zip: String, readyToReserve: Boolean, available: Boolean, pictures: [String]): Property
   addCustomer(firstName: String, lastName: String, phone: String, email: String): Customer
   addReservation(beginDate: String, endDate: String, downPaymentPaid: Boolean, totalPrice: Int, balance: Int, paidInFull: Boolean, property: ID, customer: ID): Reservation
   deleteReservation(_id: ID!):Reservation

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {StrictMode} from "react";
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client'
 import * as ReactDOM from 'react-dom/client';
 import "./index.css";
@@ -12,6 +12,8 @@ const client = new ApolloClient({
 
 root.render(
 <ApolloProvider client={client}>
+  <StrictMode>
   <App />
+  </StrictMode>
 </ApolloProvider>,
 );

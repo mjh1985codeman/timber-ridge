@@ -22,6 +22,7 @@ query Query {
       zip
       readyToReserve
       available
+      pictures
     }
     customer {
       _id
@@ -47,6 +48,7 @@ export const GET_PROPERTIES = gql`
       zip
       readyToReserve
       available
+      pictures
     }
   }
 `;
@@ -78,6 +80,7 @@ export const GET_CUSTOMER_BY_ID = gql`
           zip
           readyToReserve
           available
+          pictures
         }
       }
     }

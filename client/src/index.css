@@ -245,3 +245,26 @@ body {
 .radioInputDiv label {
   margin-right: 15px;
 }
+
+
+/* Loading component Things. */
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
+.loading::after {
+  content: "";
+  width: 10vh;
+  height: 10vh;
+  border: 10px solid hsla(40, 97%, 64%, 0.863);
+  border-top-color: hsla(210, 3%, 39%, 0.781);
+  border-radius: 50%;
+  animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(1turn);
+  }
+}

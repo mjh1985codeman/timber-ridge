@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Container} from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
 import { useNavigate } from "react-router-dom";
+import Loading from '../components/Loading.js';
 const {GET_PROPERTIES} = require('../controllers/queries');
 
 
@@ -26,11 +27,15 @@ export default function Properties(props) {
         <h5 key={property.id}>{property.city}, {property.state} {property.zip}</h5>
         </div>  
         ))}
+        <button type='click' onClick={RedirectToAddProperty}>Add a Property</button>
         </div>  
         </>
     
-    } else {
-      return <div>Loading. . .</div>
+    
+    } else if(propData.loading) {
+      return <Loading/>
+    } else if (propData.error) {
+      return `There was an error loading the Data: ${propData.error}`
     };
   };
 
@@ -43,7 +48,6 @@ export default function Properties(props) {
     <Container>  
     <div>Upload Property</div>
     {GetProperties()}
-    <button type='click' onClick={RedirectToAddProperty}>Add a Property</button>
     </Container>    
     </>
   )

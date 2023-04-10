@@ -8,6 +8,8 @@ const {GET_PROPERTIES} = require('../controllers/queries');
 
 export default function Properties(props) {
   const navigate = useNavigate();
+  //TODO update logic so that Properties is using state to render on the page the correct / react way.
+  //const [properties, setProperties] = useState([]);
 
   function GetProperties() {
     const propData = useQuery(GET_PROPERTIES);
@@ -19,9 +21,9 @@ export default function Properties(props) {
         <div className='propertylist'>
         {propArray.map(property => (
         <div key={property.id} className='propertyCard'>
-        <h2>{property.name}</h2>
-        <h5>{property.addressSt}</h5> 
-        <h5>{property.city}, {property.state} {property.zip}</h5>
+        <h2 key={property.id}>{property.name}</h2>
+        <h5 key={property.id}>{property.addressSt}</h5> 
+        <h5 key={property.id}>{property.city}, {property.state} {property.zip}</h5>
         </div>  
         ))}
         </div>  

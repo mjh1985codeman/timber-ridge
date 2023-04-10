@@ -16,6 +16,7 @@ export default function Property() {
   const [reserveReady, setReserveReady] = useState(false);
   const [available, setAvailable] = useState(false);
   const [propImages, setPropImages] = useState([]);
+  const [imageNames, setImageNames] = useState([]);
 
   function handleInputChange(e) {
       e.preventDefault();
@@ -47,12 +48,15 @@ export default function Property() {
         return setAvailable(value)
     };
   }
-
+  
   async function handleFileUpload (e){
+    e.preventDefault();
     const image = e.target.files[0];
+    const imageName = image.name;
     const convertedImage = await base64.convertToBase64(image);
     propImages.push(convertedImage);
-    console.log("propImages Array upon Upload: " , propImages);
+    //Use this syntax to force the component to re-render immediately as it detects a change. 
+    setImageNames(imageNames => [...imageNames, imageName]);
 }
 
   function handleSubmit(e) {
@@ -64,6 +68,7 @@ export default function Property() {
       navigate("/properties");
       //resetting state.
       setPropImages([]);
+      setImageNames([]);
     };
   return (
     <>
@@ -113,7 +118,7 @@ export default function Property() {
         </div>
       </Form.Label>
       <label htmlFor="pic-upload">
-        <h3>Upload Property Image</h3>  
+        <h3>Upload Property Images</h3>  
       <input
         className='hide' 
         type="file"
@@ -123,7 +128,12 @@ export default function Property() {
         accept='.jpeg, .png, .jpg'
         onChange={(e) => handleFileUpload(e)}
         />
-      </label>  
+      </label>
+      <div>
+        {imageNames.map(img => (
+          <h5 key={img}>{img}</h5>
+        ))}
+      </div>  
     <Button type="submit">Submit New Property</Button>
   </Form.Group>
   </Form> 

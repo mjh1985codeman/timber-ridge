@@ -2,8 +2,11 @@ import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
+import { useMutation } from '@apollo/client';
 import { Container } from 'react-bootstrap';
+import { ADD_PROPERTY } from '../controllers/mutations';
 const base64 = require('../helpers/base64');
+
 
 export default function Property() {
   const navigate = useNavigate();
@@ -17,6 +20,10 @@ export default function Property() {
   const [available, setAvailable] = useState(false);
   const [propImages, setPropImages] = useState([]);
   const [imageNames, setImageNames] = useState([]);
+
+  //mutation. 
+  const [addProperty, {data, loading, error}] = useMutation(ADD_PROPERTY);
+  
 
   function handleInputChange(e) {
       e.preventDefault();
@@ -36,15 +43,19 @@ export default function Property() {
           return setPropZip(value)
       }
       else if (name === 'reserveCost') {
+          
           return setReserveCost(value)
       };
   }
 
   function handleRadioInputChange(e) {
     const {name, value} = e.target;
+    console.log(value);
     if (name === 'reserveReady') {
+      console.log(typeof(value));
         return setReserveReady(value)
     } else if (name === 'available') {
+      console.log(typeof(value));
         return setAvailable(value)
     };
   }
@@ -65,6 +76,40 @@ export default function Property() {
       console.log('reserveReady On Submit: ' , reserveReady);
       console.log('available upon submit', available);
       console.log('propImages Array upon Submit: ' , propImages);
+      //LOGIC TO ADD THE PROPERTY. 
+      const propObj = {
+        name: propName,
+        //hardcoding reserved to false for now. 
+        reserved: false,
+        reserveCost: JSON.parse(reserveCost),
+        addressSt: addressSt,
+        city: propCity,
+        state: propState,
+        zip: propZip,
+        pictures: propImages,
+        readyToReserve: JSON.parse(reserveReady),
+        available: JSON.parse(available)
+      };
+
+      console.log(propObj);
+      //Mutation being called and the propObj being passed in as the variables. 
+      addProperty({
+        variables: {
+          name: propObj.name,
+          reserved: propObj.reserved,
+          reserveCost: propObj.reserveCost,
+          addressSt: propObj.addressSt,
+          city: propObj.city,
+          state: propObj.state,
+          zip: propObj.zip,
+          pictures: propObj.pictures,
+          readyToReserve: propObj.readyToReserve,
+          available: propObj.available
+        }
+      });
+
+      if(loading) return 'Loading...';
+      if(error) return `Property Add Error. . .${error.message}`;
       navigate("/properties");
       //resetting state.
       setPropImages([]);
@@ -93,11 +138,11 @@ export default function Property() {
       </Form.Label>
       <Form.Label className='formlabel'>
           <h3>Zip Code</h3>
-          <input className='calinput' type="text" name="propZip" value={propZip} onChange={handleInputChange}/>
+          <input className='calinput' type="number" name="propZip" value={propZip} onChange={handleInputChange}/>
       </Form.Label>
       <Form.Label className='formlabel'>
         <h3>Cost to Reserve this Property</h3>
-        <input className='calinput' type="text" name="reserveCost" value={reserveCost} onChange={handleInputChange}/>
+        <input className='calinput' type="number" name="reserveCost" value={reserveCost} onChange={handleInputChange}/>
       </Form.Label>
       <Form.Label className='formlabel'>
         <h3>Ready To Reserve?</h3>

@@ -22,7 +22,7 @@ type Property {
   addressSt: String
   city: String
   state: String
-  zip: String
+  zip: Int
   readyToReserve: Boolean
   available: Boolean
   pictures: [String]

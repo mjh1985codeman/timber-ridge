@@ -16,8 +16,6 @@ export default function Properties(props) {
     const propData = useQuery(GET_PROPERTIES);
     if(propData.data) {
       const propArray = propData.data.getProperties;
-      console.log(propArray);
-      console.log('props' , props);
         return<>
         <div className='propertylist'>
         {propArray.map(property => (

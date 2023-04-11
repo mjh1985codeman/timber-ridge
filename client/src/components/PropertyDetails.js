@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useParams} from 'react-router-dom';
 import {Container} from 'react-bootstrap';
 import Carousel from 'react-bootstrap/Carousel';
@@ -9,7 +9,12 @@ const {GET_PROPERTY_BY_ID} = require('../controllers/queries');
 export default function PropertyDetails() {
     //look at the Path on the App.js file for this component to see why we use propertyId here.  
     let { propertyId } = useParams();
-    
+    const [index, setIndex] = useState(0);
+
+    const handleSelect = (selectedIndex, e) => {
+      setIndex(selectedIndex);
+    };
+
     function RedirectToAddReservation() {
         console.log(`They want to reserve this property: ` , propertyId);
     }
@@ -20,27 +25,25 @@ export default function PropertyDetails() {
         if(data) {
             const property = data.getProperty;
             const propPics = property.pictures;
-            console.log("This property has pictures");
+            const propPicsLength = property.pictures.length;
+            console.log("This property has ", propPicsLength, " pictures.");
             function ShowPictures() {
-                if(propPics.length > 0) {
-                    for(let i = 0; i < propPics.length; i++) {
-                        return<>
-                        <Carousel>
+                if(propPicsLength > 0) {
+                    return<>
+                        <Carousel key={property._id} activeIndex={index} onSelect={handleSelect}>
+                        {propPics.map(pic => (
                         <Carousel.Item>
                         <img
-                        className="d-block w-100"
-                        src={propPics[i]}
+                        className="d-block propImg w-100"
+                        src={pic}
                         alt="A Picture of the property."
                         />
-                        <Carousel.Caption>
-                        <h3>{property.name}</h3>
-                        </Carousel.Caption>
                         </Carousel.Item>
+                        ))}    
                         </Carousel> 
                         </> 
-                    }
                 } else {
-                    return null;
+                    return "";
                 }
             }
             return<>

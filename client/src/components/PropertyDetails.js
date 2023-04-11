@@ -18,55 +18,39 @@ export default function PropertyDetails() {
         variables: {id},
         });
         if(data) {
-            console.log('data: ' , data);
-            console.log('data.getProperty: ', data.getProperty);
             const property = data.getProperty;
+            const propPics = property.pictures;
+            console.log("This property has pictures");
+            function ShowPictures() {
+                if(propPics.length > 0) {
+                    for(let i = 0; i < propPics.length; i++) {
+                        return<>
+                        <Carousel>
+                        <Carousel.Item>
+                        <img
+                        className="d-block w-100"
+                        src={propPics[i]}
+                        alt="A Picture of the property."
+                        />
+                        <Carousel.Caption>
+                        <h3>{property.name}</h3>
+                        </Carousel.Caption>
+                        </Carousel.Item>
+                        </Carousel> 
+                        </> 
+                    }
+                } else {
+                    return null;
+                }
+            }
             return<>
             <div className='propertylist'>
             <div key={property._id} className='propertyCard'>
             <h2>{property.name}</h2>
             <h5>{property.addressSt}</h5> 
             <h5>{property.city}, {property.state} {property.zip}</h5>
-            </div> 
-            <Carousel>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src="holder.js/800x400?text=First slide&bg=373940"
-          alt="First slide"
-        />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src="holder.js/800x400?text=Second slide&bg=282c34"
-          alt="Second slide"
-        />
-
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src="holder.js/800x400?text=Third slide&bg=20232a"
-          alt="Third slide"
-        />
-
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
-    </Carousel> 
+            </div>
+            {ShowPictures()}
             <button type='click' onClick={RedirectToAddReservation}>Reserve This Property?</button>
             </div>  
             </>
@@ -81,6 +65,7 @@ export default function PropertyDetails() {
         <Container>  
         <div>Property Details</div>
         {GetProperty({id: propertyId})}
+
         </Container>    
         </>
     )  

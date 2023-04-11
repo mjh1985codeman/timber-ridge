@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {Container} from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import Loading from '../components/Loading.js';
 const {GET_PROPERTIES} = require('../controllers/queries');
 
@@ -21,23 +21,25 @@ export default function Properties(props) {
         return<>
         <div className='propertylist'>
         {propArray.map(property => (
-        <div key={property.id} className='propertyCard'>
-        <h2 key={property.id}>{property.name}</h2>
-        <h5 key={property.id}>{property.addressSt}</h5> 
-        <h5 key={property.id}>{property.city}, {property.state} {property.zip}</h5>
+        <div key={property._id} className='propertyCard'>
+        <a href={`/properties/${property._id}`}>
+        <h2>{property.name}</h2>
+        </a>  
+        <h5>{property.addressSt}</h5> 
+        <h5>{property.city}, {property.state} {property.zip}</h5>
         </div>  
         ))}
         <button type='click' onClick={RedirectToAddProperty}>Add a Property</button>
         </div>  
         </>
-    
-    
     } else if(propData.loading) {
-      return <Loading/>
+      return <div><Loading/></div>
     } else if (propData.error) {
       return `There was an error loading the Data: ${propData.error}`
     };
   };
+  
+    
 
   function RedirectToAddProperty() {
     navigate("/properties/addproperty");

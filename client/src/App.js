@@ -11,6 +11,7 @@ import Packages from "./components/Packages";
 import Properties from "./components/Properties";
 import Reservations from "./components/Reservations";
 import AddProperty from "./components/AddProperty";
+import PropertyDetails from "./components/PropertyDetails";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/reservations"element={<Reservations/>} />
         <Route exact path="/properties"element={<Properties/>} />
         <Route exact path="/properties/addproperty" element={<AddProperty/>} />
+        <Route exact path="/properties/:propertyId" element={<PropertyDetails/>}/>
         <Route
           render={() => (
             <h1 className="display-2">

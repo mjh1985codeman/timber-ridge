@@ -86,3 +86,21 @@ export const GET_CUSTOMER_BY_ID = gql`
     }
   }
 `;
+
+export const GET_PROPERTY_BY_ID = gql`
+query Query($id: ID!) {
+  getProperty(_id: $id) {
+    _id
+    name
+    reserved
+    reserveCost
+    addressSt
+    city
+    state
+    zip
+    readyToReserve
+    available
+    pictures
+  }
+}
+`

@@ -53,10 +53,8 @@ export default function Property() {
     const {name, value} = e.target;
     console.log(value);
     if (name === 'reserveReady') {
-      console.log(typeof(value));
         return setReserveReady(value)
     } else if (name === 'available') {
-      console.log(typeof(value));
         return setAvailable(value)
     };
   }
@@ -74,9 +72,6 @@ export default function Property() {
   async function handleSubmit(e) {
       // Prevent the browser from reloading the page
       e.preventDefault();
-      console.log('reserveReady On Submit: ' , reserveReady);
-      console.log('available upon submit', available);
-      console.log('propImages Array upon Submit: ' , propImages);
       //LOGIC TO ADD THE PROPERTY. 
       const propObj = {
         name: propName,
@@ -116,6 +111,7 @@ export default function Property() {
       //resetting state.
       setPropImages([]);
       setImageNames([]);
+      navigate('/properties');
     };
   return (
     <>

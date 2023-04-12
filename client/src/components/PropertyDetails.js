@@ -16,7 +16,7 @@ export default function PropertyDetails() {
     };
 
     function RedirectToAddReservation() {
-        console.log(`They want to reserve this property: ` , propertyId);
+        alert(`They want to reserve this property: ` + propertyId);
     }
     function GetProperty({id}) {
         const {loading, error, data} = useQuery(GET_PROPERTY_BY_ID, {
@@ -30,11 +30,11 @@ export default function PropertyDetails() {
             function ShowPictures() {
                 if(propPicsLength > 0) {
                     return<>
-                        <Carousel key={property._id} activeIndex={index} onSelect={handleSelect}>
+                        <Carousel slide={false} key={property._id} activeIndex={index} onSelect={handleSelect}>
                         {propPics.map(pic => (
-                        <Carousel.Item>
+                        <Carousel.Item className="carousel-item">
                         <img
-                        className="d-block propImg w-100"
+                        className="d-block propimg w-100"
                         src={pic}
                         alt="A Picture of the property."
                         />
@@ -54,7 +54,7 @@ export default function PropertyDetails() {
             <h5>{property.city}, {property.state} {property.zip}</h5>
             </div>
             {ShowPictures()}
-            <button type='click' onClick={RedirectToAddReservation}>Reserve This Property?</button>
+            <button className="addPropBtn" type='click' onClick={RedirectToAddReservation}>Reserve This Property?</button>
             </div>  
             </>
         } else if(loading) {
@@ -66,9 +66,9 @@ export default function PropertyDetails() {
     return (
         <>
         <Container>  
-        <div>Property Details</div>
+        <div className='propListDiv'>
         {GetProperty({id: propertyId})}
-
+        </div>
         </Container>    
         </>
     )  

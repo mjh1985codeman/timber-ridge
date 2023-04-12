@@ -27,7 +27,7 @@ export default function Properties(props) {
         <h5>{property.city}, {property.state} {property.zip}</h5>
         </div>  
         ))}
-        <button type='click' onClick={RedirectToAddProperty}>Add a Property</button>
+        <button type='click' onClick={RedirectToAddProperty} className='addPropBtn'>Add a Property</button>
         </div>  
         </>
     } else if(propData.loading) {
@@ -45,9 +45,10 @@ export default function Properties(props) {
 
   return (
     <>
-    <Container>  
-    <div>Upload Property</div>
+    <Container>
+    <div className='propListDiv'>
     {GetProperties()}
+    </div>  
     </Container>    
     </>
   )

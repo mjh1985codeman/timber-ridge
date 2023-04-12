@@ -87,7 +87,6 @@ export default function Property() {
         available: JSON.parse(available)
       };
 
-      console.log(propObj);
       //Mutation being called and the propObj being passed in as the variables. 
       await addProperty({
         variables: {
@@ -104,13 +103,16 @@ export default function Property() {
         }
       });
       console.log('loading' , loading);
+      if(data) {
+        console.log('data???' , data);
+      }
       if(loading) return <Loading/>;
       if(error) return `Property Add Error. . .${error.message}`;
-      console.log('data' , data);
-
+      
+ 
       //resetting state.
-      setPropImages([]);
-      setImageNames([]);
+      //setPropImages([]);
+      //setImageNames([]);
       navigate('/properties');
     };
   return (

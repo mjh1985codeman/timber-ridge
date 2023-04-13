@@ -214,8 +214,8 @@ export default function Property() {
         <label>NO</label>
         </div>
       </Form.Label>
-      <label htmlFor="pic-upload">
-        <h3>Upload Property Images</h3>  
+      <label className="upload-label-style" htmlFor="pic-upload">
+        <h4 className="uploadprop-txt">Upload Property Images</h4>  
       <input
         className='hide' 
         type="file"

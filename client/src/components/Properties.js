@@ -20,7 +20,7 @@ export default function Properties(props) {
         <div className='propertylist'>
         {propArray.map(property => (
         <div key={property._id} className='propertyCard'>
-        <a href={`/properties/${property._id}`}>
+        <a className='proplink' href={`/properties/${property._id}`}>
         <h2>{property.name}</h2>
         </a>  
         <h5>{property.addressSt}</h5> 

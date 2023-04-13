@@ -8,16 +8,16 @@
   --speed: 500ms;
 }
 
-body {
-  background: url(./assets/big-stone-bg.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  font-family: roboto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body,
+html {
+  height: 100%;
+  width: 100%;
   margin: 0;
+  background: rgb(32, 61, 96);
+  background: -moz-linear-gradient(49deg, rgba(32, 61, 96, 1) 0%, rgba(28, 52, 82, 1) 4%, rgba(17, 32, 51, 1) 11%, rgba(12, 22, 35, 1) 22%, rgba(16, 31, 49, 1) 45%, rgba(52, 50, 42, 1) 59%, rgba(7, 31, 61, 1) 83%, rgba(40, 53, 63, 1) 93%, rgba(89, 85, 65, 1) 100%, rgba(252, 193, 74, 1) 100%);
+  background: -webkit-linear-gradient(49deg, rgba(32, 61, 96, 1) 0%, rgba(28, 52, 82, 1) 4%, rgba(17, 32, 51, 1) 11%, rgba(12, 22, 35, 1) 22%, rgba(16, 31, 49, 1) 45%, rgba(52, 50, 42, 1) 59%, rgba(7, 31, 61, 1) 83%, rgba(40, 53, 63, 1) 93%, rgba(89, 85, 65, 1) 100%, rgba(252, 193, 74, 1) 100%);
+  background: linear-gradient(49deg, rgba(32, 61, 96, 1) 0%, rgba(28, 52, 82, 1) 4%, rgba(17, 32, 51, 1) 11%, rgba(12, 22, 35, 1) 22%, rgba(16, 31, 49, 1) 45%, rgba(52, 50, 42, 1) 59%, rgba(7, 31, 61, 1) 83%, rgba(40, 53, 63, 1) 93%, rgba(89, 85, 65, 1) 100%, rgba(252, 193, 74, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#203d60", endColorstr="#fcc14a", GradientType=1);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Cardo&family=Cinzel&display=swap');
@@ -47,7 +47,7 @@ body {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(255, 255, 255);
+  background: hsla(0, 0%, 100%, 0.459);
 }
 
 .hide {
@@ -55,7 +55,8 @@ body {
 }
 
 .navigation {
-  background-color: hsla(0, 0%, 0%, 0.726);
+  background-color: hsla(0, 0%, 13%, 0.445);
+  border-bottom: solid 3px hsla(61, 100%, 91%, 0.322);
 }
 
 .navigation img {
@@ -119,19 +120,21 @@ body {
   flex-direction: row;
   align-items: center;
   font-size: 3.0rem;
-  background: -webkit-linear-gradient(hsla(40, 97%, 64%, 0.863), hsla(0, 4%, 86%, 0.522));
+  background: -webkit-linear-gradient(rgba(252, 193, 74, 0.863), hsla(0, 4%, 86%, 0.522));
   border: #474a4d solid 2px;
   border-radius: 50%;
   padding: 25px;
 }
 
 .home-quote {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: 'Cinzel', serif;
   font-size: 2.5vh;
   font-weight: bolder;
   font-style: italic;
   color: var(--text-color);
-  background-color: hsla(210, 3%, 15%, 0.74);
 }
 
 
@@ -202,7 +205,7 @@ body {
 /* Properties Component Styling  */
 .propertylist {
   display: flex;
-  background-color: hsla(210, 3%, 39%, 0.781);
+  background-color: hsla(210, 10%, 73%, 0.418);
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -211,7 +214,7 @@ body {
   padding: 7px;
   color: var(--text-color);
   border-radius: 15px;
-  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.76);
+  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
 }
 
 .propListDiv {
@@ -223,7 +226,7 @@ body {
   flex-direction: column;
   align-items: center;
   border: solid hsla(0, 0%, 15%, 0.349) 0.2vh;
-  background-color: hsla(212, 28%, 88%, 0.226);
+  background-color: hsla(212, 82%, 15%, 0.425);
   box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.562);
   border-radius: 15px;
   margin: 1vh;
@@ -232,6 +235,18 @@ body {
 
 .propertyCard h2 {
   color: hsla(40, 97%, 64%, 0.863);
+}
+
+.proplink {
+  color: hsla(206, 30%, 51%, 0.548) !important;
+}
+
+.proplink:hover {
+  opacity: 0.7;
+}
+
+.proplink:active {
+  color: rgba(255, 255, 255, 0.541) !important;
 }
 
 .addPropBtn {
@@ -267,11 +282,16 @@ body {
 
 /* Loading component Things. */
 .loading {
+  margin-top: 25vh;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .loading::after {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   content: "";
   width: 10vh;
   height: 10vh;
@@ -290,6 +310,8 @@ body {
 /* Property Detail Stylings */
 .propimg {
   max-height: 700px;
+  border: solid white 1px;
+  border-radius: 20px;
 }
 
 .carousel-control-prev-icon {

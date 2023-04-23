@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { useMutation } from '@apollo/client';
 import { Container } from 'react-bootstrap';
 import { ADD_PROPERTY } from '../controllers/mutations';
 import Loading from '../components/Loading';
-const base64 = require('../helpers/base64');
 
 
 export default function Property() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [propName, setPropName] = useState("");
   const [addressSt, setAddressSt] = useState("");
   const [propCity, setPropCity] = useState("");
@@ -21,10 +20,11 @@ export default function Property() {
   const [available, setAvailable] = useState(false);
   const [propImages, setPropImages] = useState([]);
   const [imageNames, setImageNames] = useState([]);
+  const base64 = require('../helpers/base64');
+  //const [s3Url, sets3Url] = useState("");
 
   //mutation. 
-  const [addProperty, {data, loading, error}] = useMutation(ADD_PROPERTY);
-  
+  const [addProperty, {loading, error}] = useMutation(ADD_PROPERTY);
 
   function handleInputChange(e) {
       e.preventDefault();
@@ -44,7 +44,6 @@ export default function Property() {
           return setPropZip(value)
       }
       else if (name === 'reserveCost') {
-          
           return setReserveCost(value)
       };
   }
@@ -67,11 +66,12 @@ export default function Property() {
     propImages.push(convertedImage);
     //Use this syntax to force the component to re-render immediately as it detects a change. 
     setImageNames(imageNames => [...imageNames, imageName]);
-}
+    console.log('propImages', propImages);
+};
 
   async function handleSubmit(e) {
-      // Prevent the browser from reloading the page
       e.preventDefault();
+      // Prevent the browser from reloading the page
       //LOGIC TO ADD THE PROPERTY. 
       const propObj = {
         name: propName,
@@ -82,10 +82,15 @@ export default function Property() {
         city: propCity,
         state: propState,
         zip: propZip,
-        pictures: propImages,
+        pictures: propImages, //THIS IS NOT BEING SENT TO AN DB AT THIS TIME. 
         readyToReserve: JSON.parse(reserveReady),
         available: JSON.parse(available)
       };
+
+      const propPicArray = propObj.pictures;
+      console.log('propPicArray upon Submit: ' , propPicArray);
+
+      console.log('propObj upon Submit: ' , propObj);
 
       //Mutation being called and the propObj being passed in as the variables. 
       await addProperty({
@@ -97,23 +102,21 @@ export default function Property() {
           city: propObj.city,
           state: propObj.state,
           zip: propObj.zip,
-          pictures: propObj.pictures,
           readyToReserve: propObj.readyToReserve,
           available: propObj.available
         }
       });
-      console.log('loading' , loading);
-      if(data) {
-        console.log('data???' , data);
-      }
       if(loading) return <Loading/>;
       if(error) return `Property Add Error. . .${error.message}`;
       
- 
+      //Here we will add a query to get the property Id of the property that was just added by matching
+      //it with the property name.  
+      //We will use this property id as the key for our picture object we will uplaod to s3.  
+      
       //resetting state.
       //setPropImages([]);
       //setImageNames([]);
-      navigate('/properties');
+      //navigate('/properties');
     };
   return (
     <>
@@ -227,8 +230,8 @@ export default function Property() {
         />
       </label>
       <div>
-        {imageNames.map(img => (
-          <h5 key={img}>{img}</h5>
+        {imageNames.map((img, index) => (
+          <h5 key={img + index}>{img}</h5>
         ))}
       </div>  
     <Button type="submit">Submit New Property</Button>

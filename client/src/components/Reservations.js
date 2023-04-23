@@ -11,6 +11,18 @@ export default function Reservations() {
     const [resFn, setResFn] = useState("");
     const [resLn, setResLn] = useState("");
 
+    // function sendSMS() {
+    //   // Download the helper library from https://www.twilio.com/docs/node/install
+    //   // Set environment variables for your credentials
+    //   // Read more at http://twil.io/secure
+    //   const accountSid = "ACacbdc9d037d6afdeba610aa74b2ae090";
+    //   const authToken = "349607e7b57393ef698352f8ba48bc49";
+    //   const client = require("twilio")(accountSid, authToken);
+    //   client.messages
+    //   .create({ body: "Hello from Twilio", from: "+18556574023", to: "+16154060113" })
+    //   .then(message => console.log(message.sid));
+    // }
+
     function handleInputChange(e) {
         e.preventDefault();
         
@@ -37,6 +49,7 @@ export default function Reservations() {
             lastName: resLn
         };
         console.log('resObj: ' , resObj);
+        // sendSMS();
       };
 
     function GetCustomer({id}) {

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const PropertyMongooseSchema = new mongoose.Schema({
     name: {
         type: String,
+        required: true,
         unique: true
     },
     reserved: {
@@ -39,9 +40,6 @@ const PropertyMongooseSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
-    },
-    pictures: {
-        type: mongoose.Schema.Types.Array,
     }
 });
 

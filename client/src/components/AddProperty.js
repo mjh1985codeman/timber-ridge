@@ -13,7 +13,7 @@ export default function Property() {
   const [propName, setPropName] = useState("");
   const [addressSt, setAddressSt] = useState("");
   const [propCity, setPropCity] = useState("");
-  const [propState, setPropState] = useState("");
+  const [propState, setPropState] = useState("AL");
   const [propZip, setPropZip] = useState("");
   const [reserveCost, setReserveCost] = useState("");
   const [reserveReady, setReserveReady] = useState(false);
@@ -24,7 +24,7 @@ export default function Property() {
   //const [s3Url, sets3Url] = useState("");
 
   //mutation. 
-  const [addProperty, {loading, error}] = useMutation(ADD_PROPERTY);
+  const [addProperty, {loading, error, data}] = useMutation(ADD_PROPERTY);
 
   function handleInputChange(e) {
       e.preventDefault();
@@ -105,13 +105,17 @@ export default function Property() {
           readyToReserve: propObj.readyToReserve,
           available: propObj.available
         }
+      }).then(newPropData => {
+          const newPropId = newPropData.data.addProperty._id;
+          console.log("New Property has been added and the id is: ", newPropId);  
+          //here we can use the id of the newly added property and use that for the s3 stuff. 
       });
       if(loading) return <Loading/>;
       if(error) return `Property Add Error. . .${error.message}`;
-      
       //Here we will add a query to get the property Id of the property that was just added by matching
       //it with the property name.  
-      //We will use this property id as the key for our picture object we will uplaod to s3.  
+      //We will use this property id as the key for our picture object we will uplaod to s3.
+
       
       //resetting state.
       //setPropImages([]);

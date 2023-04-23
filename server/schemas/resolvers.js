@@ -15,8 +15,13 @@ const resolvers = {
 
         //parent has to be there even though we aren't using it. 
         getProperty: async (parent, args) => {
-            const property = await PropertyMongooseSchema.findById(args._id);
+            const property = await PropertyMongooseSchema.findById(args._id).exec();
             return property; 
+        },
+
+        getPropertyByName: async (parent, args) => {
+          const property = await PropertyMongooseSchema.findOne({name: args.name});
+          return property;
         },
 
         getReservations: async (parent, args) => {

@@ -39,6 +39,7 @@ type Customer {
 type Query {
   getProperties: [Property]
   getProperty(_id: ID!): Property
+  getPropertyByName(name: String!): Property
   getCustomer(_id: ID!): Customer
   getReservation(_id: ID!): Reservation
   getReservations: [Reservation]

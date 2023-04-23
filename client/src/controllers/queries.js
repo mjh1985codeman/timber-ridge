@@ -100,3 +100,20 @@ query Query($id: ID!) {
   }
 }
 `
+
+export const GET_PROP_BY_NAME = gql`
+query Query($name: String!) {
+  getPropertyByName(name: $name) {
+    _id
+    name
+    reserved
+    reserveCost
+    addressSt
+    city
+    state
+    zip
+    readyToReserve
+    available
+  }
+}
+`

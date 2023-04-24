@@ -43,6 +43,7 @@ type Query {
   getCustomer(_id: ID!): Customer
   getReservation(_id: ID!): Reservation
   getReservations: [Reservation]
+  getS3URL(propId: String!): String
 }
 
 type Mutation {

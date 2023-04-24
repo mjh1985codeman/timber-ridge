@@ -24,7 +24,7 @@ export default function PropertyDetails() {
         });
         if(data) {
             const property = data.getProperty;
-            const propPics = property.pictures;
+            //const propPics = property.pictures;
             // const propPicsLength = property.pictures.length;
             // console.log("This property has ", propPicsLength, " pictures.");
             // function ShowPictures() {

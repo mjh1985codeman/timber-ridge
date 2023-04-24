@@ -3,6 +3,7 @@ const PropertyMongooseSchema = require('../models/Property');
 const CustomerMongooseSchema = require('../models/Customer');
 const ReservationMongooseSchema = require('../models/Reservation');
 const Reservation = require('../models/Reservation');
+const getS3BucketURL = require('../utils/s3');
 
 
 const resolvers = {
@@ -45,7 +46,12 @@ const resolvers = {
               //THIS IS HOW YOU POPULATE THINGS FOR MODELS THAT HAVE MUTIPLE MODEL REFERENCES.
               {path: 'reservations', model: 'Reservation', populate: {path: 'property' , model: 'Property'}});
             return customer; 
-    },
+        },
+        getS3URL: async (parent, {propId}) => {
+            console.log('propId: ', propId);
+            const url = await getS3BucketURL.getURL(propId);
+            return url;
+        }
   },
 
     //Mutations

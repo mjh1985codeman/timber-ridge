@@ -3,7 +3,7 @@ const PropertyMongooseSchema = require('../models/Property');
 const CustomerMongooseSchema = require('../models/Customer');
 const ReservationMongooseSchema = require('../models/Reservation');
 const Reservation = require('../models/Reservation');
-const getS3BucketURL = require('../utils/s3');
+const s3Actions = require('../utils/s3');
 
 
 const resolvers = {
@@ -48,10 +48,10 @@ const resolvers = {
             return customer; 
         },
         getS3URL: async (parent, {propId}) => {
-            console.log('propId: ', propId);
-            const url = await getS3BucketURL.getURL(propId);
+            const url = await s3Actions.getURL(propId);
             return url;
         }
+
   },
 
     //Mutations
@@ -103,7 +103,7 @@ const resolvers = {
             }
           });
           return resData;
-        }
+        }   
     }
 };
 

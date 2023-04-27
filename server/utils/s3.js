@@ -1,4 +1,6 @@
-const {S3Client, PutObjectCommand, CreateBucketCommand} = require("@aws-sdk/client-s3");
+const S3 = require('aws-sdk/clients/s3');
+const { PutObjectCommand, S3Client } = require('@aws-sdk/client-s3');
+require('dotenv').config();
 
 const params = {
     Region: 'us-east-1',
@@ -7,29 +9,17 @@ const params = {
     secretAccessKey: process.env.S3_SECRET
 };
 
-const s3Client = new S3Client({ region: params.Region });
-console.log('s3Client: ', s3Client);
+const s3Client = new S3({ params });
 
-const getS3BucketURL = {
-    getURL: (key) => {
-        const s3bucketUrl = `A handy url plus the ${key}`;
+const s3Actions = {
+    getURL: async (propId) => {
+        const s3bucketUrl = await s3Client.getSignedUrl("putObject", {
+            Bucket: params.BucketName,
+            Key: propId,
+            Expires: 60 
+        });
         return s3bucketUrl
     }
 };
 
-// const main = async (propId, propPicObj) => {
-//     const command = new PutObjectCommand({
-//         Bucket: params.BucketName,
-//         Key: propId,
-//         Body: propPicObj,
-//     });
-
-//     try {
-//         const response = await client.send(command);
-//             console.log('response' , response);
-//         } catch (error) {
-//         console.log(error);
-//         }
-// };
-
-module.exports = getS3BucketURL;
+module.exports = s3Actions;

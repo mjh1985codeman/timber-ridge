@@ -24,7 +24,7 @@ export default function PropertyDetails() {
         });
         if(data) {
             const property = data.getProperty;
-            //const propPics = property.pictures;
+            //const propPics = I'll need to write logic here to call a get request to s3 to get the pics;
             // const propPicsLength = property.pictures.length;
             // console.log("This property has ", propPicsLength, " pictures.");
             // function ShowPictures() {

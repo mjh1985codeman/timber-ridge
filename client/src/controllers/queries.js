@@ -117,3 +117,9 @@ query Query($name: String!) {
   }
 }
 `
+
+export const GET_S3_BUCKET_URL = gql`
+query Query($propId: ID!) {
+  getS3URL(propId: $propId)
+}
+`

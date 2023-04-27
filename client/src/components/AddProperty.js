@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 //import { useNavigate } from "react-router-dom";
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Container } from 'react-bootstrap';
 import { ADD_PROPERTY } from '../controllers/mutations';
 import Loading from '../components/Loading';
+const { GET_S3_BUCKET_URL } = require('../controllers/queries');
 
 
 export default function Property() {
@@ -21,10 +22,17 @@ export default function Property() {
   const [propImages, setPropImages] = useState([]);
   const [imageNames, setImageNames] = useState([]);
   const base64 = require('../helpers/base64');
-  //const [s3Url, sets3Url] = useState("");
+  const [s3Url, sets3Url] = useState("");
 
   //mutation. 
   const [addProperty, {loading, error, data}] = useMutation(ADD_PROPERTY);
+  let propId;
+  const {s3Loading, s3Error, s3Data, refetch} = useQuery(GET_S3_BUCKET_URL, {
+    variables: {propId}
+  });
+
+  if(s3Loading) return null;
+  if(s3Error) return `Error! ${s3Error}`;
 
   function handleInputChange(e) {
       e.preventDefault();
@@ -68,7 +76,6 @@ export default function Property() {
     setImageNames(imageNames => [...imageNames, imageName]);
     console.log('propImages', propImages);
 };
-
   async function handleSubmit(e) {
       e.preventDefault();
       // Prevent the browser from reloading the page
@@ -82,7 +89,7 @@ export default function Property() {
         city: propCity,
         state: propState,
         zip: propZip,
-        pictures: propImages, //THIS IS NOT BEING SENT TO AN DB AT THIS TIME. 
+        pictures: propImages, //THIS IS WHAT WE ARE SENDING TO S3. 
         readyToReserve: JSON.parse(reserveReady),
         available: JSON.parse(available)
       };
@@ -105,10 +112,20 @@ export default function Property() {
           readyToReserve: propObj.readyToReserve,
           available: propObj.available
         }
-      }).then(newPropData => {
+      }).then( async newPropData => {
           const newPropId = newPropData.data.addProperty._id;
-          console.log("New Property has been added and the id is: ", newPropId);  
+          propId = newPropId
+          console.log("New Property has been added and the id is: ", propId);  
           //here we can use the id of the newly added property and use that for the s3 stuff. 
+          const s3BucketURL = await refetch({propId: propId});
+          if(s3BucketURL) {
+            const s3PresignedURL = s3BucketURL.data.getS3URL;
+            console.log('s3PresignedURL: ' , s3PresignedURL);
+            //Write logic here to send a request to the s3 bucket with the prop pictures using the
+            //presigned URL.  
+          } else {
+            return "There was an error getting the s3 Bucket URL."
+          }
       });
       if(loading) return <Loading/>;
       if(error) return `Property Add Error. . .${error.message}`;

@@ -1,23 +1,27 @@
-const S3 = require('aws-sdk/clients/s3');
-const { PutObjectCommand, S3Client } = require('@aws-sdk/client-s3');
+const AWS = require('aws-sdk');
 require('dotenv').config();
+
 
 const params = {
     Region: 'us-east-1',
     BucketName: 'tr-prop-bucket',
-    s3keyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET
+    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+    signatureVersion: 'v4'
 };
 
-const s3Client = new S3({ params });
+const s3Client = new AWS.S3(params);
 
 const s3Actions = {
     getURL: async (propId) => {
+        const fileName = `${propId}.json`
         const s3bucketUrl = await s3Client.getSignedUrl("putObject", {
             Bucket: params.BucketName,
-            Key: propId,
-            Expires: 60 
+            Key: fileName,
+            Expires: 60,
+            ContentType: 'application/json'
         });
+        console.log("s3bucketUrl: ", s3bucketUrl)
         return s3bucketUrl
     }
 };

@@ -22,7 +22,6 @@ export default function Property() {
   const [propImages, setPropImages] = useState([]);
   const [imageNames, setImageNames] = useState([]);
   const base64 = require('../helpers/base64');
-  const [s3Url, sets3Url] = useState("");
 
   //mutation. 
   const [addProperty, {loading, error, data}] = useMutation(ADD_PROPERTY);
@@ -65,6 +64,34 @@ export default function Property() {
         return setAvailable(value)
     };
   }
+
+  function sendPicsToS3(url, picArray) {
+    // Convert the JSON object to a string and create a Blob object from it
+    console.log('this is the url we are using to send the pics to s3: ' , url);
+    console.log('this is the array of images we are sending: ', picArray);
+    //get the signature from the url. 
+    ///const signature = url.toString().split('Signature=')[1];
+    const jsonPicArray = { images: picArray} ;
+    const jsonPicArrayStr = JSON.stringify({jsonPicArray});
+
+    // Send a PUT request to the presigned URL with the FormData object as the body
+    fetch((url), {
+    method: 'PUT',
+    body: jsonPicArrayStr,
+    })
+    .then((response) => {
+      if (response.ok) {
+        console.log('Upload successful');
+      } else {
+        console.error('Upload failed with status', response.status);
+        return response;
+      }
+    })
+    .catch((error) => {
+      console.error('Error sending request to s3:', error);
+      return error;
+    });  
+  };
   
   async function handleFileUpload (e){
     e.preventDefault();
@@ -74,7 +101,6 @@ export default function Property() {
     propImages.push(convertedImage);
     //Use this syntax to force the component to re-render immediately as it detects a change. 
     setImageNames(imageNames => [...imageNames, imageName]);
-    console.log('propImages', propImages);
 };
   async function handleSubmit(e) {
       e.preventDefault();
@@ -95,9 +121,6 @@ export default function Property() {
       };
 
       const propPicArray = propObj.pictures;
-      console.log('propPicArray upon Submit: ' , propPicArray);
-
-      console.log('propObj upon Submit: ' , propObj);
 
       //Mutation being called and the propObj being passed in as the variables. 
       await addProperty({
@@ -115,25 +138,20 @@ export default function Property() {
       }).then( async newPropData => {
           const newPropId = newPropData.data.addProperty._id;
           propId = newPropId
-          console.log("New Property has been added and the id is: ", propId);  
           //here we can use the id of the newly added property and use that for the s3 stuff. 
           const s3BucketURL = await refetch({propId: propId});
           if(s3BucketURL) {
             const s3PresignedURL = s3BucketURL.data.getS3URL;
-            console.log('s3PresignedURL: ' , s3PresignedURL);
-            //Write logic here to send a request to the s3 bucket with the prop pictures using the
-            //presigned URL.  
+            //call the function that sends a request to the s3 bucket with the prop pictures using the
+            //presigned URL.
+            sendPicsToS3(s3PresignedURL, propPicArray);
           } else {
             return "There was an error getting the s3 Bucket URL."
           }
       });
       if(loading) return <Loading/>;
       if(error) return `Property Add Error. . .${error.message}`;
-      //Here we will add a query to get the property Id of the property that was just added by matching
-      //it with the property name.  
-      //We will use this property id as the key for our picture object we will uplaod to s3.
 
-      
       //resetting state.
       //setPropImages([]);
       //setImageNames([]);

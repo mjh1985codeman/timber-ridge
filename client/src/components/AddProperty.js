@@ -67,10 +67,6 @@ export default function Property() {
 
   function sendPicsToS3(url, picArray) {
     // Convert the JSON object to a string and create a Blob object from it
-    console.log('this is the url we are using to send the pics to s3: ' , url);
-    console.log('this is the array of images we are sending: ', picArray);
-    //get the signature from the url. 
-    ///const signature = url.toString().split('Signature=')[1];
     const jsonPicArray = { images: picArray} ;
     const jsonPicArrayStr = JSON.stringify({jsonPicArray});
 
@@ -83,7 +79,7 @@ export default function Property() {
       if (response.ok) {
         console.log('Upload successful');
       } else {
-        console.error('Upload failed with status', response.status);
+        console.error('Upload failed with status', response);
         return response;
       }
     })
@@ -108,7 +104,7 @@ export default function Property() {
       //LOGIC TO ADD THE PROPERTY. 
       const propObj = {
         name: propName,
-        //hardcoding reserved to false for now. 
+        //hardcoding reserved to false as this would be changed if/when the property is reserved. 
         reserved: false,
         reserveCost: JSON.parse(reserveCost),
         addressSt: addressSt,

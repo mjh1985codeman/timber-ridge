@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from '@apollo/client';
 import { Container } from 'react-bootstrap';
 import { ADD_PROPERTY } from '../controllers/mutations';
@@ -10,7 +10,7 @@ const { GET_S3_BUCKET_URL } = require('../controllers/queries');
 
 
 export default function Property() {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const [propName, setPropName] = useState("");
   const [addressSt, setAddressSt] = useState("");
   const [propCity, setPropCity] = useState("");
@@ -66,9 +66,8 @@ export default function Property() {
   }
 
   function sendPicsToS3(url, picArray) {
-    // Convert the JSON object to a string and create a Blob object from it
-    const jsonPicArray = { images: picArray} ;
-    const jsonPicArrayStr = JSON.stringify({jsonPicArray});
+    const jsonPicArrayObj = { images: picArray};
+    const jsonPicArrayStr = JSON.stringify({jsonPicArrayObj});
 
     // Send a PUT request to the presigned URL with the FormData object as the body
     fetch((url), {
@@ -77,7 +76,7 @@ export default function Property() {
     })
     .then((response) => {
       if (response.ok) {
-        console.log('Upload successful');
+        navigate(`/properties/${propId}`);
       } else {
         console.error('Upload failed with status', response);
         return response;
@@ -147,11 +146,6 @@ export default function Property() {
       });
       if(loading) return <Loading/>;
       if(error) return `Property Add Error. . .${error.message}`;
-
-      //resetting state.
-      //setPropImages([]);
-      //setImageNames([]);
-      //navigate('/properties');
     };
   return (
     <>

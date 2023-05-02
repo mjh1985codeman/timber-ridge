@@ -48,7 +48,6 @@ const resolvers = {
             return customer; 
         },
         getS3URL: async (parent, {propId}) => {
-            console.log("do you see this here? " , propId);
             const url = await s3Actions.getURL(propId);
             return url;
         }

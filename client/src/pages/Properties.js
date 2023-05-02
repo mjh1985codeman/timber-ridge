@@ -4,7 +4,7 @@ import {Container} from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
 import { useNavigate} from "react-router-dom";
 import Loading from '../components/Loading.js';
-const {GET_PROPERTIES} = require('../controllers/queries');
+const {GET_PROPERTIES} = require('../controllers/queries.js');
 
 
 export default function Properties(props) {
@@ -17,6 +17,9 @@ export default function Properties(props) {
     if(propData.data) {
       const propArray = propData.data.getProperties;
         return<>
+        <div className='btn-div'>
+        <button type='click' onClick={RedirectToAddProperty} className='addPropBtn'>Add a Property</button>
+        </div>
         <div className='propertylist'>
         {propArray.map(property => (
         <div key={property._id} className='propertyCard'>
@@ -27,7 +30,6 @@ export default function Properties(props) {
         <h5>{property.city}, {property.state} {property.zip}</h5>
         </div>  
         ))}
-        <button type='click' onClick={RedirectToAddProperty} className='addPropBtn'>Add a Property</button>
         </div>  
         </>
     } else if(propData.loading) {

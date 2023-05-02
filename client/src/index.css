@@ -246,14 +246,15 @@ html {
 
 /* Properties Component Styling  */
 .propertylist {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
   background-color: hsla(210, 10%, 73%, 0.418);
   justify-content: center;
   flex-direction: column;
   align-items: center;
   font-family: 'Cardo', sans-serif;
   font-size: 20px;
-  padding: 7px;
   color: var(--text-color);
   border-radius: 15px;
   box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
@@ -264,15 +265,13 @@ html {
 }
 
 .propertyCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   border: solid hsla(0, 0%, 15%, 0.349) 0.2vh;
   background-color: hsla(212, 82%, 15%, 0.425);
   box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.562);
   border-radius: 15px;
   margin: 1vh;
   padding: 10px;
+  text-align: center;
 }
 
 .propertyCard h2 {
@@ -291,18 +290,43 @@ html {
   color: rgba(255, 255, 255, 0.541) !important;
 }
 
+.btn-div {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin: 1vh;
+}
+
 .addPropBtn {
   background-color: hsla(220, 4%, 15%, 0.781);
   margin-top: 1vh;
   color: hsl(0, 0%, 100%);
   border: solid hsl(0, 0%, 100%) 1px;
   border-radius: 10px;
+  padding: 5px;
+  min-width: 15vh;
 }
 
 .addPropBtn:hover {
   opacity: 0.8;
 }
 
+/* Media Query Stylings for Properties page.  */
+@media screen and (max-width: 992px) {
+  .propertylist {
+    display: flex;
+    padding: 5px;
+    background-color: hsla(210, 10%, 73%, 0.418);
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Cardo', sans-serif;
+    font-size: 20px;
+    color: var(--text-color);
+    border-radius: 15px;
+    box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
+  }
+}
 
 /* Add Property Stylings.  */
 
@@ -350,6 +374,20 @@ html {
 }
 
 /* Property Detail Stylings */
+.propDetailDiv {
+  display: flex;
+  padding: 5px;
+  background-color: hsla(210, 10%, 73%, 0.418);
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Cardo', sans-serif;
+  font-size: 20px;
+  color: var(--text-color);
+  border-radius: 15px;
+  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
+}
+
 .propimg {
   max-height: 700px;
   border: solid white 1px;

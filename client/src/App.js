@@ -3,15 +3,15 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
-import Home from "./components/Home";
-import Records from "./components/Records";
-import Contact from "./components/Contact";
+import Home from "./pages/Home";
+import Records from "./pages/Records";
+import Contact from "./pages/Contact";
 import NavItem from "./components/NavItem";
-import Packages from "./components/Packages";
-import Properties from "./components/Properties";
-import Reservations from "./components/Reservations";
-import AddProperty from "./components/AddProperty";
-import PropertyDetails from "./components/PropertyDetails";
+import Packages from "./pages/Packages";
+import Properties from "./pages/Properties";
+import Reservations from "./pages/Reservations";
+import AddProperty from "./pages/AddProperty";
+import PropertyDetails from "./pages/PropertyDetails";
 
 function App() {
   return (

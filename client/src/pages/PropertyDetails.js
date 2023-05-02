@@ -23,7 +23,7 @@ export default function PropertyDetails() {
             const property = data.getProperty;
             const propId = data.getProperty._id;
             return<>
-            <div className='propertylist'>
+            <div className='propDetailDiv'>
             <div key={property._id} className='propertyCard'>
             <h2>{property.name}</h2>
             <h5>{property.addressSt}</h5> 

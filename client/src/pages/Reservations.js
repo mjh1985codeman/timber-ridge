@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Container } from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
-const {GET_RESERVATIONS, GET_CUSTOMER_BY_ID} = require('../controllers/queries');
+//const {GET_RESERVATIONS, GET_CUSTOMER_BY_ID} = require('../controllers/queries');
 
 export default function Reservations() {
     const [resBd, setResBd] = useState("");
@@ -39,33 +39,33 @@ export default function Reservations() {
         console.log('resObj: ' , resObj);
       };
 
-    function GetCustomer({id}) {
-      const {loading, error, data} = useQuery(GET_CUSTOMER_BY_ID, {
-        variables: {id},
-      });
+    // function GetCustomer({id}) {
+    //   const {loading, error, data} = useQuery(GET_CUSTOMER_BY_ID, {
+    //     variables: {id},
+    //   });
       
-      if(loading) return null;
-      if (error) return `Error!!! ${error}`;
+    //   if(loading) return null;
+    //   if (error) return `Error!!! ${error}`;
       
-      console.log("data" , data);
-    };
+    //   console.log("data" , data);
+    // };
     
-    GetCustomer({id: '6420e414c5b6c8d3054a552f'});
+    // GetCustomer({id: '6420e414c5b6c8d3054a552f'});
 
-    function GetReservations() {
-      const { loading, error, data } = useQuery(GET_RESERVATIONS);
-      if (loading) return 'Loading...';
-      if (error) return `Error! ${error.message}`;
-      if(data) {
-        const resArray = data.getReservations;
-        resArray.forEach(res => {
-          console.log(res);
-        })
-      } 
-    }
+    // function GetReservations() {
+    //   const { loading, error, data } = useQuery(GET_RESERVATIONS);
+    //   if (loading) return 'Loading...';
+    //   if (error) return `Error! ${error.message}`;
+    //   if(data) {
+    //     const resArray = data.getReservations;
+    //     resArray.forEach(res => {
+    //       console.log(res);
+    //     })
+    //   } 
+    // }
     
     
-    GetReservations();
+    // GetReservations();
     
 
       return (

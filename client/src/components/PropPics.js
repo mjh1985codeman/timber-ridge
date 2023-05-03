@@ -18,16 +18,12 @@ export default function PropPics({propIdForPics}) {
     }, []);
 
     function updateImageArray(obj) {
-        
         const pictures = obj.jsonPicArrayObj.images;
-        console.log('pictures in the updateImage Array function: ' , pictures);
         setpicArray([]);
         pictures.forEach(pic => {
             setpicArray(picArray => [...picArray, pic]);
         });
     }
-
-        console.log('what is the length? ', picArray.length); 
         if(picArray.length > 0) {
             return (
             <>
@@ -44,7 +40,7 @@ export default function PropPics({propIdForPics}) {
             </Carousel> 
             </>
             )
-        } else {
+        }else {
         return <Loading/>
         }
 };

@@ -226,7 +226,7 @@ export default function Property() {
       </Form.Label>
       <Form.Label className='formlabel'>
         <h3>Cost to Reserve this Property</h3>
-        <input className='calinput' type="number" name="reserveCost" value={reserveCost} onChange={handleInputChange}/>
+        <input className='calinput' type="number" step={0.01} name="reserveCost" value={reserveCost} onChange={handleInputChange}/>
       </Form.Label>
       <Form.Label className='formlabel'>
         <h3>Ready To Reserve?</h3>

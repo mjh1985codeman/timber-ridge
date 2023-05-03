@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 
 const ReservationMongooseSchema = new mongoose.Schema({
     dateBooked: {
-        type: mongoose.Schema.Types.String,
+        type: mongoose.Schema.Types.Date,
         default: Date.now,
         required: true
     },
     beginDate: {
-        type: mongoose.Schema.Types.String,
+        type: mongoose.Schema.Types.Date,
         required: true
     },
     endDate: {
-        type: mongoose.Schema.Types.String,
+        type: mongoose.Schema.Types.Date,
         required: true
     },
     downPaymentPaid: {
@@ -19,11 +19,11 @@ const ReservationMongooseSchema = new mongoose.Schema({
         required: true
     },
     totalPrice: {
-        type: Number,
+        type: mongoose.Types.Decimal128,
         required: true
     },
     balance: {
-        type: Number,
+        type: mongoose.Types.Decimal128,
         required: true
     },
     paidInFull: {

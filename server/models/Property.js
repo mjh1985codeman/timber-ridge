@@ -12,7 +12,7 @@ const PropertyMongooseSchema = new mongoose.Schema({
         default: false
     },
     reserveCost: {
-        type: mongoose.Types.Decimal128,
+        type: Number,
         required: true
     },
     addressSt: {

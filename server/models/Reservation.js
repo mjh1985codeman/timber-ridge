@@ -19,11 +19,11 @@ const ReservationMongooseSchema = new mongoose.Schema({
         required: true
     },
     totalPrice: {
-        type: mongoose.Types.Decimal128,
+        type: Number,
         required: true
     },
     balance: {
-        type: mongoose.Types.Decimal128,
+        type: Number,
         required: true
     },
     paidInFull: {

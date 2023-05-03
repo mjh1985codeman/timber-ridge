@@ -77,7 +77,7 @@ const resolvers = {
               { $push: {reservations: reservation._id}},
               {new: true}
             );
-            return reservation;
+            return reservation
         },
 
         deleteReservation: async (parent, args) => {

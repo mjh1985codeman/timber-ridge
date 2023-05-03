@@ -15,7 +15,7 @@ export default function Property() {
   const [addressSt, setAddressSt] = useState("");
   const [propCity, setPropCity] = useState("");
   const [propState, setPropState] = useState("AL");
-  const [propZip, setPropZip] = useState("");
+  const [propZip, setPropZip] = useState(null);
   const [reserveCost, setReserveCost] = useState("");
   const [reserveReady, setReserveReady] = useState(false);
   const [available, setAvailable] = useState(false);
@@ -109,7 +109,7 @@ export default function Property() {
         addressSt: addressSt,
         city: propCity,
         state: propState,
-        zip: propZip,
+        zip: JSON.parse(propZip),
         pictures: propImages, //THIS IS WHAT WE ARE SENDING TO S3. 
         readyToReserve: JSON.parse(reserveReady),
         available: JSON.parse(available)

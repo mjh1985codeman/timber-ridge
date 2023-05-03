@@ -2,16 +2,14 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-scalar Money
-scalar Date
 
 type Reservation {
   _id: ID!
-  beginDate: Date
-  endDate: Date
+  beginDate: String
+  endDate: String
   downPaymentPaid: Boolean
-  totalPrice: Money
-  balance: Money
+  totalPrice: Float
+  balance: Float
   paidInFull: Boolean
   property: Property
   customer: Customer
@@ -21,7 +19,7 @@ type Property {
   _id: ID!
   name: String
   reserved: Boolean
-  reserveCost: Money
+  reserveCost: Float
   addressSt: String
   city: String
   state: String
@@ -50,9 +48,9 @@ type Query {
 }
 
 type Mutation {
-  addProperty(name: String, reserved: Boolean, reserveCost: Money, addressSt: String, city: String, state: String, zip: String, readyToReserve: Boolean, available: Boolean): Property
+  addProperty(name: String, reserved: Boolean, reserveCost: Float, addressSt: String, city: String, state: String, zip: Int, readyToReserve: Boolean, available: Boolean): Property
   addCustomer(firstName: String, lastName: String, phone: String, email: String): Customer
-  addReservation(beginDate: Date, endDate: Date, downPaymentPaid: Boolean, totalPrice: Money, balance: Money, paidInFull: Boolean, property: ID, customer: ID): Reservation
+  addReservation(beginDate: String, endDate: String, downPaymentPaid: Boolean, totalPrice: Float, balance: Float, paidInFull: Boolean, property: ID, customer: ID): Reservation
   deleteReservation(_id: ID!):Reservation
 }
 `;

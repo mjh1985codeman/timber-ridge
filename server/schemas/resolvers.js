@@ -1,9 +1,10 @@
 const {GraphQLError} = require('graphql');
 const PropertyMongooseSchema = require('../models/Property');
-const CustomerMongooseSchema = require('../models/Customer');
+const UserMongooseSchema = require('../models/User');
 const ReservationMongooseSchema = require('../models/Reservation');
 const Reservation = require('../models/Reservation');
 const s3Actions = require('../utils/s3');
+const { signToken } = require('../utils/auth');
 
 
 const resolvers = {
@@ -29,7 +30,7 @@ const resolvers = {
             const reservations = await ReservationMongooseSchema.find().populate(
               {path: 'property', model: 'Property'})
               .populate(
-              {path: 'customer', model: 'Customer'});
+              {path: 'customer', model: 'User'});
             return reservations;
         },
 
@@ -37,15 +38,15 @@ const resolvers = {
             const reservation = await ReservationMongooseSchema.findById(args._id).populate(
               {path: 'property', model: 'Property'})
               .populate(
-              {path: 'customer', model: 'Customer'});
+              {path: 'customer', model: 'User'});
               return reservation;
         },
 
-        getCustomer: async (parent, args) => {
-            const customer = await CustomerMongooseSchema.findById(args._id).populate(
+        getUser: async (parent, args) => {
+            const user = await UserMongooseSchema.findById(args._id).populate(
               //THIS IS HOW YOU POPULATE THINGS FOR MODELS THAT HAVE MUTIPLE MODEL REFERENCES.
               {path: 'reservations', model: 'Reservation', populate: {path: 'property' , model: 'Property'}});
-            return customer; 
+            return user; 
         },
         getS3URL: async (parent, {propId}) => {
             const url = await s3Actions.getURL(propId);
@@ -57,13 +58,15 @@ const resolvers = {
     //Mutations
     Mutation: {
         addProperty: async (parent, args, context) => {
+            console.log('context: ' , context);
             const property = await PropertyMongooseSchema.create(args);
             return property;
         },
 
-        addCustomer: async (parent, args, context) => {
-            const customer = await CustomerMongooseSchema.create(args);
-            return customer;
+        addUser: async (parent, args) => {
+            const user = await UserMongooseSchema.create(args);
+            const token = signToken(user);
+            return {token, user};
         },
         //Again because this mutation is utilizing Mongo's 'ObjectId' property we need the 'parent' argument here
         //even though it's not being used.  
@@ -72,7 +75,7 @@ const resolvers = {
               property: args.property,
               customer: args.customer,
             });
-            await CustomerMongooseSchema.findByIdAndUpdate(
+            await UserMongooseSchema.findByIdAndUpdate(
               { _id: args.customer},
               { $push: {reservations: reservation._id}},
               {new: true}
@@ -87,15 +90,15 @@ const resolvers = {
           if(!resData) {
             throw new GraphQLError("Invalid Reservation Delete Request.");
           }
-          const customerId = resData.customer;
+          const userId = resData.user;
           //delete the reservation from the Reservations table.
           await ReservationMongooseSchema.deleteOne({...args,
           _id: args._id,
           }).then( async res => {
             if(res.deletedCount > 0) {
             //logic here to remove the reservation from the customer's 'reservations' array.
-            await CustomerMongooseSchema.findByIdAndUpdate(
-            {_id: customerId},
+            await UserMongooseSchema.findByIdAndUpdate(
+            {_id: userId},
             {$pull: {reservations: args._id}}
             );
             } else {

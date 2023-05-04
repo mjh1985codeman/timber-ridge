@@ -12,7 +12,7 @@ type Reservation {
   balance: Float
   paidInFull: Boolean
   property: Property
-  customer: Customer
+  customer: User
 }
 
 type Property {
@@ -28,20 +28,26 @@ type Property {
   available: Boolean
 }
 
-type Customer {
+type User {
   _id: ID!
   firstName: String
   lastName: String
   phone: String
   email: String
+  role: String
   reservations: [Reservation]
+}
+
+type Auth {
+  token: ID
+  user: User
 }
 
 type Query {
   getProperties: [Property]
   getProperty(_id: ID!): Property
   getPropertyByName(name: String!): Property
-  getCustomer(_id: ID!): Customer
+  getUser(_id: ID!): User
   getReservation(_id: ID!): Reservation
   getReservations: [Reservation]
   getS3URL(propId: ID!): String
@@ -49,8 +55,8 @@ type Query {
 
 type Mutation {
   addProperty(name: String, reserved: Boolean, reserveCost: Float, addressSt: String, city: String, state: String, zip: Int, readyToReserve: Boolean, available: Boolean): Property
-  addCustomer(firstName: String, lastName: String, phone: String, email: String): Customer
-  addReservation(beginDate: String, endDate: String, downPaymentPaid: Boolean, totalPrice: Float, balance: Float, paidInFull: Boolean, property: ID, customer: ID): Reservation
+  addUser(firstName: String!, lastName: String!, phone: String, email: String!, role: String, password: String!): Auth
+  addReservation(beginDate: String, endDate: String, downPaymentPaid: Boolean, totalPrice: Float, balance: Float, paidInFull: Boolean, property: ID, user: ID): Reservation
   deleteReservation(_id: ID!):Reservation
 }
 `;

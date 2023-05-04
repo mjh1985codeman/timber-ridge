@@ -2,6 +2,7 @@ const connectDB = require('./config/db');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
+const { authMiddleware } = require('./utils/auth');
 const { ApolloServerPluginDrainHttpServer } = require('@apollo/server/plugin/drainHttpServer');
 const express = require('express');
 const http = require('http');
@@ -16,7 +17,8 @@ const httpServer = http.createServer(app);
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  //will set context to our auth logic once that is done. 
+  //will set context to our auth logic once that is done.
+  context: authMiddleware, 
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 

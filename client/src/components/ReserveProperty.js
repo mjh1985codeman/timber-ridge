@@ -3,13 +3,16 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Container } from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
+import {useParams, useNavigate } from 'react-router-dom';
 //const {GET_RESERVATIONS, GET_CUSTOMER_BY_ID} = require('../controllers/queries');
 
-export default function Reservations() {
+export default function ReserveProperty() {
     const [resBd, setResBd] = useState("");
     const [resEd, setResEd] = useState("");
     const [resFn, setResFn] = useState("");
     const [resLn, setResLn] = useState("");
+
+    let { propertyId } = useParams();
 
     function handleInputChange(e) {
         e.preventDefault();
@@ -37,6 +40,7 @@ export default function Reservations() {
             lastName: resLn
         };
         console.log('resObj: ' , resObj);
+        alert(`${resObj.firstName} ${resObj.lastName} submitted reservation request for property ${propertyId}`);
       };
 
     // function GetCustomer({id}) {

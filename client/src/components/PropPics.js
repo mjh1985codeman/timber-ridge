@@ -4,21 +4,29 @@ import Loading from '../components/Loading';
 
 export default function PropPics({propIdForPics}) {
     const [picArray, setpicArray] = useState([]);
+    const [hasPics, setHasPics] = useState(true);
 
     const url = `https://s3.amazonaws.com/tr-prop-bucket/${propIdForPics}.json`;
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await fetch(url);
+            if(result.status === 403) {
+                setHasPics(false);
+            };
             result.json().then(json => {
                 updateImageArray(json);
-            });
+            })
+            .catch(error => {
+                return error;
+            })
         }
         fetchData();
-    }, []);
+    }, [url]);
 
     function updateImageArray(obj) {
         const pictures = obj.jsonPicArrayObj.images;
+        //putting this here so that state doesn't get duplicated.
         setpicArray([]);
         pictures.forEach(pic => {
             setpicArray(picArray => [...picArray, pic]);
@@ -29,9 +37,9 @@ export default function PropPics({propIdForPics}) {
             <>
             <Carousel>
             {picArray.map(pic => (
-                <Carousel.Item key={pic} className="carousel-item">
+                <Carousel.Item  key={propIdForPics + Math.random()} className="carousel-item">
                     <img
-                    className="d-block propimg w-100"
+                    className="d-block propimg w-100 img-fluid"
                     src={pic}
                     alt="A Picture of the property."
                     />
@@ -40,7 +48,9 @@ export default function PropPics({propIdForPics}) {
             </Carousel> 
             </>
             )
-        }else {
+        } else if (!hasPics) {
+            return <div>No Pictures Available at this time.</div>
+        } else {
         return <Loading/>
         }
 };

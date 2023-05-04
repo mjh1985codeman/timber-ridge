@@ -1,7 +1,6 @@
 import React from 'react'
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate } from 'react-router-dom';
 import {Container} from 'react-bootstrap';
-
 import Loading from '../components/Loading';
 import PropPics from '../components/PropPics';
 import { useQuery } from '@apollo/client';
@@ -10,8 +9,10 @@ const {GET_PROPERTY_BY_ID} = require('../controllers/queries');
 export default function PropertyDetails() {
     //look at the Path on the App.js file for this component to see why we use propertyId here.  
     let { propertyId } = useParams();
+    const navigate = useNavigate();
     function RedirectToAddReservation() {
-        alert(`They want to reserve this property: ` + propertyId);
+        const reservePropId = propertyId;
+        navigate(`/reserve/${propertyId}`, reservePropId);
     };
     
 
@@ -23,7 +24,7 @@ export default function PropertyDetails() {
             const property = data.getProperty;
             const propId = data.getProperty._id;
             return<>
-            <div className='propDetailDiv'>
+            <div className='propDetailDiv' key={propertyId}>
             <div key={property._id} className='propertyCard'>
             <h2>{property.name}</h2>
             <h5>{property.addressSt}</h5> 
@@ -42,7 +43,7 @@ export default function PropertyDetails() {
     return (
         <>
         <Container>  
-        <div className='propListDiv'>
+        <div className='propListDiv' key={propertyId}>
         {GetProperty({id: propertyId})}
         </div>
         </Container>    

@@ -9,7 +9,7 @@ import Contact from "./pages/Contact";
 import NavItem from "./components/NavItem";
 import Packages from "./pages/Packages";
 import Properties from "./pages/Properties";
-import Reservations from "./pages/Reservations";
+import ReserveProperty from "./components/ReserveProperty";
 import AddProperty from "./pages/AddProperty";
 import PropertyDetails from "./pages/PropertyDetails";
 
@@ -23,17 +23,16 @@ function App() {
         <NavItem to="/records" text="Records"/>
         <NavItem to="/contact" text="Contact"/>
         <NavItem to="/properties" text="Properties"/>
-        <NavItem to="/reservations" text="Reservations" />
       </Navigation>
       <Routes>
         <Route exact path="/" element={<Home/>} />
         <Route exact path="/packages"element={<Packages/>} />
         <Route exact path="/records" element={<Records/>} />
         <Route exact path="/contact"element={<Contact/>} />
-        <Route exact path="/reservations"element={<Reservations/>} />
         <Route exact path="/properties"element={<Properties/>} />
         <Route exact path="/properties/addproperty" element={<AddProperty/>} />
         <Route exact path="/properties/:propertyId" element={<PropertyDetails/>}/>
+        <Route exact path="/reserve/:propertyId" element={<ReserveProperty/>}/>
         <Route
           render={() => (
             <h1 className="display-2">

@@ -56,8 +56,9 @@ type Query {
 type Mutation {
   addProperty(name: String, reserved: Boolean, reserveCost: Float, addressSt: String, city: String, state: String, zip: Int, readyToReserve: Boolean, available: Boolean): Property
   addUser(firstName: String!, lastName: String!, phone: String, email: String!, role: String, password: String!): Auth
-  addReservation(beginDate: String, endDate: String, downPaymentPaid: Boolean, totalPrice: Float, balance: Float, paidInFull: Boolean, property: ID, user: ID): Reservation
+  addReservation(beginDate: String, endDate: String, downPaymentPaid: Boolean, totalPrice: Float, balance: Float, paidInFull: Boolean, property: ID, customer: ID): Reservation
   deleteReservation(_id: ID!):Reservation
+  login(email: String!, password: String!): Auth
 }
 `;
 

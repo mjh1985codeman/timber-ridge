@@ -39,7 +39,7 @@ const UserMongooseSchema = new mongoose.Schema({
 // set up pre-save middleware to create password
 UserMongooseSchema.pre('save', async function(next) {
     if (this.isNew || this.isModified('password')) {
-      const saltRounds = 15;
+      const saltRounds = 10;
       this.password = await bcrypt.hash(this.password, saltRounds);
     }
   

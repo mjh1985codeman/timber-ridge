@@ -2,9 +2,9 @@ const {GraphQLError} = require('graphql');
 const PropertyMongooseSchema = require('../models/Property');
 const UserMongooseSchema = require('../models/User');
 const ReservationMongooseSchema = require('../models/Reservation');
-const Reservation = require('../models/Reservation');
 const s3Actions = require('../utils/s3');
 const { signToken } = require('../utils/auth');
+const { AuthenticationError } = require('apollo-server-express');
 
 
 const resolvers = {
@@ -58,7 +58,6 @@ const resolvers = {
     //Mutations
     Mutation: {
         addProperty: async (parent, args, context) => {
-            console.log('context: ' , context);
             const property = await PropertyMongooseSchema.create(args);
             return property;
         },
@@ -68,9 +67,27 @@ const resolvers = {
             const token = signToken(user);
             return {token, user};
         },
+
+        login: async (parent, args) => {
+            const user = await UserMongooseSchema.findOne({email: args.email});
+
+            if(!user) {
+              throw new AuthenticationError('Incorrect email or password.')
+            }
+
+            const correctpw = await user.isCorrectPassword(args.password);
+
+            if (!correctpw) {
+              throw new AuthenticationError('Incorrect email or Password.')
+            }
+
+            const token = signToken(user);
+            return {token, user};
+        },
         //Again because this mutation is utilizing Mongo's 'ObjectId' property we need the 'parent' argument here
         //even though it's not being used.  
-        addReservation: async (parent, args) => {
+        addReservation: async (parent, args, context) => {
+            //console.log('context: ' , context);
             const reservation = await ReservationMongooseSchema.create({...args,
               property: args.property,
               customer: args.customer,

@@ -58,8 +58,12 @@ const resolvers = {
     //Mutations
     Mutation: {
         addProperty: async (parent, args, context) => {
+          if(context.user && context.user.role.toLowerCase() === 'admin') {
             const property = await PropertyMongooseSchema.create(args);
             return property;
+          } else {
+            throw new AuthenticationError('You must Be Logged in as an Admin to add a Property.')
+          }
         },
 
         addUser: async (parent, args) => {
@@ -87,7 +91,7 @@ const resolvers = {
         //Again because this mutation is utilizing Mongo's 'ObjectId' property we need the 'parent' argument here
         //even though it's not being used.  
         addReservation: async (parent, args, context) => {
-            //console.log('context: ' , context);
+            console.log('context: ' , context);
             const reservation = await ReservationMongooseSchema.create({...args,
               property: args.property,
               customer: args.customer,

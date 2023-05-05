@@ -12,6 +12,7 @@ import Properties from "./pages/Properties";
 import ReserveProperty from "./components/ReserveProperty";
 import AddProperty from "./pages/AddProperty";
 import PropertyDetails from "./pages/PropertyDetails";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       </Navigation>
       <Routes>
         <Route exact path="/" element={<Home/>} />
+        <Route exact path="/login" element={<Login/>} />
         <Route exact path="/packages"element={<Packages/>} />
         <Route exact path="/records" element={<Records/>} />
         <Route exact path="/contact"element={<Contact/>} />

@@ -24,7 +24,6 @@ authMiddleware: function ({ req }) {
 
     try {
     const { data } = jwt.verify(token, secret, { maxAge: expiration });
-    console.log('***authMiddleware Request:***:  ' , req);
     req.user = data;
     }
     catch (error) {
@@ -34,7 +33,6 @@ authMiddleware: function ({ req }) {
   },
     signToken: function ({ email, role, _id }) {
     const payload = { email, role, _id };
-    console.log('**signToken Payload**: ' , payload);
     
     return jwt.sign(
       { data: payload },

@@ -1,16 +1,15 @@
 //This component serves as the list of properties and the ability to upload new properties.
-import React, {useState} from 'react';
+import React from 'react';
 import {Container} from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
 import { useNavigate} from "react-router-dom";
 import Loading from '../components/Loading.js';
+import Auth from '../helpers/auth.js';
 const {GET_PROPERTIES} = require('../controllers/queries.js');
 
 
 export default function Properties(props) {
   const navigate = useNavigate();
-  //TODO update logic so that Properties is using state to render on the page the correct / react way.
-  const [properties, setProperties] = useState([]);
 
   function GetProperties() {
     const propData = useQuery(GET_PROPERTIES);
@@ -18,7 +17,12 @@ export default function Properties(props) {
       const propArray = propData.data.getProperties;
         return<>
         <div className='btn-div'>
+        {Auth.loggedIn() ? (
         <button type='click' onClick={RedirectToAddProperty} className='addPropBtn'>Add a Property</button>
+        ) : (
+          <div className="home-quote">You must be logged in as an Admin to Add a Property.</div>
+        )}  
+        
         </div>
         <div className='propertylist'>
         {propArray.map(property => (
@@ -39,8 +43,6 @@ export default function Properties(props) {
     };
   };
   
-    
-
   function RedirectToAddProperty() {
     navigate("/properties/addproperty");
   }

@@ -2,13 +2,17 @@ import React from "react";
 import {Container} from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
 import gatePic from '../assets/gate-pic.jpg';
+import Auth from '../helpers/auth';
 
 
 const Home = () => {
+  
   return (
     <Container className="home-head-container">
         <h1 className="home-title">Timber Ridge Hunting Ranch</h1>
-
+        {Auth.isAdmin() ? (
+        <button>You Are Logged in as an Admin!!!</button>
+        ) : (null)}
     <div className="home-quote">  
     <h2>"Where success is just part of the experience."</h2>
     </div>     

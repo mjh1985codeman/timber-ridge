@@ -17,12 +17,9 @@ export default function Properties(props) {
       const propArray = propData.data.getProperties;
         return<>
         <div className='btn-div'>
-        {Auth.loggedIn() ? (
+        {Auth.isAdmin() ? (
         <button type='click' onClick={RedirectToAddProperty} className='addPropBtn'>Add a Property</button>
-        ) : (
-          <div className="home-quote">You must be logged in as an Admin to Add a Property.</div>
-        )}  
-        
+        ) : (null)}  
         </div>
         <div className='propertylist'>
         {propArray.map(property => (

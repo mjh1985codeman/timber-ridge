@@ -53,6 +53,51 @@ html {
   display: none;
 }
 
+/* Modal Stylings */
+
+.modal-div {
+  background-color: hsla(210, 27%, 88%, 0.425);
+  border: solid hsla(0, 0%, 0%, 0.534);
+  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.562);
+  border-radius: 15px;
+  padding: 5px;
+  margin-bottom: 2vh;
+  font-family: 'Cardo', sans-serif;
+}
+
+/* Modal Content */
+.modal-content {
+  text-align: center;
+}
+
+.modal-body {
+  /* Full height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.close {
+  margin-top: 2px;
+  color: #2b2b2b;
+  background-color: #f1f1f1;
+  font-size: 20px;
+  font-weight: bold;
+  width: 100%;
+  border: solid hsla(0, 0%, 15%, 0.705);
+  border-radius: 15px;
+  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.562);
+
+}
+
+.close:hover,
+.close:focus {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
 /* Navigation Stylings */
 
 .logoutBtn {
@@ -188,6 +233,8 @@ html {
 
 .formstyle {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   margin: 2vh;
 }

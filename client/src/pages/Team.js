@@ -4,9 +4,15 @@ import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from '@apollo/client';
 import { Container } from 'react-bootstrap';
+
+//Components
 import Loading from '../components/Loading';
+import Modal from '../components/Modal';
+
 import { ADD_USER } from '../controllers/mutations';
 import Auth from '../helpers/auth';
+import Validator from '../helpers/validators';
+
 
 export default function Team() {
     const navigate = useNavigate();
@@ -16,14 +22,27 @@ export default function Team() {
     const [userPhone, setUserPhone] = useState("");
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
+    const [showModal, setShowModal] = useState(false);
 
     const [addUser, {loading, error, data}] = useMutation(ADD_USER);
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+    
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const callOpenModal = () => {
+        handleOpenModal();
+    };
 
     function handleInputChange(e) {
         e.preventDefault();
         
         const {name, value} = e.target;
-  
+
         if(name === 'userRole') {
             return setUserRole(value);
         } else if (name === 'userFirstName') {
@@ -43,8 +62,6 @@ export default function Team() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        // Prevent the browser from reloading the page
-        //LOGIC TO ADD THE PROPERTY. 
         const userObj = {
           firstName: userFirstName,
           lastName: userLastName,
@@ -53,23 +70,28 @@ export default function Team() {
           role: userRole,
           password: userPassword, 
         };
-  
-        //Mutation being called and the propObj being passed in as the variables. 
-        await addUser({
-          variables: {
-            firstName: userObj.firstName,
-            lastName: userObj.lastName,
-            phone: userObj.phone,
-            email: userObj.email,
-            role: userObj.role,
-            password: userObj.password
-          }
-        }).then( async newUserData => {
-            const newUser = newUserData.data;
-            console.log('newUser: ' , newUser)
-        });
-        if(loading) return <Loading/>;
-        if(error) return `User Add Error. . .${error.message}`;
+
+        const empty = Validator.isEmpty(userObj);
+        console.log('empty' , empty);  
+        //Mutation being called and the propObj being passed in as the variables.
+        if(!empty) {
+            await addUser({
+              variables: {
+                firstName: userObj.firstName,
+                lastName: userObj.lastName,
+                phone: userObj.phone,
+                email: userObj.email,
+                role: userObj.role,
+                password: userObj.password
+              }
+            }).then(() => {
+                navigate('/');
+            });
+            if(loading) return <Loading/>;
+            if(error) return `User Add Error. . .${error.message}`;
+        } else {
+            callOpenModal();
+        }
       };
 
   if(Auth.isAdmin()) {
@@ -77,6 +99,12 @@ export default function Team() {
     <>
     <Container>
        <Form className='formstyle' onSubmit={handleSubmit}>
+    {showModal ? (
+    <Modal handleClose={handleCloseModal} className='modalstyle'>
+            <h1>All Fields are Required!</h1>
+            <h4>Please Verify all fields and try again.</h4>
+    </Modal>
+    ) : (null)}
        <Form.Group className='formcontent'>
          <Form.Label className='formlabel'>
            <h3>Team Member First Name</h3>
@@ -113,7 +141,7 @@ export default function Team() {
    ) 
   } else {
     return (
-        <div>You Have to be logged in as an Admin in order to manage a team.</div>
+    <h1>You Have to be logged in as an Admin in order to manage a team.</h1>
     )
   }
 }

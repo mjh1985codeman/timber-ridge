@@ -2,6 +2,9 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Auth from './helpers/auth';
+
+//Components and Pages.
 import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
 import Records from "./pages/Records";
@@ -13,6 +16,10 @@ import ReserveProperty from "./components/ReserveProperty";
 import AddProperty from "./pages/AddProperty";
 import PropertyDetails from "./pages/PropertyDetails";
 import Login from "./pages/Login";
+import LogOutIcon from "./assets/logout.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+
 
 function App() {
   return (
@@ -24,6 +31,9 @@ function App() {
         <NavItem to="/records" text="Records"/>
         <NavItem to="/contact" text="Contact"/>
         <NavItem to="/properties" text="Properties"/>
+        {!Auth.loggedIn() ? (
+          <NavItem to="/login" text="Login"></NavItem>
+        ) : (<button className="logoutBtn"><FontAwesomeIcon icon={faArrowRightFromBracket} className='icon'></FontAwesomeIcon> LOGOUT</button>)}
       </Navigation>
       <Routes>
         <Route exact path="/" element={<Home/>} />

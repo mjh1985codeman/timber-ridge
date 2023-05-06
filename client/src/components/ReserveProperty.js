@@ -43,35 +43,6 @@ export default function ReserveProperty() {
         alert(`${resObj.firstName} ${resObj.lastName} submitted reservation request for property ${propertyId}`);
       };
 
-    // function GetCustomer({id}) {
-    //   const {loading, error, data} = useQuery(GET_CUSTOMER_BY_ID, {
-    //     variables: {id},
-    //   });
-      
-    //   if(loading) return null;
-    //   if (error) return `Error!!! ${error}`;
-      
-    //   console.log("data" , data);
-    // };
-    
-    // GetCustomer({id: '6420e414c5b6c8d3054a552f'});
-
-    // function GetReservations() {
-    //   const { loading, error, data } = useQuery(GET_RESERVATIONS);
-    //   if (loading) return 'Loading...';
-    //   if (error) return `Error! ${error.message}`;
-    //   if(data) {
-    //     const resArray = data.getReservations;
-    //     resArray.forEach(res => {
-    //       console.log(res);
-    //     })
-    //   } 
-    // }
-    
-    
-    // GetReservations();
-    
-
       return (
         <>
         <Container>

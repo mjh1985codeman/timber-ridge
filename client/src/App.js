@@ -16,6 +16,10 @@ import ReserveProperty from "./components/ReserveProperty";
 import AddProperty from "./pages/AddProperty";
 import PropertyDetails from "./pages/PropertyDetails";
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
+import Team from "./pages/Team";
+
+//Icon Things
 import LogOutIcon from "./assets/logout.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
@@ -26,18 +30,23 @@ function App() {
     <Router>
     <>
       <Navigation>
-        <NavItem to="/" text="Home"/>
-        <NavItem to="/packages" text="Packages"/>
-        <NavItem to="/records" text="Records"/>
-        <NavItem to="/contact" text="Contact"/>
-        <NavItem to="/properties" text="Properties"/>
+        <NavItem to="/" text="Home" icon={null}/>
+        <NavItem to="/packages" text="Packages" icon={null}/>
+        <NavItem to="/records" text="Records" icon={null}/>
+        <NavItem to="/contact" text="Contact" icon={null}/>
+        <NavItem to="/properties" text="Properties" icon={null}/>
+        {Auth.isAdmin() ? (
+        <NavItem to="/team" text="Team" icon={null}></NavItem>
+        ) : (null)}
         {!Auth.loggedIn() ? (
-          <NavItem to="/login" text="Login"></NavItem>
-        ) : (<button className="logoutBtn"><FontAwesomeIcon icon={faArrowRightFromBracket} className='icon'></FontAwesomeIcon> LOGOUT</button>)}
+        <NavItem to="/login" text="Login" icon={null}></NavItem>
+        ) : (<NavItem to="/logout"text="LOGOUT" icon={LogOutIcon}></NavItem>)}
       </Navigation>
       <Routes>
         <Route exact path="/" element={<Home/>} />
         <Route exact path="/login" element={<Login/>} />
+        <Route exact path="/team" element={<Team/>} />
+        <Route exact path="/logout" element={<Logout/>} />
         <Route exact path="/packages"element={<Packages/>} />
         <Route exact path="/records" element={<Records/>} />
         <Route exact path="/contact"element={<Contact/>} />

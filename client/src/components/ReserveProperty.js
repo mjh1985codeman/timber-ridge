@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { Container } from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
 import {useParams, useNavigate } from 'react-router-dom';
+import Auth from '../helpers/auth';
 //const {GET_RESERVATIONS, GET_CUSTOMER_BY_ID} = require('../controllers/queries');
 
 export default function ReserveProperty() {

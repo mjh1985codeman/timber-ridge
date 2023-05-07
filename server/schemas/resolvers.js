@@ -34,6 +34,14 @@ const resolvers = {
             return reservations;
         },
 
+        getReservationsByPropertyId: async (parent, args) => {
+          const reservations = await ReservationMongooseSchema.find(
+            {property: args._id}
+          );
+          console.log('reservations by prop id: ' , reservations)
+          return reservations;
+        },
+
         getReservation: async (parent, args) => {
             const reservation = await ReservationMongooseSchema.findById(args._id).populate(
               {path: 'property', model: 'Property'})

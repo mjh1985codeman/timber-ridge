@@ -50,6 +50,7 @@ type Query {
   getUser(_id: ID!): User
   getReservation(_id: ID!): Reservation
   getReservations: [Reservation]
+  getReservationsByPropertyId(_id: ID!): [Reservation]
   getS3URL(propId: ID!): String
 }
 

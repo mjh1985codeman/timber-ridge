@@ -5,7 +5,7 @@ import { Container } from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
 import {useParams, useNavigate } from 'react-router-dom';
 import Auth from '../helpers/auth';
-//const {GET_RESERVATIONS, GET_CUSTOMER_BY_ID} = require('../controllers/queries');
+const {GET_RESERVATIONS_BY_PROP_ID} = require('../controllers/queries');
 
 export default function ReserveProperty() {
     const [resBd, setResBd] = useState("");
@@ -13,8 +13,34 @@ export default function ReserveProperty() {
     const [resFn, setResFn] = useState("");
     const [resLn, setResLn] = useState("");
 
-    let { propertyId } = useParams();
+    let minDate;
+    let maxDate;
 
+    let { propertyId } = useParams();
+    const unavailableResDates = [];
+
+    function setMinMaxDate(dates) {
+      console.log('dates: ' , dates);
+    };
+      const GetResData = async () => {
+        const {data, loading, error} = useQuery(GET_RESERVATIONS_BY_PROP_ID, {
+          variables: {id: propertyId}
+        });
+        if(data) {
+          const currentReservations = data.getReservationsByPropertyId;
+          currentReservations.forEach(res => {
+          const beginDate = res.beginDate;
+          const endDate = res.endDate;
+          unavailableResDates.push({ beginDate: beginDate, endDate: endDate});
+          setMinMaxDate(unavailableResDates);
+        });
+        }
+      }
+
+      GetResData();
+
+
+    
     function handleInputChange(e) {
         e.preventDefault();
         

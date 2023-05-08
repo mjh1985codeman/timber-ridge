@@ -1,59 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Container } from 'react-bootstrap';
-import { useQuery } from '@apollo/client';
-import {useParams, useNavigate } from 'react-router-dom';
-import Auth from '../helpers/auth';
-const {GET_RESERVATIONS_BY_PROP_ID} = require('../controllers/queries');
 
-export default function ReserveProperty({propertyId, currentReservations}) {
+export default function ReservePropDataForm({propertyId, currentReservations}) {
     const [resBd, setResBd] = useState("");
     const [resEd, setResEd] = useState("");
     const [resFn, setResFn] = useState("");
     const [resLn, setResLn] = useState("");
     const [unavailable, setUnavailable] = useState(null);
 
-    console.log('propertyId: ' , propertyId);
-    console.log('currentReservations: ' , currentReservations);
-
-    // let { propertyId } = useParams();
-
-    // function getDatesInRanges(ranges) {
-    //   console.log('ranges in setDisabledDates: ' , ranges);
-    //   const unavailableDates = [];
-    //   ranges.forEach(range => {
-    //   let currentDate = new Date(range.beginDate);
-    //   while(currentDate <= new Date(range.endDate)) {
-    //     unavailableDates.push(new Date(currentDate));
-    //     currentDate.setDate(currentDate.getDate() + 1);
-    //     console.log('currentDate: ' , currentDate);
-    //   }
-    //   //console.log('unavailableDates: ' , unavailableDates);
-    //   });
-    //   setUnavailable(unavailableDates);
-    // };
-
-    //   const GetResData = () => {
-    //       const dateRanges = [];
-
-    //       const {data, loading, error} = useQuery(GET_RESERVATIONS_BY_PROP_ID, {
-    //         variables: {id: propertyId}
-    //       });
-    //       // console.log('data: ' , data);
-    //       if(data && !loading && !error) {
-    //         const currentReservations = data.getReservationsByPropertyId;
-    //         currentReservations.forEach(res => {
-    //         const beginDate = res.beginDate;
-    //         const endDate = res.endDate;
-    //         dateRanges.push({ beginDate: new Date(parseInt(beginDate)), endDate: new Date(parseInt(endDate))});
-    //         // console.log('dateRanges: ' , dateRanges);
-    //         //getDatesInRanges(dateRanges);         
-    //       });
-    //     }
-    //   };
-
-    //   GetResData();
+    useEffect(() => {
+      const unavailableDates = [];
+        currentReservations.forEach(range => {
+        let currentDate = new Date(range.beginDate);
+        while(currentDate <= new Date(range.endDate)) {
+          unavailableDates.push(new Date(currentDate));
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+        });
+        setUnavailable(unavailableDates);
+    },[currentReservations]); 
+    
+  // Get the disabled dates: 
+  const disabledDates = unavailable ? unavailable.map(date => date.toISOString().slice(0, 10)) : [];
+  console.log('disabledDates: ' , disabledDates);
+  
+  if (disabledDates.includes(resBd) || disabledDates.includes(resEd)) {
+    console.log('user picked a disabled date');
+  };
 
     function handleInputChange(e) {
         e.preventDefault();
@@ -89,14 +64,14 @@ export default function ReserveProperty({propertyId, currentReservations}) {
         <Container>
         <Form className='formstyle' onSubmit={handleSubmit}>
         <Form.Group className='formcontent'>
-          <Form.Label className='formlabel'>
-            <h2>Check In</h2>
-            <input className='calinput'type="date" name="beginDate" value={resBd} onChange={handleInputChange}/>
-          </Form.Label>
-          <Form.Label className='formlabel'>
-            <h2>Check Out</h2>
-            <input className='calinput' type="date" name="endDate" value={resEd} onChange={handleInputChange}/>
-          </Form.Label>
+        <Form.Label className='formlabel'>
+              <h2>Check In</h2>
+              <input className='calinput' type="date" name="beginDate" value={resBd} onChange={handleInputChange}/>
+            </Form.Label>
+            <Form.Label className='formlabel'>
+              <h2>Check Out</h2>
+              <input className='calinput' type="date" name="endDate" value={resEd} onChange={handleInputChange}/>
+            </Form.Label>
             <Form.Label>
                 <h3>First Name</h3>
                 <input className='calinput' name="fn" value={resFn} onChange={handleInputChange}/>

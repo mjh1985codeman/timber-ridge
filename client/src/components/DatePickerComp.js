@@ -6,18 +6,28 @@ export default function DatePickerComp({unavailableDates, onDateSelect, ...rest}
     const [selectedDate, setSelectedDate] = useState(null);
     const [disabledDates, setDisabledDates] = useState([]);
 
-    const newDisabledDates = [];
-   useEffect(() => {
-      unavailableDates.forEach(date => {
-      newDisabledDates.push(new Date(date));
-     });
-     setDisabledDates(newDisabledDates);
-   },[unavailableDates]);
+    // Set the time zone offset
+    const timeZoneOffset = -5; // UTC-5 for Central Daylight Time
 
-   const handleSelectedDate = (date) => {
-    setSelectedDate(date);
-    onDateSelect(date);
-   }
+    // Convert each date in unavailableDates to the disabledDates time zone
+    const takenDates = unavailableDates.map(date => {
+    // Split the date string into year, month, and day components
+    const [year, month, day] = date.split('-');
+    // Create a new date object with the same year, month, and day,
+    // and a time of 0 hours, 0 minutes, and 0 seconds using the specified timeZoneOffset.
+    return new Date(Date.UTC(year, month - 1, day, 0, 0, 0) - (timeZoneOffset * 60 * 60 * 1000));
+  });
+
+  
+    useEffect(() => {
+      setDisabledDates(takenDates);
+    },[unavailableDates]);
+
+    const handleSelectedDate = (date) => {
+      setSelectedDate(date);
+      onDateSelect(date);
+    }
+  
 
   return (
     <>

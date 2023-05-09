@@ -10,6 +10,9 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
     const [resFn, setResFn] = useState("");
     const [resLn, setResLn] = useState("");
     const [unavailable, setUnavailable] = useState(null);
+    const [checkInDate, setCheckInDate] = useState(null);
+    const [checkOutDate, setCheckOutDate] = useState(null);
+    
 
     useEffect(() => {
       const unavailableDates = [];
@@ -26,15 +29,11 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
   // Get the disabled dates: 
   const disabledDates = unavailable ? unavailable.map(date => date.toISOString().slice(0, 10)) : [];
   
-  if (disabledDates.includes(resBd) || disabledDates.includes(resEd)) {
-    console.log('user picked a disabled date');
-  };
+  
 
     function handleInputChange(e) {
         e.preventDefault();
-        
         const {name, value} = e.target;
-
         if (name === 'fn') {
             return setResFn(value);
         } else if (name === 'ln') {
@@ -43,27 +42,66 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
     }
 
     const handleCheckInDateSelect = (date) => {
+      setCheckInDate(date);
       const dateObject = new Date(date);
       const formattedDate = dateObject.toISOString().slice(0, 10);
       setResBd(formattedDate);
     };
 
     const handleCheckOutDateSelect = (date) => {
+      setCheckOutDate(date);
       const dateObject = new Date(date);
       const formattedDate = dateObject.toISOString().slice(0, 10);
       setResEd(formattedDate);
-    }
+    };
+
+    function getRequestedDateRange() {
+      const allRequestedDates = [];
+      let currentDate = checkInDate;
+      currentDate.setHours(0);
+      currentDate.setMinutes(0);
+      currentDate.setSeconds(0);
+  
+      while (currentDate <= checkOutDate) {
+        allRequestedDates.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1); // add one day
+      }; 
+      return allRequestedDates;
+    };
+
+    function verifyRange() {  
+         // will need to compare this wiht the unavailable range to check for overlap.
+        const datesRequested = getRequestedDateRange();
+        console.log('datesRequested: ' , datesRequested);
+
+        let noMatches = true;
+        
+        for (let i = 0; i < datesRequested.length; i++) {
+          if (unavailable.toString().includes(datesRequested[i].toString())) {
+            console.log('Match found:', datesRequested[i]);
+            noMatches = false;
+          } 
+        }
+        return noMatches;
+      };
+      
 
     function handleSubmit(e) {
-        e.preventDefault();
-        const resObj = {
+      e.preventDefault();  
+      const isValidRange = verifyRange();
+        if(isValidRange) {
+          const resObj = {
             beginDate: resBd,
             endDate: resEd,
             firstName: resFn,
             lastName: resLn
         };
         console.log('resObj: ' , resObj);
-        alert(`${resObj.firstName} ${resObj.lastName} submitted reservation request for property ${propertyId}`);
+        alert(`${resObj.firstName} ${resObj.lastName} submitted reservation request for property ${propertyId}`);  
+        } else if (!isValidRange) {
+          alert("Looks like this property may not be avaialable on some of the dates in your requested date range.  Please adjust your check in and check out dates to ensure appropriate availability.")
+        }
+        
       };
 
       return (

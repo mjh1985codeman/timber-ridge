@@ -17,7 +17,6 @@ export default function DatePickerComp({unavailableDates, onDateSelect, ...rest}
     // and a time of 0 hours, 0 minutes, and 0 seconds using the specified timeZoneOffset.
     return new Date(Date.UTC(year, month - 1, day, 0, 0, 0) - (timeZoneOffset * 60 * 60 * 1000));
   });
-
   
     useEffect(() => {
       setDisabledDates(takenDates);

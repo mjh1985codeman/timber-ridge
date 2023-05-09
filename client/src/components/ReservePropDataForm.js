@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import DatePickerComp from './DatePickerComp';
 import { Container } from 'react-bootstrap';
 
 export default function ReservePropDataForm({propertyId, currentReservations}) {
@@ -24,7 +25,6 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
     
   // Get the disabled dates: 
   const disabledDates = unavailable ? unavailable.map(date => date.toISOString().slice(0, 10)) : [];
-  console.log('disabledDates: ' , disabledDates);
   
   if (disabledDates.includes(resBd) || disabledDates.includes(resEd)) {
     console.log('user picked a disabled date');
@@ -35,19 +35,26 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
         
         const {name, value} = e.target;
 
-        if(name === 'beginDate') {
-            return setResBd(value);
-        } else if (name === 'endDate') {
-            return setResEd(value);
-        } else if (name === 'fn') {
+        if (name === 'fn') {
             return setResFn(value);
         } else if (name === 'ln') {
             return setResLn(value)
         };
     }
 
+    const handleCheckInDateSelect = (date) => {
+      const dateObject = new Date(date);
+      const formattedDate = dateObject.toISOString().slice(0, 10);
+      setResBd(formattedDate);
+    };
+
+    const handleCheckOutDateSelect = (date) => {
+      const dateObject = new Date(date);
+      const formattedDate = dateObject.toISOString().slice(0, 10);
+      setResEd(formattedDate);
+    }
+
     function handleSubmit(e) {
-        // Prevent the browser from reloading the page
         e.preventDefault();
         const resObj = {
             beginDate: resBd,
@@ -58,7 +65,7 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
         console.log('resObj: ' , resObj);
         alert(`${resObj.firstName} ${resObj.lastName} submitted reservation request for property ${propertyId}`);
       };
-        
+
       return (
         <>
         <Container>
@@ -66,11 +73,11 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
         <Form.Group className='formcontent'>
         <Form.Label className='formlabel'>
               <h2>Check In</h2>
-              <input className='calinput' type="date" name="beginDate" value={resBd} onChange={handleInputChange}/>
+              <DatePickerComp name="bd" onDateSelect={handleCheckInDateSelect} unavailableDates={disabledDates}/>
             </Form.Label>
             <Form.Label className='formlabel'>
               <h2>Check Out</h2>
-              <input className='calinput' type="date" name="endDate" value={resEd} onChange={handleInputChange}/>
+              <DatePickerComp name="ed" onDateSelect={handleCheckOutDateSelect} unavailableDates={disabledDates}/>
             </Form.Label>
             <Form.Label>
                 <h3>First Name</h3>

@@ -15,6 +15,7 @@ import Validator from '../helpers/validators';
 
 
 export default function Register() {
+    const formEl = document.getElementById('form');
     const navigate = useNavigate();
     const [userRole, setUserRole] = useState("customer");
     const [userFirstName, setUserFirstName] = useState("");
@@ -23,18 +24,26 @@ export default function Register() {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [showModal, setShowModal] = useState(false);
+    const [showPWModal, setShowPWModal] = useState(false);
 
     const [addUser, {loading, error, data}] = useMutation(ADD_USER);
 
     const alreadyLoggedIn = Auth.loggedIn();
-    console.log("alreadyLoggedIn? " , alreadyLoggedIn);
 
     const handleOpenModal = () => {
         setShowModal(true);
+        formEl.classList.add('modal-open');
+        console.log('document.body: ' , document.body);
+    };
+    const callPWModel = () => {
+        setShowPWModal(true);
+        formEl.classList.add('modal-open');
     };
     
     const handleCloseModal = () => {
         setShowModal(false);
+        setShowPWModal(false);
+        formEl.classList.remove('modal-open');
     };
 
     const callOpenModal = () => {
@@ -74,9 +83,10 @@ export default function Register() {
           password: userPassword, 
         };
 
-        const empty = Validator.isEmpty(userObj); 
+        const empty = Validator.isEmpty(userObj);
+        const enoughCharacters = Validator.pwValidator(userObj.password); 
         //Mutation being called and the propObj being passed in as the variables.
-        if(!empty) {
+        if(!empty && enoughCharacters) {
             const mutationResponse = await addUser({
               variables: {
                 firstName: userObj.firstName,
@@ -92,50 +102,58 @@ export default function Register() {
             Auth.login(token);
             navigate('/');
             if(loading) return <Loading/>;
-            if(error) return `User Add Error. . .${error.message}`;
-        } else {
+            if(error) console.log('there was an error: ' , error);
+        } else if (empty) {
             callOpenModal();
+        } else if (!enoughCharacters) {
+          callPWModel();
         }
       };
 
   if(!alreadyLoggedIn) {
    return (
     <>
-    <Container>
-       <Form className='formstyle' onSubmit={handleSubmit}>
+    <Container className='register-container'>
     {showModal ? (
-    <Modal handleClose={handleCloseModal} className='modalstyle'>
+    <Modal handleClose={handleCloseModal} className='modalstyle overlay'>
             <h1>All Fields are Required!</h1>
             <h4>Please Verify all fields and try again.</h4>
     </Modal>
     ) : (null)}
-       <Form.Group className='formcontent'>
-         <Form.Label className='formlabel'>
-           <h3>First Name</h3>
-           <input className='calinput'type="text" name="userFirstName" value={userFirstName} onChange={handleInputChange}/>
-         </Form.Label>
-         <Form.Label className='formlabel'>
-             <h3>Last Name</h3>
-             <input className='calinput' type="text" name="userLastName" value={userLastName} onChange={handleInputChange}/>
-         </Form.Label>
-         <Form.Label className='formlabel'>
-             <h3>Phone Number</h3>
-             <input className='calinput' type="text" name="userPhone" value={userPhone} onChange={handleInputChange}/>
-         </Form.Label>
-         <Form.Label className='formlabel'>
-             <h3>Email</h3>
-             <input className='calinput' type="text" name="userEmail" value={userEmail} onChange={handleInputChange}/>
-         </Form.Label>
-         <Form.Label className='formlabel'>
-           <h3>Password</h3>
-           <input className='calinput' type="password" name="userPassword" value={userPassword} onChange={handleInputChange}/>
-         </Form.Label>
-       <Button type="submit">Register</Button>
-     </Form.Group>
-     </Form> 
-     </Container>
+    {showPWModal ? (
+    <Modal handleClose={handleCloseModal} className='modalstyle'>
+            <h1>Password Must Be at Least 8 characters!</h1>
+            <h4>Please Verify all fields and try again.</h4>
+    </Modal>
+    ) : (null)}
+    <Form className='formstyle' id='form' onSubmit={handleSubmit}>
+      <Form.Group className='formcontent'>
+        <Form.Label className='formlabel'>
+          <h3>First Name</h3>
+          <input className='calinput'type="text" name="userFirstName" value={userFirstName} onChange={handleInputChange}/>
+        </Form.Label>
+        <Form.Label className='formlabel'>
+          <h3>Last Name</h3>
+          <input className='calinput' type="text" name="userLastName" value={userLastName} onChange={handleInputChange}/>
+        </Form.Label>
+        <Form.Label className='formlabel'>
+          <h3>Phone Number</h3>
+          <input className='calinput' type="text" name="userPhone" value={userPhone} onChange={handleInputChange}/>
+        </Form.Label>
+        <Form.Label className='formlabel'>
+          <h3>Email</h3>
+          <input className='calinput' type="text" name="userEmail" value={userEmail} onChange={handleInputChange}/>
+        </Form.Label>
+        <Form.Label className='formlabel'>
+        <h3>Password</h3>
+        <input className='calinput' type="password" name="userPassword" value={userPassword} onChange={handleInputChange}/>
+        </Form.Label>
+      <Button type="submit">Register</Button>
+    </Form.Group>
+    </Form> 
+    </Container>
   </>
-   ) 
+  ) 
   } else {
     return (
     <h1>Looks Like you have already registered and logged in!</h1>

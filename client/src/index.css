@@ -61,14 +61,32 @@ input[type="date"]:disabled+span>label>span {
 
 /* Modal Stylings */
 
+.modal-open {
+  opacity: 0.2
+}
+
 .modal-div {
-  background-color: hsla(210, 27%, 88%, 0.425);
+  position: absolute;
+  z-index: 9999;
+  top: 20vh;
+  background-color: hsla(40, 97%, 64%, 0.925);
   border: solid hsla(0, 0%, 0%, 0.534);
-  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.562);
+  box-shadow: 0 3px 10px hsla(40, 92%, 20%, 0.658);
   border-radius: 15px;
   padding: 5px;
   margin-bottom: 2vh;
   font-family: 'Cardo', sans-serif;
+  animation: appear 350ms ease-in 1;
+  max-width: 1000px;
+  color: hsl(0, 0%, 15%)
+}
+
+/* Modal Animations */
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
 
 /* Modal Content */
@@ -477,4 +495,12 @@ input[type="date"]:disabled+span>label>span {
 .carousel-control-next-icon {
   background-color: hsl(0, 0%, 0%);
   border: solid black 2px;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2vh;
 }

@@ -7,7 +7,15 @@ class Validator {
         } else {
             return false;
         }
-    };
+    }
+
+    pwValidator(pw) {
+        if(pw.length < 0) {
+            return false;
+        } else if (pw.length >= 8) {
+            return true;
+        }
+    }
 }
 
 export default new Validator();

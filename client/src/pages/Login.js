@@ -30,19 +30,9 @@ export default function LoginRegisterModal() {
     }
 
     function resetState() {
-      setFormState({ email:"" , password:""});
       setShowIncompleteModal(false);
       setShowInvalidLoginModal(false);
       setFormClass("");
-      // setUserRole("customer");
-      // setUserFirstName("");
-      // setUserLastName("");
-      // setUserPhone("");
-      // setUserEmail("");
-      // setUserPassword("");
-      // setShowModal(false);
-      // setShowPWModal(false);
-      // setFormClass("");
     };
     
     const callInvalidLoginModal = () => {

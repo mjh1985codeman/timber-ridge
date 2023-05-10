@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function DatePickerComp({unavailableDates, onDateSelect, ...rest}) {
+export default function DatePickerComp({unavailableDates, onDateSelect}) {
     const [selectedDate, setSelectedDate] = useState(null);
     const [disabledDates, setDisabledDates] = useState([]);
 
@@ -35,7 +35,7 @@ export default function DatePickerComp({unavailableDates, onDateSelect, ...rest}
     selected={selectedDate}
     excludeDates={disabledDates}
     minDate={new Date()}
-    {...rest}
+    //{...rest}
   />
   </>
   )

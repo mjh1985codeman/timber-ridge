@@ -34,6 +34,7 @@ export default function DatePickerComp({unavailableDates, onDateSelect, ...rest}
     onChange={handleSelectedDate}
     selected={selectedDate}
     excludeDates={disabledDates}
+    minDate={new Date()}
     {...rest}
   />
   </>

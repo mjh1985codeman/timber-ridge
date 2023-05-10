@@ -10,8 +10,8 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
     const [resEd, setResEd] = useState("");
     const [resFn, setResFn] = useState("");
     const [resLn, setResLn] = useState("");
-    const [complete, setComplete] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [unavailable, setUnavailable] = useState(null);
     const [checkInDate, setCheckInDate] = useState(null);
     const [checkOutDate, setCheckOutDate] = useState(null);
@@ -21,6 +21,9 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
       const unavailableDates = [];
         currentReservations.forEach(range => {
         let currentDate = new Date(range.beginDate);
+        currentDate.setSeconds(0);
+        currentDate.setMinutes(0);
+        currentDate.setHours(0);
         while(currentDate <= new Date(range.endDate)) {
           unavailableDates.push(new Date(currentDate));
           currentDate.setDate(currentDate.getDate() + 1);
@@ -34,6 +37,7 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
   
   function handleCloseModal() {
     setShowErrorModal(false);
+    setShowSuccessModal(false);
     window.location.reload();
   };
 
@@ -78,35 +82,38 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
     function verifyRange() {  
          // will need to compare this wiht the unavailable range to check for overlap.
         const requestedDates = getRequestedDateRange();
-        console.log('requestedDates in the verify Range function: ' , requestedDates);
-        let noMatches = true;
+        let noMatchFound = true;
+        console.log('requestedDates: ' , requestedDates);
+        if(requestedDates.length <= 0) {
+          noMatchFound = false;
+        }
         if(requestedDates) {
           for (let i = 0; i < requestedDates.length; i++) {
-            if (unavailable.toString().includes(requestedDates[i].toString()) || requestedDates.length <= 0) {
+            if (unavailable.toString().includes(requestedDates[i].toString())) {
               console.log('Match found:', requestedDates[i]);
-              noMatches = false;
+              noMatchFound = false;
             } 
           }
-        } 
-        return noMatches;
+        }
+        return noMatchFound;
       };
 
       function verifyFields() {
         if(resBd !== "" && resEd !== "" && resFn !== "" && resLn !== "") {
-          setComplete(true);
           return true;
+        } else {
+          return false;
         }
       };
       
 
     function handleSubmit(e) {
-      e.preventDefault();  
-      const formComplete = verifyFields() || false;
-      console.log('complete: ' , complete);
-      if(formComplete) {
-        const isValidRange = verifyRange() || false;
-        console.log('isValidRange: ' , isValidRange);
-        if(isValidRange) {
+      e.preventDefault(); 
+      const completedForm = verifyFields();
+      const validRangeRequested = verifyRange(); 
+    
+      console.log(completedForm , ' & ' , validRangeRequested);
+      if(completedForm && validRangeRequested) {
             const resObj = {
               beginDate: resBd,
               endDate: resEd,
@@ -114,29 +121,27 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
               lastName: resLn
           };
           console.log('resObj: ' , resObj);
-          alert(`${resObj.firstName} ${resObj.lastName} submitted reservation request for property ${propertyId}`);  
-          } else if (!isValidRange || !complete) {
+          console.log(`${resObj.firstName} ${resObj.lastName} submitted reservation request for property ${propertyId}`);  
+          setShowSuccessModal(true);   
+        } else {
             setShowErrorModal(true);
+            //resetState();
           }
-      } else {
-        setShowErrorModal(true);
-        setCheckInDate(null);
-        setCheckOutDate(null);
-        setResBd("");
-        setResEd("");
-        setResFn("");
-        setResLn("");
-        setComplete(false);
-      }
       };
 
       return (
         <>
-        <Container>
+        <Container className='form-container'>
         {showErrorModal ? (
         <Modal handleClose={handleCloseModal} className='modalstyle'>
             <h1>Reservation Request Failed.</h1>
             <h4>Looks like you may have requested some dates that are not available.  Please Check all fields and try again.</h4>
+        </Modal>
+        ) : (null)}
+        {showSuccessModal ? (
+        <Modal handleClose={handleCloseModal} className='modalstyle'>
+            <h1>Your Reservation Request Has Been Submitted!!</h1>
+            <h4>Please check your email for additional details.</h4>
         </Modal>
         ) : (null)}
         <Form className='formstyle' onSubmit={handleSubmit}>

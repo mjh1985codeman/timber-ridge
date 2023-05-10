@@ -3,16 +3,43 @@ const mongoose = require('mongoose');
 const ReservationMongooseSchema = new mongoose.Schema({
     dateBooked: {
         type: mongoose.Schema.Types.Date,
-        default: Date.now,
-        required: true
+        default: function() {
+            const easternOffset = 240; // Eastern Time Zone offset in minutes
+            const now = new Date();
+            const easternNow = new Date(now.getTime() - easternOffset * 60 * 1000);
+            easternNow.setUTCHours(5);
+            easternNow.setUTCMinutes(5);
+            easternNow.setUTCSeconds(5);
+            easternNow.setUTCMilliseconds(5);
+            return easternNow;
+        },
+        required: true,
     },
     beginDate: {
         type: mongoose.Schema.Types.Date,
-        required: true
+        set: function(value) {
+        const date = new Date(value);
+        const easternDate = new Date(date.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+        easternDate.setUTCHours(5);
+        easternDate.setUTCMinutes(5);
+        easternDate.setUTCSeconds(5);
+        easternDate.setUTCMilliseconds(5);
+        return easternDate;
+        },
+        required: true,
     },
     endDate: {
         type: mongoose.Schema.Types.Date,
-        required: true
+        set: function(value) {
+        const date = new Date(value);
+        const easternDate = new Date(date.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+        easternDate.setUTCHours(5);
+        easternDate.setUTCMinutes(5);
+        easternDate.setUTCSeconds(5);
+        easternDate.setUTCMilliseconds(5);
+        return easternDate;
+        },
+        required: true,
     },
     downPaymentPaid: {
         type: Boolean,

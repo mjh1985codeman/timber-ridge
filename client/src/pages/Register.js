@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Container } from 'react-bootstrap';
 
 //Components
@@ -29,7 +29,7 @@ export default function Register() {
     const [addUser, {loading, error, data}] = useMutation(ADD_USER);
 
     const alreadyLoggedIn = Auth.loggedIn();
-
+    
     const handleOpenModal = () => {
         setShowModal(true);
         formEl.classList.add('modal-open');
@@ -111,9 +111,9 @@ export default function Register() {
       };
 
   if(!alreadyLoggedIn) {
-   return (
+  return (
     <>
-    <Container className='register-container'>
+    <Container className='form-container'>
     {showModal ? (
     <Modal handleClose={handleCloseModal} className='modalstyle overlay'>
             <h1>All Fields are Required!</h1>

@@ -38,9 +38,6 @@ function App() {
         {!Auth.loggedIn() ? (
           <NavItem to="/login" text="Login"></NavItem>
           ) : (<NavItem to="/logout"text="LOGOUT"></NavItem>)}
-         {!Auth.loggedIn() ? (
-           <NavItem to="/register" text="Sign-Up"/>
-         ) : (null)} 
       </Navigation>
       <Routes>
         <Route exact path="/" element={<Home/>} />

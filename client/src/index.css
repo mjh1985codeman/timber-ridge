@@ -6,6 +6,7 @@
   --border: 1px solid #474a4d;
   --border-radius: 8px;
   --speed: 500ms;
+  --logo-color: hsla(40, 97%, 64%, 0.863);
 }
 
 body,
@@ -59,12 +60,31 @@ input[type="date"]:disabled+span>label>span {
   display: none;
 }
 
+/* Disclaimer Stylings*/
+.disclaimer {
+  font-family: 'Cardo', sans-serif;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: bolder;
+  color: hsl(0, 0%, 0%);
+  background-color: hsla(0, 0%, 100%, 0.925);
+  border: solid 2px hsla(0, 0%, 0%, 0.534);
+  box-shadow: 0 3px 10px hsla(40, 92%, 20%, 0.658);
+  border-radius: 15px;
+  padding: 4px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.disclaimer:hover {
+  cursor: pointer;
+}
+
 /* Modal Stylings */
 
 .modal-open {
   opacity: 0.1;
   background-color: rgba(255, 255, 255, 0.568);
-  display: none;
 }
 
 .modal-div {

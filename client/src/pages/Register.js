@@ -5,17 +5,17 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from '@apollo/client';
 import { Container } from 'react-bootstrap';
 
-//Components
+//Components.
 import Loading from '../components/Loading';
 import Modal from '../components/Modal';
 
+//Controllers and Helpers. 
 import { ADD_USER } from '../controllers/mutations';
 import Auth from '../helpers/auth';
 import Validator from '../helpers/validators';
 
 
 export default function Register() {
-    const formEl = document.getElementById('form');
     const navigate = useNavigate();
     const [userRole, setUserRole] = useState("customer");
     const [userFirstName, setUserFirstName] = useState("");
@@ -25,25 +25,36 @@ export default function Register() {
     const [userPassword, setUserPassword] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [showPWModal, setShowPWModal] = useState(false);
+    const [formClass, setFormClass] = useState('');
 
     const [addUser, {loading, error, data}] = useMutation(ADD_USER);
 
     const alreadyLoggedIn = Auth.loggedIn();
+
+    function resetState() {
+      setUserRole("customer");
+      setUserFirstName("");
+      setUserLastName("");
+      setUserPhone("");
+      setUserEmail("");
+      setUserPassword("");
+      setShowModal(false);
+      setShowPWModal(false);
+      setFormClass("");
+    };
     
     const handleOpenModal = () => {
+        setFormClass('modal-open');
         setShowModal(true);
-        formEl.classList.add('modal-open');
-        console.log('document.body: ' , document.body);
     };
+
     const callPWModel = () => {
+        setFormClass('modal-open');
         setShowPWModal(true);
-        formEl.classList.add('modal-open');
     };
     
     const handleCloseModal = () => {
-        setShowModal(false);
-        setShowPWModal(false);
-        formEl.classList.remove('modal-open');
+        resetState();
     };
 
     const callOpenModal = () => {
@@ -83,10 +94,14 @@ export default function Register() {
           password: userPassword, 
         };
 
-        const empty = Validator.isEmpty(userObj);
+        console.log('userObj: ' , userObj);
+
+        const notEmpty = Validator.notEmpty(userObj);
         const enoughCharacters = Validator.pwValidator(userObj.password); 
         //Mutation being called and the propObj being passed in as the variables.
-        if(!empty && enoughCharacters) {
+        console.log('notEmpty: ' , notEmpty);
+        console.log('enoughtCharacters: ' , enoughCharacters);
+        if(notEmpty && enoughCharacters) {
             const mutationResponse = await addUser({
               variables: {
                 firstName: userObj.firstName,
@@ -103,9 +118,9 @@ export default function Register() {
             navigate('/');
             if(loading) return <Loading/>;
             if(error) console.log('there was an error: ' , error);
-        } else if (empty) {
+        } if (!notEmpty) {
             callOpenModal();
-        } else if (!enoughCharacters) {
+        } if (!enoughCharacters) {
           callPWModel();
         }
       };
@@ -126,7 +141,7 @@ export default function Register() {
             <h4>Please Verify all fields and try again.</h4>
     </Modal>
     ) : (null)}
-    <Form className='formstyle' id='form' onSubmit={handleSubmit}>
+    <Form className={formClass} id='form' onSubmit={handleSubmit}>
       <Form.Group className='formcontent'>
         <Form.Label className='formlabel'>
           <h3>First Name</h3>
@@ -148,7 +163,7 @@ export default function Register() {
         <h3>Password</h3>
         <input className='calinput' type="password" name="userPassword" value={userPassword} onChange={handleInputChange}/>
         </Form.Label>
-      <Button type="submit">Register</Button>
+    <button type='submit'>Register</button>
     </Form.Group>
     </Form> 
     </Container>

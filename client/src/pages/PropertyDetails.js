@@ -4,6 +4,9 @@ import {Container} from 'react-bootstrap';
 import Loading from '../components/Loading';
 import PropPics from '../components/PropPics';
 import { useQuery } from '@apollo/client';
+
+//helpers and controllers. 
+import Auth from '../helpers/auth';
 const {GET_PROPERTY_BY_ID} = require('../controllers/queries');
 
 export default function PropertyDetails() {
@@ -14,6 +17,10 @@ export default function PropertyDetails() {
         const reservePropId = propertyId;
         navigate(`/reserve/${propertyId}`, reservePropId);
     };
+
+    function RedirectToLogin() {
+        navigate('/login');
+    }
     
 
     function GetProperty({id}) {
@@ -29,10 +36,14 @@ export default function PropertyDetails() {
             <h2>{property.name}</h2>
             <h5>{property.addressSt}</h5> 
             <h5>{property.city}, {property.state} {property.zip}</h5>
-            </div>
-            <PropPics propIdForPics={propId}/>
-            <button className="addPropBtn" type='click' onClick={RedirectToAddReservation}>Reserve This Property?</button>
             </div>  
+            {Auth.loggedIn() ? (
+                <button className="addPropBtn" type='click' onClick={RedirectToAddReservation}>Reserve This Property?</button>
+            ) : (
+                <div onClick={RedirectToLogin} className="disclaimer">Login or Register to Reserve this property!!!</div>
+            )}
+            <PropPics propIdForPics={propId}/>
+            </div>
             </>
         } else if(loading) {
             return <Loading/>;

@@ -42,7 +42,7 @@ const startServer = async () => {
     );
 
     app.get('/health', (req, res) => {
-      res.status(200, res.send("Hello From the Timber Properties API"));
+      res.status(200, res.send("Hello From the Timber Properties API!!!!"));
     });
 
   server.applyMiddleware({ app });

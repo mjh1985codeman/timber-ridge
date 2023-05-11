@@ -45,12 +45,12 @@ app.get('/health', (req, res) => {
   res.status(200).send("Hello From the Timber Properties API!!!!");
 });
 
-// Serve the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+// Serve the built React app files
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-// Catch-all route
+// Serve the React app on any routes that are not API routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
 app.listen({ port: PORT }, () =>

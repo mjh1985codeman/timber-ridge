@@ -1,7 +1,7 @@
 import React from "react";
 import {Container} from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
-import gatePic from '../assets/gate-pic.jpg';
+import homPic from '../assets/home-pic.jpg';
 import Auth from '../helpers/auth';
 
 
@@ -9,17 +9,24 @@ const Home = () => {
   
   return (
     <Container className="home-head-container">
-        <h1 className="home-title">Timber Ridge Hunting Ranch</h1>
+        <h1 className="home-title">Timber Properties</h1>
     <div className="home-quote">  
-    <h2>"Where success is just part of the experience."</h2>
+    <h2>"A place to kick your feet up."</h2>
     </div>     
 
     <Card className="bg-dark text-white">
-      <Card.Img className="gate-img" src={gatePic} alt="Card image" />
+      <Card.Img className="gate-img" src={homPic} alt="Card image" />
       <Card.ImgOverlay>
-        <Card.Title><h2 className='pic-title'>About Our Ranch</h2></Card.Title>
+        <Card.Title><h2 className='pic-title'>About Timber Properties</h2></Card.Title>
         <Card.Text className='pic-txt'>
-        Located in the heart of Hughes county just 30 miles from Mcalester and an hour and a half from Tulsa, sits a fully operational hunting ranch. From the mature oak trees to the mountain terrain, this ranch offers unlimited breathtaking views. This property has it all, including dense woods as well as clearings/trails to make the terrain as difficult or as easy as you want to traverse. The ranch offers a comfortable hunting lodge equipped with a pool table, stocked bar, poker table, kitchen, multiple bedrooms, washers and dryers along with many more items to make your experience something you will forever remember. From the sunsets at the top of the mountain to the early morning coffee views of buffalo, rams, hogs and Axis deer.  The ranch offers a shooting range to keep you busy and a fire pit to keep you relaxed. It offers a once in a lifetime experience for all ages of family and friends. With fences high and pressure low, this is a once in a lifetime ranch in the heart of the great state of Oklahoma.
+          <p>
+          Our company is dedicated to offering a wide range of properties in the vast outdoors.
+          <br></br>
+          Whether you're planning a romantic retreat, a family vacation, or a group gathering, we have the perfect property to fit your needs. Our properties are carefully selected and managed to ensure that every guest enjoys a comfortable and stress-free stay in a beautiful and peaceful mountain setting.
+          Our team is committed to providing exceptional service, and we are always available to help you with any questions or concerns you may have before, during, or after your stay. We understand that planning a mountain getaway can be overwhelming, so we're here to help make the process as seamless and enjoyable as possible.
+          At our company, we believe that a mountain getaway should be a time to unwind, relax, and connect with nature. That's why we offer properties that provide easy access to a wide range of outdoor activities, including hiking, skiing, fishing, and more. So, whether you're looking for an adventurous or a tranquil mountain experience, we have the perfect rental property for you.
+          Thank you for considering our company for your next mountain getaway. We look forward to helping you create unforgettable memories in the stunning mountain destinations we proudly serve. 
+          </p>
         </Card.Text>
       </Card.ImgOverlay>
     </Card>

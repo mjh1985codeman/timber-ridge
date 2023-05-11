@@ -213,7 +213,7 @@ input[type="date"]:disabled+span>label>span {
 
 .pic-txt {
   display: flex;
-  background-color: hsla(210, 3%, 39%, 0.781);
+  background-color: hsla(0, 0%, 8%, 0.781);
   justify-content: center;
   max-width: fit-content;
   font-family: 'Cardo', sans-serif;

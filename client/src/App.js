@@ -28,8 +28,6 @@ function App() {
     <>
       <Navigation>
         <NavItem to="/" text="Home"/>
-        <NavItem to="/packages" text="Packages"/>
-        <NavItem to="/records" text="Records"/>
         <NavItem to="/contact" text="Contact"/>
         <NavItem to="/properties" text="Properties"/>
         {Auth.isAdmin() ? (
@@ -44,8 +42,6 @@ function App() {
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/team" element={<Team/>} />
         <Route exact path="/logout" element={<Logout/>} />
-        <Route exact path="/packages"element={<Packages/>} />
-        <Route exact path="/records" element={<Records/>} />
         <Route exact path="/contact"element={<Contact/>} />
         <Route exact path="/properties"element={<Properties/>} />
         <Route exact path="/register" element={<Register/>}/>

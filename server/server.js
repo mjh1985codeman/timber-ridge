@@ -47,11 +47,11 @@ app.get('/health', (req, res) => {
 
 if (process.env.NODE_ENV === "production") {
   // Serve static files from the React app
-  app.use(express.static(path.join(__dirname, "client/build")));
+  app.use(express.static(path.join(__dirname, "../client/build")));
 
   // Catch all other routes and return the index file
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
   });
 }
 

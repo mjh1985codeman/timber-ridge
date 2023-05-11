@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Container } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
@@ -8,10 +7,10 @@ import { useMutation } from '@apollo/client';
 //Controllers and Helpers.
 import { LOGIN } from '../controllers/mutations';
 import Auth from '../helpers/auth';
-import Validator from '../helpers/validators';
+import validator from '../helpers/validators';
 
 //Components.
-import Loading from '../components/Loading';
+//import Loading from '../components/Loading';
 import Modal from '../components/Modal';
 
 export default function LoginRegisterModal() {
@@ -51,19 +50,19 @@ export default function LoginRegisterModal() {
   
     const handleFormSubmit = async (event) => {
       event.preventDefault();
-      const emailNotEmpty = Validator.notEmpty(formState.email);
-      const pwNotEmpty = Validator.notEmpty(formState.password);
+      const emailNotEmpty = validator.notEmpty(formState.email);
+      const pwNotEmpty = validator.notEmpty(formState.password);
   
       if(emailNotEmpty || pwNotEmpty) {
         try {
           const mutationResponse = await login({
             variables: { email: formState.email, password: formState.password },
           });
-          console.log('mutationResponse: ' , mutationResponse);
           const token = mutationResponse.data.login.token;
           Auth.login(token);
-        } catch (error) {
+        } catch {
           callInvalidLoginModal();
+          console.log('error with login: ' , error);
         }
       } else {
         callIncompleteModal();

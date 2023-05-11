@@ -18,4 +18,6 @@ class Validator {
     }
   }
   
-  export default new Validator();
+  const validator = new Validator();
+
+  export default validator;

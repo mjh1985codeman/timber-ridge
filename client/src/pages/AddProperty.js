@@ -88,10 +88,12 @@ export default function Property() {
   
   async function handleFileUpload (e){
     e.preventDefault();
+    const b64Images = [];
     const image = e.target.files[0];
     const imageName = image.name;
     const convertedImage = await base64.convertToBase64(image);
-    propImages.push(convertedImage);
+    b64Images.push(convertedImage);
+    setPropImages(b64Images => [...b64Images, convertedImage]);
     //Use this syntax to force the component to re-render immediately as it detects a change. 
     setImageNames(imageNames => [...imageNames, imageName]);
 };
@@ -139,8 +141,9 @@ export default function Property() {
             //presigned URL.
             sendPicsToS3(s3PresignedURL, propPicArray);
           } else {
-            return "There was an error getting the s3 Bucket URL."
-          }
+            console.log('this is the data: ' , data);
+            return `There was an error getting the s3 Bucket URL. ${s3Loading} // ${s3Data} // ${s3Error}`
+          };
       });
       if(loading) return <Loading/>;
       if(error) return `Property Add Error. . .${error.message}`;

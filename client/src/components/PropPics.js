@@ -41,7 +41,7 @@ export default function PropPics({propIdForPics}) {
                     <img
                     className="d-block propimg w-100 img-fluid"
                     src={pic}
-                    alt="A Picture of the property."
+                    alt="One of one or more visuals of the property."
                     />
                 </Carousel.Item>
             ))}    

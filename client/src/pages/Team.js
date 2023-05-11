@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Container } from 'react-bootstrap';
 
 //Components
@@ -11,7 +11,7 @@ import Modal from '../components/Modal';
 
 import { ADD_USER } from '../controllers/mutations';
 import Auth from '../helpers/auth';
-import Validator from '../helpers/validators';
+import validator from '../helpers/validators';
 
 
 export default function Team() {
@@ -71,7 +71,7 @@ export default function Team() {
           password: userPassword, 
         };
 
-        const empty = Validator.isEmpty(userObj);
+        const empty = validator.isEmpty(userObj);
         console.log('empty' , empty);  
         //Mutation being called and the propObj being passed in as the variables.
         if(!empty) {
@@ -88,7 +88,7 @@ export default function Team() {
                 navigate('/');
             });
             if(loading) return <Loading/>;
-            if(error) return `User Add Error. . .${error.message}`;
+            if(error) return `User Add Error. . .${error.message} with ${data}`;
         } else {
             callOpenModal();
         }

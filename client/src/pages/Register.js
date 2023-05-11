@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
 import { useMutation } from '@apollo/client';
@@ -12,7 +11,7 @@ import Modal from '../components/Modal';
 //Controllers and Helpers. 
 import { ADD_USER } from '../controllers/mutations';
 import Auth from '../helpers/auth';
-import Validator from '../helpers/validators';
+import validator from '../helpers/validators';
 
 
 export default function Register() {
@@ -96,8 +95,8 @@ export default function Register() {
 
         console.log('userObj: ' , userObj);
 
-        const notEmpty = Validator.notEmpty(userObj);
-        const enoughCharacters = Validator.pwValidator(userObj.password); 
+        const notEmpty = validator.notEmpty(userObj);
+        const enoughCharacters = validator.pwValidator(userObj.password); 
         //Mutation being called and the propObj being passed in as the variables.
         console.log('notEmpty: ' , notEmpty);
         console.log('enoughtCharacters: ' , enoughCharacters);
@@ -117,7 +116,7 @@ export default function Register() {
             Auth.login(token);
             navigate('/');
             if(loading) return <Loading/>;
-            if(error) console.log('there was an error: ' , error);
+            if(error) console.log('there was an error: ' , error || data);
         } if (!notEmpty) {
             callOpenModal();
         } if (!enoughCharacters) {

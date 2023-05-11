@@ -2,7 +2,6 @@ import React from "react";
 import {Container} from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
 import homPic from '../assets/home-pic.jpg';
-import Auth from '../helpers/auth';
 
 
 const Home = () => {

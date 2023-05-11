@@ -9,7 +9,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/client/$1",
+            "dest": "/client",
             "headers": {
                 "cache-control": "s-maxage=31536000,immutable"
             }

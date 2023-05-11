@@ -45,13 +45,15 @@ app.get('/health', (req, res) => {
   res.status(200).send("Hello From the Timber Properties API!!!!");
 });
 
-// Serve the built React app files
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+if (process.env.NODE_ENV === "production") {
+  // Serve static files from the React app
+  app.use(express.static(path.join(__dirname, "client/build")));
 
-// Serve the React app on any routes that are not API routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-});
+  // Catch all other routes and return the index file
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  });
+}
 
 app.listen({ port: PORT }, () =>
   console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)

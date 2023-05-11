@@ -25,7 +25,6 @@ async function startServer() {
   server.applyMiddleware({ app }); 
 };
 
-startServer()
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -48,7 +47,7 @@ app.get('/health', (req, res) => {
 if (process.env.NODE_ENV === "production") {
   // Serve static files from the React app
   app.use(express.static(path.join(__dirname, "../client/build")));
-
+  
   // Catch all other routes and return the index file
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
@@ -56,5 +55,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen({ port: PORT }, () =>
-  console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)
 );
+
+startServer()

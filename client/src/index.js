@@ -8,7 +8,7 @@ import App from "./App";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: 'https://gql-api-timber-properties.onrender.com/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

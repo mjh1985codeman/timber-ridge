@@ -50,6 +50,7 @@ if (process.env.NODE_ENV === "production") {
   
   // Catch all other routes and return the index file
   app.get("*", (req, res) => {
+    console.log('catch-all route is being executed');
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
   });
 }

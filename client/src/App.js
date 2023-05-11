@@ -56,15 +56,15 @@ function App() {
       </Navigation>
       <Routes>
         <Route exact path="/" element={<Home/>} />
-        <Route exact path="/login" element={<Login/>} />
-        <Route exact path="/team" element={<Team/>} />
-        <Route exact path="/logout" element={<Logout/>} />
-        <Route exact path="/contact"element={<Contact/>} />
-        <Route exact path="/properties"element={<Properties/>} />
-        <Route exact path="/register" element={<Register/>}/>
-        <Route exact path="/properties/addproperty" element={<AddProperty/>} />
-        <Route exact path="/properties/:propertyId" element={<PropertyDetails/>}/>
-        <Route exact path="/reserve/:propertyId" element={<ReserveProperty/>}/>
+        <Route path="/login" element={<Login/>} />
+        <Route path="/team" element={<Team/>} />
+        <Route path="/logout" element={<Logout/>} />
+        <Route path="/contact"element={<Contact/>} />
+        <Route path="/properties"element={<Properties/>} />
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/properties/addproperty" element={<AddProperty/>} />
+        <Route path="/properties/:propertyId" element={<PropertyDetails/>}/>
+        <Route path="/reserve/:propertyId" element={<ReserveProperty/>}/>
         <Route
           render={() => (
             <h1 className="display-2">

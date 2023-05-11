@@ -36,9 +36,14 @@ const startServer = async () => {
   //   res.sendFile(path.join(__dirname, '../client/build/index.html'));
   // });
 
+  
   app.use(
     cors(),
-  );
+    );
+
+    app.get('/health', (req, res) => {
+      res.send(200, "Hello From the Timber-Properties-Server");
+    });
 
   server.applyMiddleware({ app });
 

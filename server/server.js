@@ -1,7 +1,7 @@
 const connectDB = require('./config/db');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
-const {authMiddleware} = require('./utils/auth');
+const { authMiddleware } = require('./utils/auth');
 const express = require('express');
 const cors = require('cors');
 
@@ -13,43 +13,38 @@ const app = express();
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers, 
+  resolvers,
   context: authMiddleware,
   persistedQueries: false,
   cache: "bounded"
 });
 
-  app.use(express.urlencoded({ extended: false }));
-  app.use(express.json());
+async function startServer() {
+  await server.start();
+  // Apply Apollo middleware
+  server.applyMiddleware({ app }); 
+};
+
+startServer()
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 //connecting to Database: 
 connectDB();
 
-const startServer = async () => {
-  await server.start();
-  
-  // if (process.env.NODE_ENV === 'production') {
-  //   app.use(express.static(path.join(__dirname, '../client/build')));
-  // }
+// Set up CORS
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
-  // app.get('*', (req, res) => {
-  //   res.sendFile(path.join(__dirname, '../client/build/index.html'));
-  // });
+// Define health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).send("Hello From the Timber Properties API!!!!");
+});
 
-  
-  app.use(
-    cors(),
-    );
-
-    app.get('/health', (req, res) => {
-      res.status(200, res.send("Hello From the Timber Properties API!!!!"));
-    });
-
-  server.applyMiddleware({ app });
-
-  app.listen({ port: PORT }, () =>
-    console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)
-  );
-  };
-
-startServer();
+app.listen({ port: PORT }, () =>
+  console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+);

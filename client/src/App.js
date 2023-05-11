@@ -7,10 +7,8 @@ import Auth from './helpers/auth';
 //Components and Pages.
 import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
-import Records from "./pages/Records";
 import Contact from "./pages/Contact";
 import NavItem from "./components/NavItem";
-import Packages from "./pages/Packages";
 import Properties from "./pages/Properties";
 import Register from "./pages/Register";
 import ReserveProperty from "./components/ReserveProperty";

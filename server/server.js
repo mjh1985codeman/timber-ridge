@@ -45,6 +45,14 @@ app.get('/health', (req, res) => {
   res.status(200).send("Hello From the Timber Properties API!!!!");
 });
 
+// Serve the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Catch-all route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
+
 app.listen({ port: PORT }, () =>
   console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)
 );

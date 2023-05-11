@@ -25,13 +25,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-render(
+const root = document.getElementById('root');
+
+root.render(
   <ApolloProvider client={client}>
     <Router>
       <App />
     </Router>
   </ApolloProvider>,
-  document.getElementById('root')
 );
 
 

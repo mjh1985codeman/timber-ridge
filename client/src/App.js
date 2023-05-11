@@ -1,6 +1,8 @@
 
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { createHttpLink, ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Auth from './helpers/auth';
 
@@ -18,12 +20,29 @@ import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Team from "./pages/Team";
 
+const httpLink = createHttpLink({
+  uri: 'https://gql-api-timber-properties.onrender.com/graphql',
+});
 
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 function App() {
   return (
+    <ApolloProvider client={client}>
     <Router>
-    <>
       <Navigation>
         <NavItem to="/" text="Home"/>
         <NavItem to="/contact" text="Contact"/>
@@ -56,8 +75,8 @@ function App() {
           )}
         />
       </Routes>
-    </>
   </Router>
+    </ApolloProvider>
   );
 }
 

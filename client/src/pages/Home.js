@@ -1,5 +1,5 @@
 import React from "react";
-import {Container} from "react-bootstrap";
+import Container from "react-bootstrap/Container";
 import Card from 'react-bootstrap/Card';
 import homPic from '../assets/home-pic.jpg';
 
@@ -7,8 +7,10 @@ import homPic from '../assets/home-pic.jpg';
 const Home = () => {
   
   return (
-    <Container className="home-head-container">
-        <h1 className="home-title">Timber Properties</h1>
+    <Container>
+    <div className="home-title-div">
+    <h1 className="home-title">Timber Properties</h1>
+    </div>
     <div className="home-quote">  
     <h2>"A place to kick your feet up."</h2>
     </div>     

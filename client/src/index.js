@@ -1,11 +1,10 @@
-import React, {StrictMode} from "react";
-import { createHttpLink, ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client'
+import React from "react";
+import { render } from "react-dom";
+import { createHttpLink, ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context';
-import * as ReactDOM from 'react-dom/client';
-import "./index.css";
+import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import "./index.css";
 
 const httpLink = createHttpLink({
   uri: 'https://gql-api-timber-properties.onrender.com/graphql',
@@ -26,10 +25,17 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-root.render(
-<ApolloProvider client={client}>
-  <StrictMode>
-  <App />
-  </StrictMode>
-</ApolloProvider>,
+render(
+  <ApolloProvider client={client}>
+    <Router>
+      <App />
+    </Router>
+  </ApolloProvider>,
+  document.getElementById('root')
 );
+
+
+
+
+
+

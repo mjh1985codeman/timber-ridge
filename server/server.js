@@ -34,7 +34,7 @@ connectDB();
 
 // Set up CORS
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://stellar-gecko-932e8e.netlify.app'],
+  origin: ['http://localhost:3000', 'https://timber-properties.netlify.app'],
   credentials: true,
 };
 app.use(cors(corsOptions));

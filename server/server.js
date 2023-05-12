@@ -22,19 +22,17 @@ const server = new ApolloServer({
 async function startServer() {
   await server.start();
   // Apply Apollo middleware
-  server.applyMiddleware({ app }); 
+  server.applyMiddleware({ app });
+  //connecting to Database: 
+  connectDB(); 
 };
-
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-//connecting to Database: 
-connectDB();
-
 // Set up CORS
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://timber-properties.netlify.app'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'https://timber-properties.netlify.app'],
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -44,16 +42,6 @@ app.get('/', (req, res) => {
   res.status(200).send("Hello From the Timber Properties API!!!!");
 });
 
-if (process.env.NODE_ENV === "production") {
-  // Serve static files from the React app
-  app.use(express.static(path.join(__dirname, "../client/build")));
-  
-  // Catch all other routes and return the index file
-  app.get("*", (req, res) => {
-    console.log('catch-all route is being executed');
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
-  });
-}
 
 app.listen({ port: PORT }, () =>
 console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)

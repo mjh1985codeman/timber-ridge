@@ -136,6 +136,7 @@ const resolvers = {
               throw new GraphQLError('Something Went Wrong');
             }
           });
+          console.log('resData on delete mutation: ' , resData);
           return resData;
         }   
     }

@@ -39,7 +39,13 @@ app.use(express.json());
 // Set up CORS
 const corsOptions = {
   //our server will allow requests from the following urls:  
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'https://timber-properties.netlify.app'],
+  origin: [
+    'http://localhost:3000', 
+    'http://localhost:3001', 
+    'http://localhost:3002', 
+    'https://studio.apollographql.com', 
+    'https://timber-properties.netlify.app'
+  ],
   //this is here so that this server allows cookies or other user credentials to be included on cross-origin requests.  
   credentials: true,
 };

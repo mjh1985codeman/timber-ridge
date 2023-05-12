@@ -31,8 +31,8 @@ authMiddleware: function ({ req }) {
     }
     return req;
   },
-    signToken: function ({ email, role, _id }) {
-    const payload = { email, role, _id };
+    signToken: function ({ firstName, lastName, email, role, _id }) {
+    const payload = { firstName, lastName, email, role, _id };
     
     return jwt.sign(
       { data: payload },

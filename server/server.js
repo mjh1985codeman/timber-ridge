@@ -40,7 +40,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Define health check endpoint
-app.get('/health', (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).send("Hello From the Timber Properties API!!!!");
 });
 

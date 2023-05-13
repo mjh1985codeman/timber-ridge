@@ -44,7 +44,9 @@ const corsOptions = {
     'http://localhost:3001', 
     'http://localhost:3002', 
     'https://studio.apollographql.com', 
-    'https://timber-properties.netlify.app'
+    'https://timber-properties.netlify.app',
+    'https://submitted.formspark.io',
+    'https://submit-form.com/hBjgobgE'
   ],
   //this is here so that this server allows cookies or other user credentials to be included on cross-origin requests.  
   credentials: true,

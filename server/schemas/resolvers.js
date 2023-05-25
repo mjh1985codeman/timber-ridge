@@ -3,6 +3,7 @@ const PropertyMongooseSchema = require('../models/Property');
 const UserMongooseSchema = require('../models/User');
 const ReservationMongooseSchema = require('../models/Reservation');
 const s3Actions = require('../utils/s3');
+const courierActions = require('../utils/courier');
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
 
@@ -138,7 +139,12 @@ const resolvers = {
           });
           console.log('resData on delete mutation: ' , resData);
           return resData;
-        }   
+        },
+        
+        sendReservationEmailConfirmation: async (parent, {emailInput}) => {
+          const emailRequest = await courierActions.sendEmailConfirmation(emailInput);
+          return emailRequest;
+      }
     }
 };
 

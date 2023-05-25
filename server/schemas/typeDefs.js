@@ -43,6 +43,15 @@ type Auth {
   user: User
 }
 
+input ReservationEmailInput {
+  checkInDate: String,
+  checkOutDate: String,
+  totalPrice: Float,
+  customerName: String,
+  customerEmail: String,
+  body: String,
+}
+
 type Query {
   getProperties: [Property]
   getProperty(_id: ID!): Property
@@ -60,6 +69,7 @@ type Mutation {
   addReservation(beginDate: String, endDate: String, downPaymentPaid: Boolean, totalPrice: Float, balance: Float, paidInFull: Boolean, property: ID, customer: ID): Reservation
   deleteReservation(_id: ID!):Reservation
   login(email: String!, password: String!): Auth
+  sendReservationEmailConfirmation(emailInput: ReservationEmailInput): String
 }
 `;
 

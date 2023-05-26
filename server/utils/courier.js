@@ -19,23 +19,23 @@ const courierActions = {
               title: `Your Reservation request for ${emailInput.propertyName} has been sent!`,
               
               body: `
-              ${emailInput.emailBody}
-              
-              Property Details:
-              
-              ${emailInput.propertyName}
-              ${emailInput.propertyAddress}
 
-              CheckIn Date:   ${emailInput.checkInDate}
-              CheckOut Date:  ${emailInput.checkOutDate}
+                ${emailInput.emailBody}
+                
+                Property Details:
+                ${emailInput.propertyName}
+                ${emailInput.propertyAddress}
 
-              Total Price of Reservation: 
-              ${emailInput.totalPrice}
+                CheckIn Date:   ${emailInput.checkInDate}
+                CheckOut Date:  ${emailInput.checkOutDate}
 
-              The Property Owner will be in contact shortly.  In the meantime if you have any questions
-              please give them a call at 1-888-888-8888.  
+                Total Price of Reservation: 
+                ${emailInput.totalPrice}
 
-              Thank You!
+                The Property Owner will be in contact shortly.  In the meantime if you have any questions
+                please give them a call at 1-888-888-8888.  
+
+                Thank You!
               `,
             },
             routing: {

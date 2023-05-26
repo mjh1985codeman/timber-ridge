@@ -7,13 +7,6 @@ const courier = CourierClient({ authorizationToken: process.env.COURIER_TOKEN })
 
 const courierActions = {
     sendEmailConfirmation: async (emailInput) => {
-        console.log('emailInput: ' , emailInput);
-        //Will need to destructure the customer, property and reservation here.
-        // property="The Falcon Get Away."
-        // body = 'Your Reservation Request has been submitted!!! We will follow up promptly to make the payment arrangments.'
-        // customer = 'mj.hodges1985@gmail.com'
-        // reservation = 'check in: date here. . .check out: date here. . .etc.'
-        
         const { requestId } = await courier.send({
           message: {
             to: {
@@ -23,8 +16,27 @@ const courierActions = {
               email: `${emailInput.customerEmail}`,
             },
             content: {
-              title: `Your Reservation request has been requested!`,
-              body: `${emailInput.body}`,
+              title: `Your Reservation request for ${emailInput.propertyName} has been sent!`,
+              
+              body: `
+              ${emailInput.emailBody}
+              
+              Property Details:
+              
+              ${emailInput.propertyName}
+              ${emailInput.propertyAddress}
+
+              CheckIn Date:   ${emailInput.checkInDate}
+              CheckOut Date:  ${emailInput.checkOutDate}
+
+              Total Price of Reservation: 
+              ${emailInput.totalPrice}
+
+              The Property Owner will be in contact shortly.  In the meantime if you have any questions
+              please give them a call at 1-888-888-8888.  
+
+              Thank You!
+              `,
             },
             routing: {
               method: "single",
@@ -34,7 +46,7 @@ const courierActions = {
         });
         
         // console.log('requestId: ' , requestId);
-        return `Email Confirmation Sent!  ${requestId}`;
+        return `Email Confirmation Sent!  Courier Request Id: ${requestId}`;
     } 
 };
 

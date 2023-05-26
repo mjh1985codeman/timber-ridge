@@ -44,12 +44,14 @@ type Auth {
 }
 
 input ReservationEmailInput {
-  checkInDate: String,
-  checkOutDate: String,
-  totalPrice: Float,
-  customerName: String,
-  customerEmail: String,
-  body: String,
+  checkInDate: String!,
+  checkOutDate: String!,
+  totalPrice: String!,
+  customerName: String!,
+  customerEmail: String!,
+  emailBody: String!,
+  propertyName: String!,
+  propertyAddress: String!,
 }
 
 type Query {

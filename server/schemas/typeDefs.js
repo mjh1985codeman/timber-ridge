@@ -49,7 +49,6 @@ input ReservationEmailInput {
   totalPrice: String!,
   customerName: String!,
   customerEmail: String!,
-  emailBody: String!,
   propertyName: String!,
   propertyAddress: String!,
 }

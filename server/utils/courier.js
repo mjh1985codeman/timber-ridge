@@ -7,37 +7,21 @@ const courier = CourierClient({ authorizationToken: process.env.COURIER_TOKEN })
 
 const courierActions = {
     sendEmailConfirmation: async (emailInput) => {
+        console.log(emailInput);
         const { requestId } = await courier.send({
           message: {
             to: {
-              data: {
-                name: emailInput.customerName,
-              },
               email: `${emailInput.customerEmail}`,
             },
-            content: {
-              title: `Your Reservation request for ${emailInput.propertyName} has been sent!`,
-              
-              body: `
-
-                ${emailInput.emailBody}
-                
-                Property Details:
-                ${emailInput.propertyName}
-                ${emailInput.propertyAddress}
-
-                CheckIn Date:   ${emailInput.checkInDate}
-                CheckOut Date:  ${emailInput.checkOutDate}
-
-                Total Price of Reservation: 
-                ${emailInput.totalPrice}
-
-                The Property Owner will be in contact shortly.  In the meantime if you have any questions
-                please give them a call at 1-888-888-8888.  
-
-                Thank You!
-              `,
+            data: {
+                checkInDate: emailInput.checkInDate,
+                checkOutDate: emailInput.checkOutDate,
+                customerName: emailInput.customerName,
+                propertyName: emailInput.propertyName,
+                propertyAddress: emailInput.propertyAddress,
+                totalPrice: emailInput.totalPrice
             },
+            template: "7W62FE3N2V45BYKRWHZF1EX4G7AJ",
             routing: {
               method: "single",
               channels: ["email"],

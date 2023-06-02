@@ -99,6 +99,24 @@ const resolvers = {
             const token = signToken(user);
             return {token, user};
         },
+
+        getPwResetLink: async (parent, args) => {
+          const user = await UserMongooseSchema.findOne({email: args.email});
+          if(!user) {
+            throw new AuthenticationError('No User with that Email Exists.')
+          }
+          const token = signToken(user);
+          const emailLink = `https://timber-properties.netlify.app/reset/${token}`;
+          // const emailLink = `http://localhost:3000/reset/${token}`;
+          const resetEmailInput = {
+            link: emailLink,
+            customerEmail: user.email
+          }
+          const pwResetRequest = await courierActions.sendPwResetEmail(resetEmailInput);
+          return pwResetRequest;
+        },
+
+
         //Again because this mutation is utilizing Mongo's 'ObjectId' property we need the 'parent' argument here
         //even though it's not being used.  
         addReservation: async (parent, args, context) => {

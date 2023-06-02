@@ -71,6 +71,7 @@ type Mutation {
   deleteReservation(_id: ID!):Reservation
   login(email: String!, password: String!): Auth
   sendReservationEmailConfirmation(emailInput: ReservationEmailInput): String
+  getPwResetLink(email: String): String
 }
 `;
 

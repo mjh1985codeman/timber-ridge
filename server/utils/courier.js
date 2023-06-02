@@ -28,10 +28,32 @@ const courierActions = {
             },
           },
         });
-        
-        // console.log('requestId: ' , requestId);
         return `Email Confirmation Sent!  Courier Request Id: ${requestId}`;
-    } 
+    },
+    
+    sendPwResetEmail: async (resetEmailInput) => {
+      console.log('resetEmailInput: ' , resetEmailInput);
+
+      //get a valid token and the email address needed to get the email. 
+      //formulate the link that will be sent to the user that they will utilize to reset the pw.  
+      const { requestId } = await courier.send({
+        message: {
+          to: {
+            email: `${resetEmailInput.customerEmail}`,
+          },
+          data: {
+              link: resetEmailInput.link
+          },
+          template: "6AZ2XESQ83MT9XG4FH1KQCZZG3NY",
+          routing: {
+            method: "single",
+            channels: ["email"],
+          },
+        },
+      });
+      // console.log('requestId: ' , requestId);
+      return `PW Reset Email Sent!  Courier Request Id: ${requestId}`;
+    }
 };
 
 module.exports = courierActions;

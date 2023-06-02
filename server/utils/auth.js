@@ -41,5 +41,14 @@ authMiddleware: function ({ req }) {
       { expiresIn: expiration }
     );
   },
+
+  verifyToken: function(token) {
+    const validCheck = jwt.verify(token, secret, {maxAge: expiration});
+    if(validCheck !== null || undefined || "") {
+      return validCheck;
+    } else {
+      return false;
+    }
+  }
   
 };

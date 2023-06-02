@@ -72,6 +72,7 @@ type Mutation {
   login(email: String!, password: String!): Auth
   sendReservationEmailConfirmation(emailInput: ReservationEmailInput): String
   getPwResetLink(email: String): String
+  updateUserPassword(token: String!, email: String!, password: String!): String
 }
 `;
 

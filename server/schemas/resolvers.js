@@ -4,7 +4,7 @@ const UserMongooseSchema = require('../models/User');
 const ReservationMongooseSchema = require('../models/Reservation');
 const s3Actions = require('../utils/s3');
 const courierActions = require('../utils/courier');
-const { signToken } = require('../utils/auth');
+const { signToken, verifyToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
 
 
@@ -116,6 +116,21 @@ const resolvers = {
           return pwResetRequest;
         },
 
+        updateUserPassword: async (parent, args) => {
+          //let's verify the token. 
+          const tokenVerified = await verifyToken(args.token);;
+          if(tokenVerified) {
+            const emailMatchesToken = tokenVerified.data?.email.toLowerCase() === args.email.toLowerCase();
+            if(emailMatchesToken) {
+              //Here we can update the user via mutation.  
+            }
+          } else {
+            return 'Invalid Token.'
+          }
+          //let's make sure the user exists based on the email. 
+          //once both of those checks out we will update the User in the DB with the new PW
+          //and return a string response that the update was complete.  
+        },
 
         //Again because this mutation is utilizing Mongo's 'ObjectId' property we need the 'parent' argument here
         //even though it's not being used.  

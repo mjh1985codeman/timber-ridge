@@ -106,8 +106,10 @@ const resolvers = {
             throw new AuthenticationError('No User with that Email Exists.')
           }
           const token = signToken(user);
+          //PRODUCTION
           const emailLink = `https://timber-properties.netlify.app/reset/${token}`;
-          // const emailLink = `http://localhost:3000/reset/${token}`;
+          //LOCAL DEV
+          //const emailLink = `http://localhost:3000/reset/${token}`;
           const resetEmailInput = {
             link: emailLink,
             customerEmail: user.email

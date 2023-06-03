@@ -7,7 +7,6 @@ const courier = CourierClient({ authorizationToken: process.env.COURIER_TOKEN })
 
 const courierActions = {
     sendEmailConfirmation: async (emailInput) => {
-        console.log(emailInput);
         const { requestId } = await courier.send({
           message: {
             to: {

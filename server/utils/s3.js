@@ -18,7 +18,13 @@ const s3Actions = {
         const fileName = `${propId}.json`
         const command = new PutObjectCommand({ Bucket: 'tr-prop-bucket', region: 'us-east-1', Key: fileName, contenttype: 'application/json' });
         return getSignedUrl(s3Client, command);
-    }
+    },
+
+    getCoverPicURL: (propId) => {
+        const fileName = `cover-${propId}.json`
+        const command = new PutObjectCommand({ Bucket: 'tr-prop-bucket', region: 'us-east-1', Key: fileName, contenttype: 'application/json' });
+        return getSignedUrl(s3Client, command);
+    } 
 };
 
 module.exports = s3Actions;

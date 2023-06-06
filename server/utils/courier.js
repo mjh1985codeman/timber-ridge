@@ -31,7 +31,7 @@ const courierActions = {
     },
     
     sendPwResetEmail: async (resetEmailInput) => {
-      console.log('resetEmailInput: ' , resetEmailInput);
+      //console.log('resetEmailInput: ' , resetEmailInput);
 
       //get a valid token and the email address needed to get the email. 
       //formulate the link that will be sent to the user that they will utilize to reset the pw.  

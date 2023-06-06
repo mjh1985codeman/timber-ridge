@@ -62,6 +62,10 @@ const resolvers = {
         getS3URL: async (parent, {propId}) => {
             const url = await s3Actions.getURL(propId);
             return url;
+        },
+        getCoverS3URL: async (parent, {propId}) => {
+            const url = await s3Actions.getCoverPicURL(propId);
+            return url;
         }
 
   },
@@ -107,9 +111,9 @@ const resolvers = {
           }
           const token = signToken(user);
           //PRODUCTION
-          const emailLink = `https://timber-properties.netlify.app/reset/${token}`;
+          // const emailLink = `https://timber-properties.netlify.app/reset/${token}`;
           //LOCAL DEV
-          //const emailLink = `http://localhost:3000/reset/${token}`;
+          const emailLink = `http://localhost:3000/reset/${token}`;
           const resetEmailInput = {
             link: emailLink,
             customerEmail: user.email

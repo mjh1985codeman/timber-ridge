@@ -45,6 +45,18 @@ const resolvers = {
           return reservations;
         },
 
+        getUserReservations: async (parent, {email}) => {
+          const userData = await UserMongooseSchema.findOne({email: email}
+          ).populate(
+            //THIS IS HOW YOU POPULATE THINGS FOR MODELS THAT HAVE MUTIPLE MODEL REFERENCES.
+            {path: 'reservations', model: 'Reservation', populate: {path: 'property' , model: 'Property'}});
+            if(userData) {
+              return userData; 
+            } else {
+              throw new GraphQLError("No User Found with this Email.");
+            }
+        },
+
         getReservation: async (parent, args) => {
             const reservation = await ReservationMongooseSchema.findById(args._id).populate(
               {path: 'property', model: 'Property'})

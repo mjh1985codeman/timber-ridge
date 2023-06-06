@@ -7,13 +7,16 @@ type Reservation {
   _id: ID!
   beginDate: String
   endDate: String
-  downPaymentPaid: Boolean
   totalPrice: Float
+  downPaymentAmountRequired: Float
+  paymentAmountCollected: Float
+  downPaymentPaid: Boolean
   balance: Float
   paidInFull: Boolean
-  cancelled: Boolean
   property: Property
   customer: User
+  cancelled: Boolean
+  dateCancelled: String
 }
 
 type Property {
@@ -69,7 +72,20 @@ type Query {
 type Mutation {
   addProperty(name: String, reserved: Boolean, reserveCost: Float, addressSt: String, city: String, state: String, zip: Int, readyToReserve: Boolean, available: Boolean): Property
   addUser(firstName: String!, lastName: String!, phone: String, email: String!, role: String, password: String!): Auth
-  addReservation(beginDate: String, endDate: String, downPaymentPaid: Boolean, totalPrice: Float, balance: Float, paidInFull: Boolean, cancelled: Boolean, property: ID, customer: ID): Reservation
+  addReservation(
+    beginDate: String,
+    endDate: String,
+    totalPrice: Float,
+    downPaymentAmountRequired: Float,
+    paymentAmountCollected: Float,
+    downPaymentPaid: Boolean,
+    balance: Float,
+    paidInFull: Boolean,
+    property: ID,
+    customer: ID,
+    cancelled: Boolean,
+    dateCancelled: String
+  ): Reservation
   deleteReservation(_id: ID!):Reservation
   login(email: String!, password: String!): Auth
   sendReservationEmailConfirmation(emailInput: ReservationEmailInput): String

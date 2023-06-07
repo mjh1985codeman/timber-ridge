@@ -49,9 +49,11 @@ const resolvers = {
           const userData = await UserMongooseSchema.findOne({email: email}
           ).populate(
             //THIS IS HOW YOU POPULATE THINGS FOR MODELS THAT HAVE MUTIPLE MODEL REFERENCES.
-            {path: 'reservations', model: 'Reservation', populate: {path: 'property' , model: 'Property'}});
+            {path: 'reservations', model: 'Reservation', populate: {path: 'property' , model: 'Property'},
+            options: { sort: { beginDate: 1 } } // Sort by beginDate date in ascending order
+          });
             if(userData) {
-              return userData; 
+              return userData 
             } else {
               throw new GraphQLError("No User Found with this Email.");
             }

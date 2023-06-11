@@ -57,6 +57,10 @@ input ReservationEmailInput {
   propertyAddress: String!,
 }
 
+input ReservationDownPayPaymentIntent {
+  resDownPaymentAmount: Float
+}
+
 type Query {
   getProperties: [Property]
   getProperty(_id: ID!): Property
@@ -68,6 +72,7 @@ type Query {
   getUserReservations(email: String!): User
   getS3URL(propId: ID!): String
   getCoverS3URL(propId: ID!): String
+  getClientSecret(resDetails: ReservationDownPayPaymentIntent): String
 }
 
 type Mutation {

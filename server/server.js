@@ -1,12 +1,14 @@
+require('dotenv').config();
 const connectDB = require('./config/db');
 const { ApolloServer } = require('apollo-server-express');
-const path = require('path');
 const { authMiddleware } = require('./utils/auth');
+const { stripeMiddleware } = require('./utils/stripe');
+const {s3Middleware} = require('./utils/s3');
+const {courierMiddleware} = require('./utils/courier');
 const express = require('express');
 const cors = require('cors');
 
 const { typeDefs, resolvers } = require('./schemas');
-require('dotenv').config();
 
 const PORT = process.env.PORT || 3001
 //creates a new instance of the Express app.  
@@ -15,6 +17,9 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  stripeMiddleware,
+  s3Middleware,
+  courierMiddleware,
   context: authMiddleware,
   persistedQueries: false,
   cache: "bounded"

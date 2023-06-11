@@ -1,7 +1,5 @@
 const {PutObjectCommand, S3Client} = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-require('dotenv').config();
-
 
 const params = {
     BucketName: 'tr-prop-bucket',
@@ -11,12 +9,14 @@ const params = {
     signatureVersion: 'v4'
 };
 
+
 const s3Client = new S3Client(params);
 
 const s3Actions = {
     getURL: (propId) => {
         const fileName = `${propId}.json`
         const command = new PutObjectCommand({ Bucket: 'tr-prop-bucket', region: 'us-east-1', Key: fileName, contenttype: 'application/json' });
+        console.log('params: ' , params);
         return getSignedUrl(s3Client, command);
     },
 

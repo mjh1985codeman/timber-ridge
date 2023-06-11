@@ -3,6 +3,7 @@ const PropertyMongooseSchema = require('../models/Property');
 const UserMongooseSchema = require('../models/User');
 const ReservationMongooseSchema = require('../models/Reservation');
 const s3Actions = require('../utils/s3');
+const stripeActions = require('../utils/stripe');
 const courierActions = require('../utils/courier');
 const bcrypt = require('bcryptjs');
 const { signToken, verifyToken } = require('../utils/auth');
@@ -80,7 +81,15 @@ const resolvers = {
         getCoverS3URL: async (parent, {propId}) => {
             const url = await s3Actions.getCoverPicURL(propId);
             return url;
+        },
+
+        //Stripe Things //
+        getClientSecret: async (parent, {resDetails}) => {
+          const cSecret = await stripeActions.getStripeClientSecret(resDetails);
+          return cSecret;
         }
+
+        
 
   },
 

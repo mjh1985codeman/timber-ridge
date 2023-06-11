@@ -27,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongoose": "^7.0.2",
-    "nodemailer": "^6.9.2"
+    "nodemailer": "^6.9.2",
+    "stripe": "^12.8.0"
   }
 }

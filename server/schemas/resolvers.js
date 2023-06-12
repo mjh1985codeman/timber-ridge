@@ -92,7 +92,7 @@ const resolvers = {
           }
           if(headers) {
             for (let i = 0; i < headers.length; i++) {
-              if (headers[i] === 'authorization' && headers[i + 1].startsWith('Bearer ')) {
+              if (headers[i] === 'Authorization' && headers[i + 1].startsWith('Bearer ')) {
                 bearerToken = headers[i + 1].split(' ')[1];
                 break;
               }

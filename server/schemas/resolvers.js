@@ -6,7 +6,7 @@ const s3Actions = require('../utils/s3');
 const stripeActions = require('../utils/stripe');
 const courierActions = require('../utils/courier');
 const bcrypt = require('bcryptjs');
-const { signToken, verifyToken } = require('../utils/auth');
+const { signToken, verifyToken, verifyTokenBelongsToUser } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
 
 
@@ -84,9 +84,27 @@ const resolvers = {
         },
 
         //Stripe Things //
-        getClientSecret: async (parent, {resDetails}) => {
-          const cSecret = await stripeActions.getStripeClientSecret(resDetails);
-          return cSecret;
+        getClientSecret: async (parent, {resDetails}, context) => {
+          const headers = context.rawHeaders;
+          let bearerToken;
+          if(!resDetails.resDownPaymentAmount) {
+            throw new AuthenticationError("You Must Be Logged In and include the necessary resDetails payload.")
+          }
+          if(headers) {
+            for (let i = 0; i < headers.length; i++) {
+              if (headers[i] === 'authorization' && headers[i + 1].startsWith('Bearer ')) {
+                bearerToken = headers[i + 1].split(' ')[1];
+                break;
+              }
+            }
+          }
+          const verified = verifyTokenBelongsToUser(bearerToken, context.user);
+          if(verified) {
+            const cSecret = await stripeActions.getStripeClientSecret(resDetails);
+            return cSecret;
+          } else {
+            throw new AuthenticationError("You Must Be Logged In and trying to secure a reservation To Complete this Action.")
+          }
         }
 
         
@@ -168,16 +186,21 @@ const resolvers = {
         //Again because this mutation is utilizing Mongo's 'ObjectId' property we need the 'parent' argument here
         //even though it's not being used.  
         addReservation: async (parent, args, context) => {
-            const reservation = await ReservationMongooseSchema.create({...args,
-              property: args.property,
-              customer: args.customer,
-            });
-            await UserMongooseSchema.findByIdAndUpdate(
-              { _id: args.customer},
-              { $push: {reservations: reservation._id}},
-              {new: true}
-            );
-            return reservation
+            //console.log('context for addReservation: ' , context);
+            if(context.user) {
+              const reservation = await ReservationMongooseSchema.create({...args,
+                property: args.property,
+                customer: args.customer,
+              });
+              await UserMongooseSchema.findByIdAndUpdate(
+                { _id: args.customer},
+                { $push: {reservations: reservation._id}},
+                {new: true}
+              );
+              return reservation
+            } else {
+              throw new AuthenticationError("You Must be logged in to add a Reservation.")
+            }
         },
 
         deleteReservation: async (parent, args) => {
@@ -202,7 +225,7 @@ const resolvers = {
               throw new GraphQLError('Something Went Wrong');
             }
           });
-          console.log('resData on delete mutation: ' , resData);
+          //console.log('resData on delete mutation: ' , resData);
           return resData;
         },
         

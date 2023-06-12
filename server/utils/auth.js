@@ -49,6 +49,24 @@ authMiddleware: function ({ req }) {
     } else {
       return false;
     }
+  },
+
+  verifyTokenBelongsToUser: function(t, user) {
+    const validToken = jwt.verify(t, secret, {maxAge: expiration});
+    if(validToken == null || undefined || "") {
+      return false;
+    }
+    const tokenInfo = jwt.decode(t);
+    if(tokenInfo.data && user.email) {
+      const tokenEmail = tokenInfo.data.email || 'no token email';
+      const userEmail = user.email || 'no user email';
+      if(tokenEmail === userEmail) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
-  
 };

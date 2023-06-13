@@ -91,9 +91,11 @@ const resolvers = {
             throw new AuthenticationError("You Must Be Logged In and include the necessary resDetails payload.")
           }
           if(headers) {
+            //loop through the headers and find the 'Authorization' one and split out the token to grab it.
             for (let i = 0; i < headers.length; i++) {
-              if (headers[i] === 'Authorization' && headers[i + 1].startsWith('Bearer ')) {
+              if (headers[i] && headers[i].toLowerCase() === 'authorization' && headers[i + 1].startsWith('Bearer ')) {
                 bearerToken = headers[i + 1].split(' ')[1];
+                //break out of the forloop once we find the token and assign it's value to the bearerToken variable.
                 break;
               }
             }

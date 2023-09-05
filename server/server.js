@@ -52,7 +52,7 @@ const corsOptions = {
     'https://timber-properties.netlify.app',
     'https://submitted.formspark.io',
     'https://submit-form.com/hBjgobgE',
-    'https://mjh1985codeman.github.io/render-work-around/'
+    'https://mjh1985codeman.github.io'
   ],
   //this is here so that this server allows cookies or other user credentials to be included on cross-origin requests.  
   credentials: true,

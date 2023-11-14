@@ -7,7 +7,7 @@ const stripeActions = require('../utils/stripe');
 const courierActions = require('../utils/courier');
 const bcrypt = require('bcryptjs');
 const { signToken, verifyToken, verifyTokenBelongsToUser } = require('../utils/auth');
-const { AuthenticationError } = require('apollo-server-express');
+const { AuthenticationError, ApolloError } = require('apollo-server-express');
 
 
 const resolvers = {
@@ -126,6 +126,9 @@ const resolvers = {
 
         addUser: async (parent, args) => {
             const user = await UserMongooseSchema.create(args);
+            if(!user) {
+              throw new GraphQLError("Unable to Add User.")
+            }
             const token = signToken(user);
             return {token, user};
         },

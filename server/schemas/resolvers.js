@@ -127,7 +127,7 @@ const resolvers = {
         addUser: async (parent, args) => {
             const user = await UserMongooseSchema.create(args);
             if(!user) {
-              throw new GraphQLError("Unable to Add User.")
+              throw new ApolloError("Unable to Add User.")
             }
             const token = signToken(user);
             return {token, user};

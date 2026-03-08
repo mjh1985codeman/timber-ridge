@@ -1,44 +1,27 @@
 const mongoose = require('mongoose');
 
+// Normalizes a date-only string (e.g. "2024-03-15") to noon UTC,
+// preventing the date from shifting to an adjacent day in any timezone.
+function toNoonUTC(value) {
+    const date = new Date(value);
+    date.setUTCHours(12, 0, 0, 0);
+    return date;
+}
+
 const ReservationMongooseSchema = new mongoose.Schema({
     dateBooked: {
         type: mongoose.Schema.Types.Date,
-        default: function() {
-            const easternOffset = 240; // Eastern Time Zone offset in minutes
-            const now = new Date();
-            const easternNow = new Date(now.getTime() - easternOffset * 60 * 1000);
-            easternNow.setUTCHours(5);
-            easternNow.setUTCMinutes(5);
-            easternNow.setUTCSeconds(5);
-            easternNow.setUTCMilliseconds(5);
-            return easternNow;
-        },
+        default: Date.now,
         required: true,
     },
     beginDate: {
         type: mongoose.Schema.Types.Date,
-        set: function(value) {
-        const date = new Date(value);
-        const easternDate = new Date(date.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-        easternDate.setUTCHours(5);
-        easternDate.setUTCMinutes(5);
-        easternDate.setUTCSeconds(5);
-        easternDate.setUTCMilliseconds(5);
-        return easternDate;
-        },
+        set: toNoonUTC,
         required: true,
     },
     endDate: {
         type: mongoose.Schema.Types.Date,
-        set: function(value) {
-        const date = new Date(value);
-        const easternDate = new Date(date.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-        easternDate.setUTCHours(5);
-        easternDate.setUTCMinutes(5);
-        easternDate.setUTCSeconds(5);
-        easternDate.setUTCMilliseconds(5);
-        return easternDate;
-        },
+        set: toNoonUTC,
         required: true,
     },
     totalPrice: {
@@ -79,19 +62,6 @@ const ReservationMongooseSchema = new mongoose.Schema({
     },
     dateCancelled: {
         type: mongoose.Schema.Types.Date,
-        set: function(value) {
-         if(value !== null || "" || undefined) {
-             const date = new Date(value);
-             const easternDate = new Date(date.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-             easternDate.setUTCHours(5);
-             easternDate.setUTCMinutes(5);
-             easternDate.setUTCSeconds(5);
-             easternDate.setUTCMilliseconds(5);
-             return easternDate;
-         } else {
-            return null
-         }
-        },
         required: false,
     }
 });

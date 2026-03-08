@@ -43,29 +43,29 @@ authMiddleware: function ({ req }) {
   },
 
   verifyToken: function(token) {
-    const validCheck = jwt.verify(token, secret, {maxAge: expiration});
-    if(validCheck !== null || undefined || "") {
-      return validCheck;
-    } else {
+    try {
+      const validCheck = jwt.verify(token, secret, {maxAge: expiration});
+      if(validCheck) {
+        return validCheck;
+      }
+      return false;
+    } catch (error) {
       return false;
     }
   },
 
   verifyTokenBelongsToUser: function(t, user) {
-    const validToken = jwt.verify(t, secret, {maxAge: expiration});
-    if(validToken == null || undefined || "") {
-      return false;
-    }
-    const tokenInfo = jwt.decode(t);
-    if(tokenInfo.data && user.email) {
-      const tokenEmail = tokenInfo.data.email || 'no token email';
-      const userEmail = user.email || 'no user email';
-      if(tokenEmail === userEmail) {
-        return true;
-      } else {
+    try {
+      const validToken = jwt.verify(t, secret, {maxAge: expiration});
+      if(!validToken) {
         return false;
       }
-    } else {
+      const tokenInfo = jwt.decode(t);
+      if(tokenInfo.data && user && user.email) {
+        return tokenInfo.data.email === user.email;
+      }
+      return false;
+    } catch (error) {
       return false;
     }
   }

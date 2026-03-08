@@ -208,29 +208,25 @@ const resolvers = {
             }
         },
 
-        deleteReservation: async (parent, args) => {
-          //Grab the customer id associated with the deleted reservation so you can use it to remove
-          //the reseravation id from the Customer's reservation array prior to deleting the reservation itself from the table. 
-          const resData = await Reservation.findById(args._id);
+        deleteReservation: async (parent, args, context) => {
+          if (!context.user) {
+            throw new AuthenticationError("You must be logged in to delete a reservation.");
+          }
+          const resData = await ReservationMongooseSchema.findById(args._id);
           if(!resData) {
             throw new GraphQLError("Invalid Reservation Delete Request.");
           }
-          const userId = resData.user;
-          //delete the reservation from the Reservations table.
-          await ReservationMongooseSchema.deleteOne({...args,
-          _id: args._id,
-          }).then( async res => {
+          const userId = resData.customer;
+          await ReservationMongooseSchema.deleteOne({ _id: args._id }).then(async res => {
             if(res.deletedCount > 0) {
-            //logic here to remove the reservation from the customer's 'reservations' array.
-            await UserMongooseSchema.findByIdAndUpdate(
-            {_id: userId},
-            {$pull: {reservations: args._id}}
-            );
+              await UserMongooseSchema.findByIdAndUpdate(
+                {_id: userId},
+                {$pull: {reservations: args._id}}
+              );
             } else {
               throw new GraphQLError('Something Went Wrong');
             }
           });
-          //console.log('resData on delete mutation: ' , resData);
           return resData;
         },
         
